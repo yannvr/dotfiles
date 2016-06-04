@@ -1,4 +1,3 @@
-source ~/.aliases
 eval "`npm completion`"
 
 export NVM_DIR="/Users/yannvallery-radot/.nvm"
