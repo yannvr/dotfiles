@@ -5,7 +5,7 @@ Installation (from your home dir)
 * ```source dotfiles/.zshrc.aliases && link-dot-files```
 
 Requirements:
-* Vim: http://spf13.com (3.00)
-* ZSH: oh-my-zsh
+* VIM: http://spf13.com (3.00)
+* ZSH: https://github.com/robbyrussell/oh-my-zsh
 
 Enjoy!
