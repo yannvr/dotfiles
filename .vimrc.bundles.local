@@ -1,0 +1,12 @@
+Bundle 'Valloric/YouCompleteMe'
+Bundle 'SirVer/ultisnips'
+Bundle 'tern_for_vim'
+
+"Bundle 'matchit'
+
+UnBundle 'supertab'
+UnBundle 'vim-airline'
+UnBundle 'vim-airline-themes'
+UnBundle 'Shougo/neocomplete.vim.git'
+UnBundle 'Shougo/neosnippet'
+UnBundle 'Shougo/neosnippet-snippets'

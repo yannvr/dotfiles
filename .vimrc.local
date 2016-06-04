@@ -1,0 +1,15 @@
+map Q :q!<CR>
+imap jj <Esc>
+
+"Search for visually selected text
+vnoremap // y/<C-R>"<CR>
+nnoremap <C-D> :t.<CR>
+
+colorscheme solarized
+
+"Search for visually selected text
+vnoremap // y/<C-R>"<CR>
+vnoremap ,. :cd %:p:h<CR>
+
+"let g:UltiSnipsSnippetDirectories=["UltiSnips", "mysnippets"]
+"let mapleader = ","

@@ -1,0 +1,7 @@
+source ~/.aliases
+eval "`npm completion`"
+
+export NVM_DIR="/Users/yannvallery-radot/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
+eval $(thefuck --alias)
+
