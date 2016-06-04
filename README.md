@@ -1,7 +1,9 @@
 My dot files for OSX
 
-Installation (from your home dir)
-```./dotfiles/install.sh```
+Installation (from your home dir):
+```
+./dotfiles/install.sh
+```
 
 Requirements:
 * VIM: http://spf13.com (3.00)
