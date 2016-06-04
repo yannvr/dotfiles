@@ -9,6 +9,8 @@ a p='n-panelize'
 a G='grep -nrIi'
 a resource='source ~/.zshrc && echo "feeling fresh now"'
 
+a link-dot-files="for i in `ls -a dotfiles`; do mv ${i} ~/bkp; ln -s dotfiles/${i} ${i}; done"
+
 # github
 a clone-rep="cd ~/dev/cloned && gcl ${1}"
 
