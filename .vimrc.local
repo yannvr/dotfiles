@@ -1,9 +1,34 @@
 map Q :q!<CR>
 imap jj <Esc>
 
-"Search for visually selected text
+" Toggle sticking mode for NerdTree
+nnoremap <Leader>n :let NERDTreeQuitOnOpen = 0<bar>NERDTreeToggle<CR>
+nnoremap <Leader>N :let NERDTreeQuitOnOpen = 1<bar>NERDTreeToggle<CR>
+
+" Buffer navigation
+set wildchar=<Tab> wildmenu wildmode=full
+set wildcharm=<C-Z>
+nnoremap <F10> :b <C-Z>
+
+nnoremap <Leader>1 :1b<CR>
+nnoremap <Leader>2 :2b<CR>
+nnoremap <Leader>3 :3b<CR>
+nnoremap <Leader>4 :4b<CR>
+nnoremap <Leader>5 :5b<CR>
+nnoremap <Leader>6 :6b<CR>
+nnoremap <Leader>7 :7b<CR>
+nnoremap <Leader>8 :8b<CR>
+nnoremap <Leader>9 :9b<CR>
+nnoremap <Leader>0 :10b<CR>
+
+" Search for visually selected text
 vnoremap // y/<C-R>"<CR>
 nnoremap <C-D> :t.<CR>
+nnoremap <C-D> :t.<CR>
+
+" "Quickly edit map keys
+nnoremap <C-A> <C-W><C-V>:e ~/.vimrc.local<CR>
+
 
 colorscheme solarized
 
