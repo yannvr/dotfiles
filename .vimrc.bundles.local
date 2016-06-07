@@ -1,10 +1,11 @@
-Bundle 'Valloric/YouCompleteMe'
+"Part of SPF13
 Bundle 'SirVer/ultisnips'
+
+"Extra plugins 
+Bundle 'Valloric/YouCompleteMe'
 Bundle 'tern_for_vim'
 Bundle 'typescript-vim'
 Bundle "icholy/typescript-tools.git"
-
-"Bundle 'matchit'
 
 UnBundle 'supertab'
 UnBundle 'vim-airline'
