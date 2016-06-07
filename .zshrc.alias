@@ -13,7 +13,6 @@ a resource='source ~/.zshrc && echo "feeling fresh now"'
 a view-alias='v ~/.zshrc.alias'
 
 #git
-a gbd='git branch -d '
 
 # github
 a clone-rep="cd ~/dev/cloned && gcl ${1}"

@@ -651,13 +651,13 @@
 	<key>NSWindow Frame NSFontPanel</key>
 	<string>756 1597 568 94 -129 1050 1920 1057 </string>
 	<key>NSWindow Frame Preferences</key>
-	<string>401 1618 606 456 -129 1050 1920 1057 </string>
+	<string>401 1497 606 456 -129 900 1920 1057 </string>
 	<key>NSWindow Frame SUStatusFrame</key>
 	<string>582 1746 384 129 -186 1050 1920 1057 </string>
 	<key>NSWindow Frame UKCrashReporter</key>
 	<string>26 1523 592 584 -129 1050 1920 1057 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
-	<string>557 1096 836 930 -129 1050 1920 1057 </string>
+	<string>-129 1365 1200 587 -129 900 1920 1057 </string>
 	<key>New Bookmarks</key>
 	<array>
 		<dict>
@@ -2133,6 +2133,10 @@
 	<string>9BCC3BE7-40F8-4060-BB9A-A4A26B524010</string>
 	<key>NoSyncLastTipTime</key>
 	<real>487000070.888026</real>
+	<key>NoSyncNeverRemindPrefsChangesLostForFile</key>
+	<true/>
+	<key>NoSyncNeverRemindPrefsChangesLostForFile_selection</key>
+	<integer>0</integer>
 	<key>NoSyncPermissionToShowTip</key>
 	<true/>
 	<key>NoSyncTimeOfFirstLaunchOfVersionWithTip</key>
