@@ -90,3 +90,5 @@ export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:"
 #zle -N zle-line-init
 source ~/.zshrc.local
 source ~/.zshrc.alias
+
+test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"

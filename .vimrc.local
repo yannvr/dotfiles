@@ -13,3 +13,11 @@ vnoremap ,. :cd %:p:h<CR>
 
 "let g:UltiSnipsSnippetDirectories=["UltiSnips", "mysnippets"]
 "let mapleader = ","
+
+au BufRead,BufNewFile *.ts        setlocal filetype=typescript
+
+if !exists("g:ycm_semantic_triggers")
+   let g:ycm_semantic_triggers = {}
+   endif
+   let g:ycm_semantic_triggers['typescript'] = ['.']
+   set completeopt-=preview

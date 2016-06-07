@@ -7,10 +7,13 @@ a rm='rm -f'
 a wget='wget -c'
 a p='n-panelize'
 a G='grep -nrIi'
-a resource='source ~/.zshrc && echo "feeling fresh now"'
 
-# Link dotfiles to home after cloning
-a link-dot-files="for i in `ls -a dotfiles`; do mv ${i} ~/bkp; ln -s dotfiles/${i} ${i}; done"
+a resource-alias='source ~/.zshrc.alias'
+a resource='source ~/.zshrc && echo "feeling fresh now"'
+a view-alias='v ~/.zshrc.alias'
+
+#git
+a gbd='git branch -d '
 
 # github
 a clone-rep="cd ~/dev/cloned && gcl ${1}"

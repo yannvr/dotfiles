@@ -1,6 +1,8 @@
 Bundle 'Valloric/YouCompleteMe'
 Bundle 'SirVer/ultisnips'
 Bundle 'tern_for_vim'
+Bundle 'typescript-vim'
+Bundle "icholy/typescript-tools.git"
 
 "Bundle 'matchit'
 
