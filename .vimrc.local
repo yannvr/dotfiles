@@ -2,10 +2,17 @@ map Q :q!<CR>
 imap jj <Esc>
 
 " Toggle sticking mode for NerdTree
-" nnoremap <Leader>n :let NERDTreeQuitOnOpen = 0<bar>NERDTreeToggle<CR>
-" nnoremap <Leader>N :let NERDTreeQuitOnOpen = 1<bar>NERDTreeToggle<CR>
+nnoremap <Leader>n :let NERDTreeQuitOnOpen = 1<bar>NERDTreeToggle<CR>
+nnoremap <Leader>N :let NERDTreeQuitOnOpen = 0<bar>NERDTreeToggle<CR>
 
-" let NERDTreeQuitOnOpen = -1
+let NERDTreeQuitOnOpen = 0
+
+" TODO: Fix those horrible conflicts
+unmap H
+unmap L
+nnoremap <C-T> :tabnew<CR><C-W>w<CR>
+nnoremap <Leader>[ :tabprevious<CR>
+nnoremap <Leader>] :tabnext<CR>
 
 " Quickly edit map keys
 nnoremap <C-A> <C-W><C-V>:e ~/.zshrc.alias<CR>
