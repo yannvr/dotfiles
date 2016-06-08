@@ -1,35 +1,40 @@
 map Q :q!<CR>
 imap jj <Esc>
 
-autocmd! BufWritePost,BufEnter * Neomake
-"let g:python_host_skip_check = 1
-"let g:python_host_prog = '/usr/bin/python'
-
-" Keep zsh aliases
-"set shell=zsh
+au BufRead,BufNewFile .vim* setfiletype shell
 
 " Toggle sticking mode for NerdTree
 nnoremap <Leader>n :let NERDTreeQuitOnOpen = 1<bar>NERDTreeToggle<CR>
 nnoremap <Leader>N :let NERDTreeQuitOnOpen = 0<bar>NERDTreeToggle<CR>
 
 let NERDTreeQuitOnOpen = 0
+let g:tsuquyomi_disable_default_mappings = 1
 
-let g:neomake_javascript_jscs_maker = {
-    \ 'exe': 'jscs',
-    \ 'args': ['--no-color', '--preset', 'airbnb', '--reporter', 'inline', '--esnext'],
-    \ 'errorformat': '%f: line %l\, col %c\, %m',
-    \ }
-let g:neomake_javascript_enabled_makers = ['jscs']
+if has('nvim')
+    autocmd! BufWritePost,BufEnter * Neomake
+    :tnoremap <Esc> <C-\><C-n>
+    nnoremap <leader>o :below 10sp term://$SHELL<cr>i
 
-" "Launch Conque terminal in tab
-nnoremap ,T :tabnew<CR>:ConqueTerm zsh<CR>
+     " Neomake
+     let g:neomake_javascript_jscs_maker = {
+         \ 'exe': 'jscs',
+         \ 'args': ['--no-color', '--preset', 'airbnb', '--reporter', 'inline', '--esnext'],
+         \ 'errorformat': '%f: line %l\, col %c\, %m',
+         \ }
+         let g:neomake_javascript_enabled_makers = ['jscs']
+endif
 
 " TODO: Fix those horrible conflicts
 unmap H
 unmap L
+
+" Tab nav
 nnoremap <C-T> :tabnew<CR><C-W>w<CR>
-nnoremap <Leader>[ :tabprevious<CR>
-nnoremap <Leader>] :tabnext<CR>
+nnoremap <C-'> :tabprevious<CR>
+nnoremap <C-\> :tabnext<CR
+
+" VIM ONLY: Mapping C-[ fucks up the term royally in vim
+" nnoremap <Leader>[ :tabprevious<CR>
 
 " Quickly edit map keys
 nnoremap <Leader>a <C-W><C-V>:e ~/.zshrc.alias<CR>
