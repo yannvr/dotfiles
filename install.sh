@@ -11,3 +11,6 @@ for i in `find .* -depth 0 -type f`; do
     mv ~/${i} ${bkpDir}
     ln -s ~/dotfiles/${i} ~/${i}
 done
+
+echo "dotfiles are linked!"
+echo "Please review ~/.vimrc.bundles.local for extra packages that are not installed"
