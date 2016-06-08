@@ -15,6 +15,7 @@ if has('nvim')
     Bundle 'neomake'
 endif
 
+UnBundle 'ctrp.vim'
 UnBundle 'supertab'
 UnBundle 'scrooloose/syntastic'
 UnBundle 'vim-airline'

@@ -28,10 +28,15 @@ endif
 unmap H
 unmap L
 
+" Unite
+nnoremap <C-P>    :Unite -buffer-name=files -start-insert file_rec/async:!<cr>
+nnoremap <space>/ :Unite -no-empty -no-resize grep<cr>
+nnoremap <space>s :Unite -quick-match buffer<cr>
+
 " Tab nav
 nnoremap <C-T> :tabnew<CR><C-W>w<CR>
-nnoremap <C-'> :tabprevious<CR>
-nnoremap <C-\> :tabnext<CR
+nnoremap “ :tabprevious<CR> " <M-[>
+nnoremap ‘ :tabnext<CR> " <M-]
 
 " VIM ONLY: Mapping C-[ fucks up the term royally in vim
 " nnoremap <Leader>[ :tabprevious<CR>
