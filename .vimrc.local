@@ -1,14 +1,25 @@
 map Q :q!<CR>
 imap jj <Esc>
 
+autocmd! BufWritePost,BufEnter * Neomake
+"let g:python_host_skip_check = 1
+"let g:python_host_prog = '/usr/bin/python'
+
 " Keep zsh aliases
-set shell=zsh
+"set shell=zsh
 
 " Toggle sticking mode for NerdTree
 nnoremap <Leader>n :let NERDTreeQuitOnOpen = 1<bar>NERDTreeToggle<CR>
 nnoremap <Leader>N :let NERDTreeQuitOnOpen = 0<bar>NERDTreeToggle<CR>
 
 let NERDTreeQuitOnOpen = 0
+
+let g:neomake_javascript_jscs_maker = {
+    \ 'exe': 'jscs',
+    \ 'args': ['--no-color', '--preset', 'airbnb', '--reporter', 'inline', '--esnext'],
+    \ 'errorformat': '%f: line %l\, col %c\, %m',
+    \ }
+let g:neomake_javascript_enabled_makers = ['jscs']
 
 " "Launch Conque terminal in tab
 nnoremap ,T :tabnew<CR>:ConqueTerm zsh<CR>
@@ -25,6 +36,8 @@ nnoremap <Leader>a <C-W><C-V>:e ~/.zshrc.alias<CR>
 
 nnoremap <Leader>b :e ~/.vimrc.bundles.local<CR>
 nnoremap <Leader>v :e ~/.vimrc.local<CR>
+nnoremap <Leader>z :e ~/.zshrc.local<CR>
+nnoremap <Leader>Z :e ~/.zshrc<CR>
 
 au BufNew,BufRead *.ts setlocal omnifunc=javascriptcomplete#CompleteJS
 

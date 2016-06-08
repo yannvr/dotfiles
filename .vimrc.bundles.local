@@ -1,16 +1,17 @@
-"Part of SPF13
+" Part of SPF13
 Bundle 'SirVer/ultisnips'
 
-"Extra plugins 
+" Extra plugins 
 Bundle 'Valloric/YouCompleteMe'
 Bundle 'tern_for_vim'
 Bundle 'vimproc.vim'
 Bundle 'tsuquyomi'
 Bundle 'typescript-vim'
-Bundle 'vimshell'
+Bundle 'neomake'
 Bundle "icholy/typescript-tools.git"
 
 UnBundle 'supertab'
+UnBundle 'scrooloose/syntastic'
 UnBundle 'vim-airline'
 UnBundle 'vim-airline-themes'
 UnBundle 'Shougo/neocomplete.vim.git'
