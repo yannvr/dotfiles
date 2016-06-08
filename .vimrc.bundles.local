@@ -7,6 +7,7 @@ Bundle 'tern_for_vim'
 Bundle 'vimproc.vim'
 Bundle 'tsuquyomi'
 Bundle 'typescript-vim'
+Bundle 'vimshell'
 Bundle "icholy/typescript-tools.git"
 
 UnBundle 'supertab'

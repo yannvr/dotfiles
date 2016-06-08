@@ -10,6 +10,9 @@ nnoremap <Leader>N :let NERDTreeQuitOnOpen = 0<bar>NERDTreeToggle<CR>
 
 let NERDTreeQuitOnOpen = 0
 
+" "Launch Conque terminal in tab
+nnoremap ,T :tabnew<CR>:ConqueTerm zsh<CR>
+
 " TODO: Fix those horrible conflicts
 unmap H
 unmap L
@@ -18,7 +21,7 @@ nnoremap <Leader>[ :tabprevious<CR>
 nnoremap <Leader>] :tabnext<CR>
 
 " Quickly edit map keys
-nnoremap <C-A> <C-W><C-V>:e ~/.zshrc.alias<CR>
+nnoremap <Leader>a <C-W><C-V>:e ~/.zshrc.alias<CR>
 
 nnoremap <Leader>b :e ~/.vimrc.bundles.local<CR>
 nnoremap <Leader>v :e ~/.vimrc.local<CR>
