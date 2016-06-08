@@ -1,6 +1,9 @@
 map Q :q!<CR>
 imap jj <Esc>
 
+" Keep zsh aliases
+set shell=zsh
+
 " Toggle sticking mode for NerdTree
 nnoremap <Leader>n :let NERDTreeQuitOnOpen = 1<bar>NERDTreeToggle<CR>
 nnoremap <Leader>N :let NERDTreeQuitOnOpen = 0<bar>NERDTreeToggle<CR>
