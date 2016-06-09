@@ -11,8 +11,10 @@ a G='grep -nrIi'
 a resource-alias='source ~/.zshrc.alias'
 a resource='source ~/.zshrc && echo "feeling fresh now"'
 a view-alias='v ~/.zshrc.alias'
+a f="nvim -c 'Gstatus | wincmd j | hide'"
+a fugitive=f
 
-#git
+# git
 
 # github
 a clone-rep="cd ~/dev/cloned && gcl ${1}"

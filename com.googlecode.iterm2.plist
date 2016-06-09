@@ -456,11 +456,11 @@
 	<key>Default Bookmark Guid</key>
 	<string>06558463-339B-446A-A1D8-4AC6FAE5497D</string>
 	<key>DimBackgroundWindows</key>
-	<false/>
+	<true/>
 	<key>DimInactiveSplitPanes</key>
 	<true/>
 	<key>DimOnlyText</key>
-	<false/>
+	<true/>
 	<key>DisableFullscreenTransparency</key>
 	<false/>
 	<key>EnableRendezvous</key>
@@ -658,6 +658,8 @@
 	<string>26 1523 592 584 -129 1050 1920 1057 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
 	<string>-129 1365 1200 587 -129 900 1920 1057 </string>
+	<key>NSWindow Frame iTerm Window 1</key>
+	<string>118 1007 570 427 -129 900 1920 1057 </string>
 	<key>NeverWarnAboutMeta</key>
 	<true/>
 	<key>NeverWarnAboutMeta_selection</key>
@@ -859,6 +861,8 @@
 			<integer>80</integer>
 			<key>Command</key>
 			<string></string>
+			<key>Cursor Boost</key>
+			<real>0.0</real>
 			<key>Cursor Color</key>
 			<dict>
 				<key>Blue Component</key>
@@ -1119,7 +1123,7 @@
 			<key>Normal Font</key>
 			<string>SourceCodePro-Medium 12</string>
 			<key>Option Key Sends</key>
-			<integer>1</integer>
+			<integer>0</integer>
 			<key>Prompt Before Closing 2</key>
 			<integer>0</integer>
 			<key>Right Option Key Sends</key>
@@ -2038,7 +2042,7 @@
 	<key>NoSyncInstallationId</key>
 	<string>9BCC3BE7-40F8-4060-BB9A-A4A26B524010</string>
 	<key>NoSyncLastTipTime</key>
-	<real>487000070.888026</real>
+	<real>487086563.89887601</real>
 	<key>NoSyncNeverRemindPrefsChangesLostForFile</key>
 	<true/>
 	<key>NoSyncNeverRemindPrefsChangesLostForFile_selection</key>
@@ -2057,6 +2061,7 @@
 		<string>000</string>
 		<string>0000</string>
 		<string>0001</string>
+		<string>0002</string>
 	</array>
 	<key>OnlyWhenMoreTabs</key>
 	<false/>
@@ -2072,6 +2077,8 @@
 	<false/>
 	<key>PasteFromClipboard</key>
 	<false/>
+	<key>PasteTabToStringTabStopSize</key>
+	<integer>4</integer>
 	<key>PointerActions</key>
 	<dict>
 		<key>Button,1,1,,</key>
@@ -2126,7 +2133,7 @@
 	<key>SUHasLaunchedBefore</key>
 	<true/>
 	<key>SULastCheckTime</key>
-	<date>2016-06-07T14:49:41Z</date>
+	<date>2016-06-08T14:49:40Z</date>
 	<key>SavePasteHistory</key>
 	<false/>
 	<key>ShowBookmarkName</key>
@@ -2138,7 +2145,7 @@
 	<key>SmartPlacement</key>
 	<false/>
 	<key>SplitPaneDimmingAmount</key>
-	<real>0.40000000596046448</real>
+	<real>0.16435296474358982</real>
 	<key>SwitchTabModifier</key>
 	<integer>4</integer>
 	<key>SwitchWindowModifier</key>

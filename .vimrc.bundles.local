@@ -3,23 +3,30 @@ Bundle 'SirVer/ultisnips'
 
 " Extra plugins 
 Bundle 'Valloric/YouCompleteMe'
-Bundle 'tern_for_vim'
-Bundle 'vimproc.vim'
-UnBundle 'tsuquyomi'
-Bundle 'typescript-vim'
+Bundle 'Valloric/MatchTagAlways'
+Bundle 'ternjs/tern_for_vim'
+Bundle 'Shougo/vimproc.vim'
+Bundle 'Quramy/tsuquyomi'
+Bundle 'leafgarland/typescript-vim'
+Bundle 'fntlnz/atags.vim'
+Bundle 'xolox/vim-misc'
+Bundle 'HerringtonDarkholme/yats.vim'
+Bundle 'xolox/vim-easytags'
 Bundle "icholy/typescript-tools.git"
-Bundle 'unite'
+Bundle 'Shougo/unite.vim'
 
-"NeoVim only
+" NeoVim only
 if has('nvim')
-    Bundle 'neomake'
+    UnBundle 'scrooloose/syntastic'
+    Bundle 'neomake/neomake'
+    Bundle 'simnalamburt/vim-mundo'
+    nnoremap <Leader>u :MundoToggle<CR>
 endif
 
-UnBundle 'ctrp.vim'
-UnBundle 'supertab'
-UnBundle 'scrooloose/syntastic'
-UnBundle 'vim-airline'
-UnBundle 'vim-airline-themes'
+UnBundle 'ctrlpvim/ctrlp.vim'
+UnBundle 'ervandew/supertab'
+UnBundle 'vim-airline/vim-airline'
+UnBundle 'vim-airline/vim-airline-themes'
 UnBundle 'Shougo/neocomplete.vim.git'
 UnBundle 'Shougo/neosnippet'
 UnBundle 'Shougo/neosnippet-snippets'
