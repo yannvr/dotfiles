@@ -1,10 +1,10 @@
 map Q :q!<CR>
 imap jj <Esc>
 
-au BufRead,BufNewFile .vim* setfiletype shell
+au BufRead,BufNewFile .vim* setfiletype vim
+au BufNew,BufRead *.ts setlocal omnifunc=javascriptcomplete#CompleteJS
 
 set shell=zsh
-" "au BufRead,BufNewFile *.ts setfiletype typescript
 
 filetype plugin on
 au BufRead,BufNewFile *.ts        setlocal filetype=typescript
@@ -12,6 +12,7 @@ au BufRead,BufNewFile *.ts        setlocal filetype=typescript
 " Toggle sticking mode for NerdTree
 nnoremap <Leader>n :let NERDTreeQuitOnOpen = 1<bar>NERDTreeToggle<CR>
 nnoremap <Leader>N :let NERDTreeQuitOnOpen = 0<bar>NERDTreeToggle<CR>
+nnoremap <leader>l :nohlsearch<cr>:diffupdate<cr>:syntax sync fromstart<cr><c-l>
 
 let NERDTreeQuitOnOpen = 0
 " Keep tree in sync
@@ -47,7 +48,7 @@ let NERDTreeQuitOnOpen = 0
 if has('nvim')
     autocmd! BufWritePost,BufEnter * Neomake
     :tnoremap <Esc> <C-\><C-n>
-    nnoremap <leader>o :below 10sp term://$SHELL<cr>i
+
 
      " Neomake
      let g:neomake_javascript_jscs_maker = {
@@ -62,6 +63,8 @@ endif
 unmap H
 unmap L
 
+nnoremap <Leader>W :w<CR>
+nnoremap <Leader>A :set autowrite<CR>
 " Unite
 nnoremap <C-P>    :Unite -buffer-name=files -start-insert file_rec/async:!<cr>
 nnoremap <space>/ :Unite -no-empty -no-resize grep<cr>
@@ -69,8 +72,10 @@ nnoremap <space>s :Unite -quick-match buffer<cr>
 
 " Tab nav
 nnoremap <C-T> :tabnew<CR><C-W>w<CR>
-nnoremap “ :tabprevious<CR> " <M-[>
-nnoremap ‘ :tabnext<CR> " <M-]
+nnoremap “ :tabprevious<CR> # <M-[>
+nnoremap ‘ :tabnext<CR> # <M-[>
+nnoremap ˙ :tabprevious<CR> # <M-[>
+nnoremap ¬ :tabnext<CR> # <M-l>
 
 " VIM ONLY: Mapping C-[ fucks up the term royally in vim
 " nnoremap <Leader>[ :tabprevious<CR>
@@ -79,13 +84,13 @@ nnoremap ‘ :tabnext<CR> " <M-]
 nnoremap <Leader>a <C-W><C-V>:e ~/.zshrc.alias<CR>
 nnoremap <C-E> :NERDTreeToggle %<CR>
 
-nnoremap <Leader>T :TagbarToggle<CR>
+" nnoremap <Leader>T :TagbarToggle<CR>
+nnoremap <Leader>r :registers<CR>
 nnoremap <Leader>b :e ~/.vimrc.bundles.local<CR>
 nnoremap <Leader>v :e ~/.vimrc.local<CR>
 nnoremap <Leader>z :e ~/.zshrc.local<CR>
 nnoremap <Leader>Z :e ~/.zshrc<CR>
 
-au BufNew,BufRead *.ts setlocal omnifunc=javascriptcomplete#CompleteJS
 
 " Buffer navigation
 set wildchar=<Tab> wildmenu wildmode=full
@@ -117,7 +122,6 @@ vnoremap ,. :cd %:p:h<CR>
 "let g:UltiSnipsSnippetDirectories=["UltiSnips", "mysnippets"]
 "let mapleader = ","
 
-au BufRead,BufNewFile *.ts        setlocal filetype=typescript
 
 if !exists("g:ycm_semantic_triggers")
    let g:ycm_semantic_triggers = {}

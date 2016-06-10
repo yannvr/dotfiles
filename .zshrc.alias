@@ -13,14 +13,12 @@ a resource='source ~/.zshrc && echo "feeling fresh now"'
 a view-alias='v ~/.zshrc.alias'
 a f="nvim -c 'Gstatus | wincmd j | hide'"
 a fugitive=f
-
-# git
+a ka='killall -9'
+a ka='kill'
 
 # github
 a clone-rep="cd ~/dev/cloned && gcl ${1}"
 
-
 a myip="ifconfig | grep 'inet ' | grep -v 127.0.0.1 | cut -d\   -f2"
 a ip="curl icanhazip.com" # Your public IP address
-
 
