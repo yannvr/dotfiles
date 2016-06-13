@@ -18,9 +18,10 @@ Bundle 'Shougo/unite.vim'
 " NeoVim only
 if has('nvim')
     UnBundle 'scrooloose/syntastic'
+    UnBundle 'simnalamburt/vim-mundo'
+    UnBundle 'undotree'
     Bundle 'neomake/neomake'
     Bundle 'simnalamburt/vim-mundo'
-    nnoremap <Leader>u :MundoToggle<CR>
 endif
 
 UnBundle 'ctrlpvim/ctrlp.vim'

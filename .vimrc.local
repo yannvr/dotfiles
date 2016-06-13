@@ -1,11 +1,12 @@
 map Q :q!<CR>
 imap jj <Esc>
 
-au BufRead,BufNewFile .vim* setfiletype vim
+au BufRead,BufNewFile .vimrc* setfiletype vim
 au BufNew,BufRead *.ts setlocal omnifunc=javascriptcomplete#CompleteJS
 
 set shell=zsh
 
+nnoremap <Leader>u :MundoToggle<CR>
 filetype plugin on
 au BufRead,BufNewFile *.ts        setlocal filetype=typescript
 
@@ -17,38 +18,39 @@ nnoremap <leader>l :nohlsearch<cr>:diffupdate<cr>:syntax sync fromstart<cr><c-l>
 let NERDTreeQuitOnOpen = 0
 " Keep tree in sync
 
+
 " Tags {{{2
 " NeoBundle 'xolox/vim-easytags'
-""let g:easytags_file = '~/.vim/tags'
-""let g:easytags_async = 1
+" let g:easytags_file = '~/.vim/tags'
+let g:easytags_async = 1
 " let g:easytags_dynamic_files = 2
-""let g:easytags_by_filetype = 1
-""let g:easytags_include_members = 1
+" let g:easytags_by_filetype = 1
+" let g:easytags_include_members = 1
 
-""let g:easytags_languages = {
-""\  'javascript': {
-""\    'cmd': 'jsctags'
-""\  },
-""\   'typescript': {
-""\    'cmd': 'jsctags'
-""\ }
-""\}
+let g:easytags_languages = {
+\  'javascript': {
+\    'cmd': 'jsctags'
+\  },
+\   'typescript': {
+\    'cmd': 'jsctags'
+\ }
+\}
 
-""
-""let g:easytags_languages = {
-""\   'language': {
-""\     'cmd': g:easytags_cmd,
-""\       'args': [],
-""\       'fileoutput_opt': '-f',
-""\       'stdout_opt': '-f-',
-""\       'recurse_flag': '-R'
-""\   }
-""\}
+" 
+" let g:easytags_languages = {
+" \   'language': {
+" \     'cmd': g:easytags_cmd,
+" \       'args': [],
+" \       'fileoutput_opt': '-f',
+" \       'stdout_opt': '-f-',
+" \       'recurse_flag': '-R'
+" \   }
+" \}
 
 if has('nvim')
     autocmd! BufWritePost,BufEnter * Neomake
     :tnoremap <Esc> <C-\><C-n>
-
+    nnoremap <leader>o :below 10sp term://$SHELL<cr>i
 
      " Neomake
      let g:neomake_javascript_jscs_maker = {
@@ -71,7 +73,7 @@ nnoremap <space>/ :Unite -no-empty -no-resize grep<cr>
 nnoremap <space>s :Unite -quick-match buffer<cr>
 
 " Tab nav
-nnoremap <C-T> :tabnew<CR><C-W>w<CR>
+nnoremap † :tabnew<CR><C-W>w<CR>
 nnoremap “ :tabprevious<CR> # <M-[>
 nnoremap ‘ :tabnext<CR> # <M-[>
 nnoremap ˙ :tabprevious<CR> # <M-[>
