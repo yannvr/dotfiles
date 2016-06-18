@@ -462,9 +462,11 @@
 	<key>DimOnlyText</key>
 	<true/>
 	<key>DisableFullscreenTransparency</key>
-	<false/>
+	<true/>
 	<key>EnableRendezvous</key>
 	<false/>
+	<key>FlashTabBarInFullscreen</key>
+	<true/>
 	<key>FocusFollowsMouse</key>
 	<false/>
 	<key>FsTabDelay</key>
@@ -575,6 +577,10 @@
 	<false/>
 	<key>HideTab</key>
 	<true/>
+	<key>HideTabCloseButton</key>
+	<true/>
+	<key>HideTabNumber</key>
+	<true/>
 	<key>HighlightTabLabels</key>
 	<true/>
 	<key>HotKeyBookmark</key>
@@ -651,15 +657,17 @@
 	<key>NSWindow Frame NSFontPanel</key>
 	<string>756 1597 568 94 -129 1050 1920 1057 </string>
 	<key>NSWindow Frame Preferences</key>
-	<string>401 1497 606 456 -129 900 1920 1057 </string>
+	<string>402 567 606 456 0 0 1680 1027 </string>
 	<key>NSWindow Frame SUStatusFrame</key>
 	<string>582 1746 384 129 -186 1050 1920 1057 </string>
 	<key>NSWindow Frame UKCrashReporter</key>
 	<string>26 1523 592 584 -129 1050 1920 1057 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
-	<string>-129 1365 1200 587 -129 900 1920 1057 </string>
+	<string>360 1 955 1026 0 0 1680 1027 </string>
 	<key>NSWindow Frame iTerm Window 1</key>
 	<string>118 1007 570 427 -129 900 1920 1057 </string>
+	<key>NSWindow Frame iTerm Window 2</key>
+	<string>118 1157 570 427 -129 1050 1920 1057 </string>
 	<key>NeverWarnAboutMeta</key>
 	<true/>
 	<key>NeverWarnAboutMeta_selection</key>
@@ -1849,6 +1857,8 @@
 			<true/>
 			<key>Normal Font</key>
 			<string>Menlo-Regular 12</string>
+			<key>Only The Default BG Color Uses Transparency</key>
+			<false/>
 			<key>Option Key Sends</key>
 			<integer>0</integer>
 			<key>Prompt Before Closing 2</key>
@@ -2002,7 +2012,7 @@
 			<key>Terminal Type</key>
 			<string>xterm-256color</string>
 			<key>Transparency</key>
-			<real>0.15246856212615967</real>
+			<real>0.013715788457520615</real>
 			<key>Triggers</key>
 			<array/>
 			<key>Unlimited Scrollback</key>
@@ -2042,7 +2052,7 @@
 	<key>NoSyncInstallationId</key>
 	<string>9BCC3BE7-40F8-4060-BB9A-A4A26B524010</string>
 	<key>NoSyncLastTipTime</key>
-	<real>487086563.89887601</real>
+	<real>487542760.31778401</real>
 	<key>NoSyncNeverRemindPrefsChangesLostForFile</key>
 	<true/>
 	<key>NoSyncNeverRemindPrefsChangesLostForFile_selection</key>
@@ -2062,6 +2072,10 @@
 		<string>0000</string>
 		<string>0001</string>
 		<string>0002</string>
+		<string>0003</string>
+		<string>0004</string>
+		<string>0005</string>
+		<string>0006</string>
 	</array>
 	<key>OnlyWhenMoreTabs</key>
 	<false/>
@@ -2133,23 +2147,27 @@
 	<key>SUHasLaunchedBefore</key>
 	<true/>
 	<key>SULastCheckTime</key>
-	<date>2016-06-08T14:49:40Z</date>
+	<date>2016-06-11T19:59:45Z</date>
 	<key>SavePasteHistory</key>
 	<false/>
 	<key>ShowBookmarkName</key>
 	<false/>
 	<key>ShowFullScreenTabBar</key>
 	<false/>
+	<key>ShowNewOutputIndicator</key>
+	<true/>
 	<key>ShowPaneTitles</key>
 	<true/>
 	<key>SmartPlacement</key>
-	<false/>
+	<true/>
 	<key>SplitPaneDimmingAmount</key>
-	<real>0.16435296474358982</real>
+	<real>0.18509865785256419</real>
 	<key>SwitchTabModifier</key>
 	<integer>4</integer>
 	<key>SwitchWindowModifier</key>
 	<integer>6</integer>
+	<key>TabStyle</key>
+	<integer>1</integer>
 	<key>TabViewType</key>
 	<integer>0</integer>
 	<key>ThreeFingerEmulates</key>
