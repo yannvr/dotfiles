@@ -6,6 +6,7 @@ Bundle 'Valloric/YouCompleteMe'
 Bundle 'Valloric/MatchTagAlways'
 Bundle 'ternjs/tern_for_vim'
 Bundle 'Shougo/vimproc.vim'
+Bundle 'rking/ag.vim'
 Bundle 'Quramy/tsuquyomi'
 Bundle 'moll/vim-bbye'
 Bundle 'leafgarland/typescript-vim'
@@ -15,6 +16,7 @@ Bundle 'HerringtonDarkholme/yats.vim'
 Bundle 'xolox/vim-easytags'
 Bundle "icholy/typescript-tools.git"
 Bundle 'Shougo/unite.vim'
+Bundle 'jlanzarotta/bufexplorer'
 
 " NeoVim only
 if has('nvim')

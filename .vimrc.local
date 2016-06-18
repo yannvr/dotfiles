@@ -4,6 +4,8 @@ imap jj <Esc>
 au BufRead,BufNewFile .vimrc* setfiletype vim
 au BufNew,BufRead *.ts setlocal omnifunc=javascriptcomplete#CompleteJS
 
+set autochdir
+"autocmd BufEnter * silent! lcd %:p:h
 set shell=zsh
 
 nnoremap <Leader>u :MundoToggle<CR>
@@ -36,22 +38,11 @@ let g:easytags_languages = {
 \ }
 \}
 
-" 
-" let g:easytags_languages = {
-" \   'language': {
-" \     'cmd': g:easytags_cmd,
-" \       'args': [],
-" \       'fileoutput_opt': '-f',
-" \       'stdout_opt': '-f-',
-" \       'recurse_flag': '-R'
-" \   }
-" \}
 
 if has('nvim')
     autocmd! BufWritePost,BufEnter * Neomake
     :tnoremap <Esc> <C-\><C-n>
     nnoremap <leader>o :below 10sp term://$SHELL<cr>i
-
      " Neomake
      let g:neomake_javascript_jscs_maker = {
          \ 'exe': 'jscs',
@@ -65,7 +56,10 @@ endif
 unmap H
 unmap L
 
-nnoremap <Leader>W :w<CR>
+nmap             <leader>sc :SessionClose<CR>:q<CR>
+
+
+nnoremap ; :w<CR>
 nnoremap <Leader>A :set autowrite<CR>
 " Unite
 nnoremap <C-P>    :Unite -buffer-name=files -start-insert file_rec/async:!<cr>
@@ -74,8 +68,10 @@ nnoremap <space>s :Unite -quick-match buffer<cr>
 
 " Tab nav
 nnoremap † :tabnew<CR><C-W>w<CR>
-nnoremap “ :tabprevious<CR> # <M-[>
-nnoremap ‘ :tabnext<CR> # <M-[>
+"# <M-[>
+nnoremap “ :tabprevious<CR>
+"# <M-[>
+nnoremap ‘ :tabnext<CR> 
 nnoremap ˙ :tabprevious<CR> # <M-[>
 nnoremap ¬ :tabnext<CR> # <M-l>
 
@@ -84,20 +80,19 @@ nnoremap ¬ :tabnext<CR> # <M-l>
 
 " Quickly edit map keys
 nnoremap <Leader>a <C-W><C-V>:e ~/.zshrc.alias<CR>
-nnoremap <C-E> :NERDTreeToggle %<CR>
-
-" nnoremap <Leader>T :TagbarToggle<CR>
+nnoremap <Leader>T :TagbarToggle<CR>
 nnoremap <Leader>r :registers<CR>
 nnoremap <Leader>b :e ~/.vimrc.bundles.local<CR>
 nnoremap <Leader>v :e ~/.vimrc.local<CR>
+nnoremap <Leader>V :e ~/.vimrc<CR>
 nnoremap <Leader>z :e ~/.zshrc.local<CR>
 nnoremap <Leader>Z :e ~/.zshrc<CR>
 
+nnoremap ∫ :BufExplorerVerticalSplit <CR>
 
-" Buffer navigation
+" Custom Buffer navigation (no popup for buffer selection)
 set wildchar=<Tab> wildmenu wildmode=full
 set wildcharm=<C-Z>
-nnoremap ∫ :b <C-Z>
 
 nnoremap <Leader>1 :1b<CR>
 nnoremap <Leader>2 :2b<CR>
@@ -115,7 +110,12 @@ vnoremap // y/<C-R>"<CR>
 nnoremap <C-D> :t.<CR>
 nnoremap <C-D> :t.<CR>
 
-colorscheme solarized
+if exists("neovim_dot_app")
+    "Sadly solarized doesn't work in Neovim.app despite accepted fixes (https://github.com/neovim/neovim/issues/2953)
+    colorscheme molokai_dark
+else
+    colorscheme solarized
+endif
 
 "Search for visually selected text
 vnoremap // y/<C-R>"<CR>
