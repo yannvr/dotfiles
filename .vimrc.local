@@ -55,6 +55,7 @@ endif
 " TODO: Fix those horrible conflicts
 unmap H
 unmap L
+unmap <C-e>
 
 nmap             <leader>sc :SessionClose<CR>:q<CR>
 
@@ -71,22 +72,22 @@ nnoremap † :tabnew<CR><C-W>w<CR>
 "# <M-[>
 nnoremap “ :tabprevious<CR>
 "# <M-[>
-nnoremap ‘ :tabnext<CR> 
-nnoremap ˙ :tabprevious<CR> # <M-[>
-nnoremap ¬ :tabnext<CR> # <M-l>
+nnoremap ‘ :tabnext<CR>
 
 " VIM ONLY: Mapping C-[ fucks up the term royally in vim
 " nnoremap <Leader>[ :tabprevious<CR>
 
 " Quickly edit map keys
-nnoremap <Leader>a <C-W><C-V>:e ~/.zshrc.alias<CR>
+nnoremap <Leader>A <C-W><C-V>:e ~/.zshrc.alias<CR>
+nnoremap <Leader>a :Ack 
 nnoremap <Leader>T :TagbarToggle<CR>
 nnoremap <Leader>r :registers<CR>
-nnoremap <Leader>b :e ~/.vimrc.bundles.local<CR>
+nnoremap <Leader>B :e ~/.vimrc.bundles.local<CR>
 nnoremap <Leader>v :e ~/.vimrc.local<CR>
 nnoremap <Leader>V :e ~/.vimrc<CR>
 nnoremap <Leader>z :e ~/.zshrc.local<CR>
 nnoremap <Leader>Z :e ~/.zshrc<CR>
+nnoremap <Leader>b :BufExplorerVerticalSplit <CR>
 
 nnoremap ∫ :BufExplorerVerticalSplit <CR>
 
@@ -107,8 +108,8 @@ nnoremap <Leader>0 :10b<CR>
 
 " Search for visually selected text
 vnoremap // y/<C-R>"<CR>
-nnoremap <C-D> :t.<CR>
-nnoremap <C-D> :t.<CR>
+"<C-D>
+nnoremap ∂ :t.<CR>
 
 if exists("neovim_dot_app")
     "Sadly solarized doesn't work in Neovim.app despite accepted fixes (https://github.com/neovim/neovim/issues/2953)

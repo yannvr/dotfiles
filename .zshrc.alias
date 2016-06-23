@@ -1,7 +1,8 @@
 alias a="alias"
 a gpoat="git push origin && git push origin --tags"
 a date="date +%Y-%m-%d_%H-%M"
-a v="nvim -c NERDTreeToggle -c SessionList"
+a nv="nvim -c NERDTreeToggle -c SessionList"
+a v="nvim"
 a rm='rm -f'
 a wget='wget -c'
 a p='n-panelize'
