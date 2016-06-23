@@ -13,10 +13,12 @@ Bundle 'leafgarland/typescript-vim'
 Bundle 'fntlnz/atags.vim'
 Bundle 'xolox/vim-misc'
 Bundle 'HerringtonDarkholme/yats.vim'
-Bundle 'xolox/vim-easytags'
 Bundle "icholy/typescript-tools.git"
 Bundle 'Shougo/unite.vim'
 Bundle 'jlanzarotta/bufexplorer'
+
+"TESTME: CtrP / Unite remedy?
+Bundle 'junegunn/fzf'
 
 " NeoVim only
 if has('nvim')
@@ -27,6 +29,7 @@ if has('nvim')
     Bundle 'simnalamburt/vim-mundo'
 endif
 
+UnBundle 'xolox/vim-easytags'
 UnBundle 'ctrlpvim/ctrlp.vim'
 UnBundle 'ervandew/supertab'
 UnBundle 'vim-airline/vim-airline'
