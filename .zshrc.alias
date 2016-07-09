@@ -7,9 +7,10 @@ a rm='rm -f'
 a wget='wget -c'
 a p='n-panelize'
 a G='grep -nrIi'
-
-a resource-alias='source ~/.zshrc.alias'
-a resource='source ~/.zshrc && echo "feeling fresh now"'
+a b='brew'
+a zrealias='source ~/.zshrc.alias'
+a zreload='source ~/.zshrc && echo "feeling fresh now"'
+a n='npm'
 a view-alias='v ~/.zshrc.alias'
 a f="nvim -c 'Gstatus | wincmd j | hide'"
 a fugitive=f
@@ -22,3 +23,5 @@ a clone-rep="cd ~/dev/cloned && gcl ${1}"
 a myip="ifconfig | grep 'inet ' | grep -v 127.0.0.1 | cut -d\   -f2"
 a ip="curl icanhazip.com" # Your public IP address
 
+
+alias SWITCH_ENV="ssh -A bastion_prod \"cd /var/lh/env/scripts; ./switch_env.sh\""
