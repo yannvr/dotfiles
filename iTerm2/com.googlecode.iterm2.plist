@@ -610,7 +610,7 @@
 	<key>NSFontPanelAttributes</key>
 	<string>1, 1</string>
 	<key>NSNavLastRootDirectory</key>
-	<string>~/dotfiles</string>
+	<string>~/dotfiles/iTerm2</string>
 	<key>NSNavPanelExpandedSizeForOpenMode</key>
 	<string>{712, 448}</string>
 	<key>NSQuotedKeystrokeBinding</key>
@@ -657,13 +657,15 @@
 	<key>NSWindow Frame NSFontPanel</key>
 	<string>756 1597 568 94 -129 1050 1920 1057 </string>
 	<key>NSWindow Frame Preferences</key>
-	<string>274 418 606 456 0 0 1440 877 </string>
+	<string>187 420 606 456 0 0 1440 877 </string>
 	<key>NSWindow Frame SUStatusFrame</key>
-	<string>582 1746 384 129 -186 1050 1920 1057 </string>
+	<string>492 1746 400 129 -268 1050 1920 1057 </string>
+	<key>NSWindow Frame SUUpdateAlert</key>
+	<string>382 1548 620 392 -268 1050 1920 1057 </string>
 	<key>NSWindow Frame UKCrashReporter</key>
-	<string>26 1523 592 584 -129 1050 1920 1057 </string>
+	<string>602 1501 592 584 -268 1050 1920 1057 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
-	<string>0 2 1431 875 0 0 1440 877 </string>
+	<string>-425 1754 1011 539 -975 1050 2560 1417 </string>
 	<key>NSWindow Frame iTerm Window 1</key>
 	<string>118 1007 570 427 -129 900 1920 1057 </string>
 	<key>NSWindow Frame iTerm Window 2</key>
@@ -2039,6 +2041,8 @@
 	</array>
 	<key>NoSyncCommandHistoryHasEverBeenUsed</key>
 	<true/>
+	<key>NoSyncConfirmBeta</key>
+	<true/>
 	<key>NoSyncDoNotWarnBeforeMultilinePaste</key>
 	<true/>
 	<key>NoSyncDoNotWarnBeforeMultilinePaste_selection</key>
@@ -2054,12 +2058,14 @@
 	<key>NoSyncInstallationId</key>
 	<string>9BCC3BE7-40F8-4060-BB9A-A4A26B524010</string>
 	<key>NoSyncLastTipTime</key>
-	<real>487895964.135225</real>
+	<real>489576574.625871</real>
 	<key>NoSyncNeverRemindPrefsChangesLostForFile</key>
 	<true/>
 	<key>NoSyncNeverRemindPrefsChangesLostForFile_selection</key>
 	<integer>0</integer>
 	<key>NoSyncPermissionToShowTip</key>
+	<true/>
+	<key>NoSyncSilenceAnnoyingBellAutomatically</key>
 	<true/>
 	<key>NoSyncTimeOfFirstLaunchOfVersionWithTip</key>
 	<real>486525334.49723101</real>
@@ -2080,7 +2086,25 @@
 		<string>0006</string>
 		<string>0007</string>
 		<string>0008</string>
+		<string>0009</string>
+		<string>0010</string>
+		<string>0011</string>
+		<string>0012</string>
+		<string>0013</string>
+		<string>0014</string>
+		<string>0015</string>
+		<string>0016</string>
+		<string>0017</string>
+		<string>0018</string>
+		<string>0019</string>
+		<string>0020</string>
+		<string>0021</string>
+		<string>0022</string>
+		<string>0023</string>
+		<string>0024</string>
 	</array>
+	<key>NoSyncTurnOffMouseReportingOnHostChange</key>
+	<true/>
 	<key>OnlyWhenMoreTabs</key>
 	<false/>
 	<key>OpenArrangementAtStartup</key>
@@ -2131,7 +2155,7 @@
 		</dict>
 	</dict>
 	<key>PrefsCustomFolder</key>
-	<string>/Users/yannvallery-radot/dotfiles</string>
+	<string>/Users/yannvallery-radot/dotfiles/iTerm2</string>
 	<key>PromptOnQuit</key>
 	<false/>
 	<key>QuitWhenAllWindowsClosed</key>
@@ -2151,13 +2175,13 @@
 	<key>SUHasLaunchedBefore</key>
 	<true/>
 	<key>SULastCheckTime</key>
-	<date>2016-06-14T09:42:53Z</date>
+	<date>2016-07-06T14:16:23Z</date>
 	<key>SavePasteHistory</key>
 	<false/>
 	<key>ShowBookmarkName</key>
 	<false/>
 	<key>ShowFullScreenTabBar</key>
-	<false/>
+	<true/>
 	<key>ShowNewOutputIndicator</key>
 	<true/>
 	<key>ShowPaneTitles</key>
@@ -2181,7 +2205,7 @@
 	<key>TripleClickSelectsFullWrappedLines</key>
 	<false/>
 	<key>UKCrashReporterLastCrashReportDate</key>
-	<real>1465310976</real>
+	<real>1467109120</real>
 	<key>URLHandlersByGuid</key>
 	<dict/>
 	<key>UseBorder</key>
@@ -2205,6 +2229,6 @@
 	<key>findRegex_iTerm</key>
 	<false/>
 	<key>iTerm Version</key>
-	<string>3.0.0</string>
+	<string>3.0.4</string>
 </dict>
 </plist>
