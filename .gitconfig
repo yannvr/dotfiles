@@ -1,7 +1,7 @@
 [core]
 	excludesfile = /Users/yannvallery-radot/.gitignore_global
 	autocrlf = input
-	editor = /usr/local/bin/vim
+	editor = /usr/local/bin/nvim
 [difftool "sourcetree"]
 	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
 	path = 
