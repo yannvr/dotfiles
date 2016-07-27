@@ -79,13 +79,14 @@ nnoremap ‘ :tabnext<CR>
 
 " Quickly edit map keys
 nnoremap <Leader>A <C-W><C-V>:e ~/.zshrc.alias<CR>
-nnoremap <Leader>a :Ack 
+nnoremap <Leader>a :Ack
 nnoremap <Leader>T :TagbarToggle<CR>
 nnoremap <Leader>r :registers<CR>
 nnoremap <Leader>B :e ~/.vimrc.bundles.local<CR>
 nnoremap <Leader>v :e ~/.vimrc.local<CR>
 nnoremap <Leader>V :e ~/.vimrc<CR>
 nnoremap <Leader>z :e ~/.zshrc.local<CR>
+nnoremap <Leader>E :e ~/.zshrc-e<CR>
 nnoremap <Leader>Z :e ~/.zshrc<CR>
 nnoremap <Leader>b :BufExplorerVerticalSplit <CR>
 

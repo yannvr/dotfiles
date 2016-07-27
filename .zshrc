@@ -46,7 +46,7 @@ ZSH_THEME="steeef"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 
-plugins=(git web-search bower brew npm colorize command-not-found colored-man-pages history frontend-search brew git-extra zsh_reload themes meteor grunt cp gem command-not-found cp redis-cli fuck jira zsh-navigation-tools git-flow node docker)
+plugins=(git web-search bower brew npm colorize command-not-found colored-man-pages history frontend-search brew git-extra zsh_reload themes meteor grunt cp gem command-not-found cp redis-cli fuck jira zsh-navigation-tools git-flow node docker docker-compose aws codeclimate)
 source $ZSH/oh-my-zsh.sh
 
 # User configuration
@@ -90,4 +90,10 @@ export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:"
 #zle -N zle-line-init
 source ~/.zshrc.local
 
-test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+# Professional aliases
+source ~/alias.client
+
+eval $(docker-machine env default)
+
+# added by travis gem
+[ -f /Users/yannvallery-radot/.travis/travis.sh ] && source /Users/yannvallery-radot/.travis/travis.sh
