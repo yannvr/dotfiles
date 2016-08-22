@@ -16,6 +16,7 @@ a f="nvim -c 'Gstatus | wincmd j | hide'"
 a fugitive=f
 a ka='killall -9'
 a ka='killall'
+a nr='npm run'
 
 # github
 a clone-rep="cd ~/dev/cloned && gcl ${1}"
