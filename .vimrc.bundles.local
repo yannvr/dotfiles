@@ -3,6 +3,7 @@ Bundle 'SirVer/ultisnips'
 
 " Extra plugins
 Bundle 'Valloric/YouCompleteMe'
+Bundle 'svermeulen/vim-easyclip'
 Bundle 'Valloric/MatchTagAlways'
 Bundle 'ternjs/tern_for_vim'
 Bundle 'Shougo/vimproc.vim'

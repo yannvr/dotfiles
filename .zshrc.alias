@@ -17,7 +17,7 @@ a fugitive=f
 a ka='killall -9'
 a ka='killall'
 a nr='npm run'
-
+a gp='git pull'
 # github
 a clone-rep="cd ~/dev/cloned && gcl ${1}"
 

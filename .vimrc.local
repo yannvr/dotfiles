@@ -4,6 +4,17 @@ imap jj <Esc>
 au BufRead,BufNewFile .vimrc* setfiletype vim
 au BufNew,BufRead *.ts setlocal omnifunc=javascriptcomplete#CompleteJS
 
+let g:ctrlp_map = '<c-/>'
+let g:ctrlp_cmd = 'Ctrl/'
+
+let g:multi_cursor_use_default_mapping=0
+
+" multiple cursors to remap
+let g:multi_cursor_next_key='<C-n>'
+let g:multi_cursor_prev_key='<C-p>'
+let g:multi_cursor_skip_key='<C-x>'
+let g:multi_cursor_quit_key='<Esc>'
+
 set autochdir
 "autocmd BufEnter * silent! lcd %:p:h
 set shell=zsh
@@ -63,9 +74,10 @@ nmap             <leader>sc :SessionClose<CR>:q<CR>
 nnoremap ; :w<CR>
 nnoremap <Leader>A :set autowrite<CR>
 " Unite
-nnoremap <C-P>    :Unite -buffer-name=files -start-insert file_rec/async:!<cr>
+nnoremap π    :Unite -buffer-name=files -start-insert file_rec/async:!<cr>
 nnoremap <space>/ :Unite -no-empty -no-resize grep<cr>
 nnoremap <space>s :Unite -quick-match buffer<cr>
+
 
 " Tab nav
 nnoremap † :tabnew<CR><C-W>w<CR>
@@ -95,6 +107,7 @@ nnoremap ∫ :BufExplorerVerticalSplit <CR>
 " Custom Buffer navigation (no popup for buffer selection)
 set wildchar=<Tab> wildmenu wildmode=full
 set wildcharm=<C-Z>
+set ignorecase
 
 nnoremap <Leader>1 :1b<CR>
 nnoremap <Leader>2 :2b<CR>
