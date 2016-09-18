@@ -79,7 +79,19 @@ nmap             <leader>sc :SessionClose<CR>:q<CR>
 
 nnoremap ; :w<CR>
 nnoremap <Leader>A :set autowrite<CR>
+nnoremap ÷ :NERDCommenterComment<CR>
+
 " Unite
+let g:unite_enable_start_insert = 1
+
+call unite#custom#source('file_rec/async', 'ignore_pattern', 'node_modules\/|build\/|\.idea|\.git')
+call unite#custom#source('file_rec', 'soters', 'sorter_length')
+
+nnoremap Ø :<C-u>UniteWithProjectDir -start-insert file_rec/async:!<CR>
+"nnoremap Ø :<C-u>UniteWithProjectDir -start-insert file_rec/async:!<CR>
+nnoremap Ï :<C-u>UniteWithProjectDir grep -start-insert<cr>
+
+
 nnoremap π    :Unite -buffer-name=files -start-insert file_rec/async:!<cr>
 nnoremap <space>/ :Unite -no-empty -no-resize grep<cr>
 nnoremap <space>s :Unite -quick-match buffer<cr>
