@@ -93,7 +93,7 @@ source ~/.zshrc.local
 # Professional aliases
 source ~/alias.client
 
-eval $(docker-machine env default)
+#eval $(docker-machine env default)
 
 # added by travis gem
 [ -f /Users/yannvallery-radot/.travis/travis.sh ] && source /Users/yannvallery-radot/.travis/travis.sh
