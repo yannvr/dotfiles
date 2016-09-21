@@ -81,6 +81,14 @@ nnoremap ; :w<CR>
 nnoremap <Leader>A :set autowrite<CR>
 nnoremap ÷ :NERDCommenterComment<CR>
 
+
+autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+inoremap <expr><C-l>     neocomplete#complete_common_string()
+inoremap <expr><Tab>
+			\ neocomplete#complete_common_string() != '' ?
+			\   neocomplete#complete_common_string() :
+			\ pumvisible() ? "\<C-n>" : "\<Tab>"
+<
 " Unite
 let g:unite_enable_start_insert = 1
 
