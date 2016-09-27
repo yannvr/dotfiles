@@ -13,5 +13,10 @@ for i in `find .* -depth 0 -type f`; do
     ln -s ~/dotfiles/${i} ~/${i}
 done
 
+# Takes care of this big gotcha using neovim..
+`ln -s ~/.vim ~/.config/nvim || ln -s ~/.vimrc ~/.config/nvim/init.vim` > 2>/dev/null
+if [ $? -ne 0 ]; then echo 'LINKING NVIM config to an existing config failed. Ignore '; fi
+
+
 echo "dotfiles are linked!"
 echo "Please review ~/.vimrc.bundles.local for extra packages that are not installed"
