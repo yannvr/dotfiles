@@ -664,12 +664,14 @@
 	<string>638 673 400 129 0 0 1680 1027 </string>
 	<key>NSWindow Frame SUUpdateAlert</key>
 	<string>382 1548 620 392 -268 1050 1920 1057 </string>
+	<key>NSWindow Frame SessionsPreferences</key>
+	<string>-78 1284 606 456 -567 1050 2560 1417 </string>
 	<key>NSWindow Frame SharedPreferences</key>
-	<string>-1090 1453 796 473 -1579 1050 2560 1417 </string>
+	<string>-78 1858 918 498 -567 1050 2560 1417 </string>
 	<key>NSWindow Frame UKCrashReporter</key>
-	<string>-289 1844 592 584 -1579 1050 2560 1417 </string>
+	<string>713 422 592 584 0 0 1680 1027 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
-	<string>-299 1050 1280 1417 -1579 1050 2560 1417 </string>
+	<string>0 3 1676 1024 0 0 1680 1027 </string>
 	<key>NSWindow Frame iTerm Window 1</key>
 	<string>118 1007 570 427 -129 900 1920 1057 </string>
 	<key>NSWindow Frame iTerm Window 2</key>
@@ -857,7 +859,7 @@
 			<key>Blur</key>
 			<false/>
 			<key>Blur Radius</key>
-			<real>0.10000000149011612</real>
+			<real>0.10000000000000001</real>
 			<key>Bold Color</key>
 			<dict>
 				<key>Blue Component</key>
@@ -1387,7 +1389,7 @@
 			<key>Terminal Type</key>
 			<string>xterm-256color</string>
 			<key>Transparency</key>
-			<real>0.013715788457520615</real>
+			<real>0.0</real>
 			<key>Triggers</key>
 			<array/>
 			<key>Unlimited Scrollback</key>
@@ -1647,13 +1649,13 @@
 				<key>Alpha Component</key>
 				<real>0.25</real>
 				<key>Blue Component</key>
-				<real>1</real>
+				<real>0.99930745363235474</real>
 				<key>Color Space</key>
 				<string>Calibrated</string>
 				<key>Green Component</key>
-				<real>0.91000000000000003</real>
+				<real>0.90435695648193359</real>
 				<key>Red Component</key>
-				<real>0.65000000000000002</real>
+				<real>0.62938177585601807</real>
 			</dict>
 			<key>Cursor Text Color</key>
 			<dict>
@@ -2081,6 +2083,8 @@
 			<key>Use Bright Bold</key>
 			<true/>
 			<key>Use Canonical Parser</key>
+			<false/>
+			<key>Use Cursor Guide</key>
 			<false/>
 			<key>Use Italic Font</key>
 			<true/>
@@ -2799,7 +2803,7 @@
 	<key>NoSyncInstallationId</key>
 	<string>9BCC3BE7-40F8-4060-BB9A-A4A26B524010</string>
 	<key>NoSyncLastTipTime</key>
-	<real>491152657.78378803</real>
+	<real>495800008.86697203</real>
 	<key>NoSyncNeverRemindPrefsChangesLostForFile</key>
 	<true/>
 	<key>NoSyncNeverRemindPrefsChangesLostForFile_selection</key>
@@ -2814,6 +2818,8 @@
 	<real>477584381.01822501</real>
 	<key>NoSyncTimeOfLastPromoDownload</key>
 	<real>486517996.71809298</real>
+	<key>NoSyncTipsDisabled</key>
+	<true/>
 	<key>NoSyncTipsToNotShow</key>
 	<array>
 		<string>000</string>
@@ -2856,6 +2862,33 @@
 		<string>0035</string>
 		<string>0036</string>
 		<string>0037</string>
+		<string>0038</string>
+		<string>0039</string>
+		<string>0040</string>
+		<string>0041</string>
+		<string>0042</string>
+		<string>0043</string>
+		<string>0044</string>
+		<string>0045</string>
+		<string>0046</string>
+		<string>0047</string>
+		<string>0048</string>
+		<string>0049</string>
+		<string>0050</string>
+		<string>0051</string>
+		<string>0052</string>
+		<string>0053</string>
+		<string>0054</string>
+		<string>0055</string>
+		<string>0056</string>
+		<string>0057</string>
+		<string>0058</string>
+		<string>0059</string>
+		<string>0060</string>
+		<string>0061</string>
+		<string>0062</string>
+		<string>0063</string>
+		<string>0064</string>
 	</array>
 	<key>NoSyncTurnOffMouseReportingOnHostChange</key>
 	<true/>
@@ -2929,7 +2962,7 @@
 	<key>SUHasLaunchedBefore</key>
 	<true/>
 	<key>SULastCheckTime</key>
-	<date>2016-07-25T15:17:38Z</date>
+	<date>2016-09-23T10:07:28Z</date>
 	<key>SavePasteHistory</key>
 	<false/>
 	<key>ShowBookmarkName</key>
@@ -2943,7 +2976,7 @@
 	<key>SmartPlacement</key>
 	<true/>
 	<key>SplitPaneDimmingAmount</key>
-	<real>0.15530098157051292</real>
+	<real>0.10000000000000001</real>
 	<key>SwitchTabModifier</key>
 	<integer>4</integer>
 	<key>SwitchWindowModifier</key>
@@ -2956,10 +2989,15 @@
 	<false/>
 	<key>TmuxDashboardLimit</key>
 	<integer>10</integer>
+	<key>ToolbeltTools</key>
+	<array>
+		<string>Recent Directories</string>
+		<string>Paste History</string>
+	</array>
 	<key>TripleClickSelectsFullWrappedLines</key>
 	<false/>
 	<key>UKCrashReporterLastCrashReportDate</key>
-	<real>1469522688</real>
+	<real>1471621504</real>
 	<key>URLHandlersByGuid</key>
 	<dict/>
 	<key>UseBorder</key>
@@ -2983,6 +3021,10 @@
 	<key>findRegex_iTerm</key>
 	<false/>
 	<key>iTerm Version</key>
-	<string>3.0.5</string>
+	<string>3.0.10</string>
+	<key>kCPKSelectionViewPreferredModeKey</key>
+	<integer>0</integer>
+	<key>kCPKSelectionViewShowHSBTextFieldsKey</key>
+	<false/>
 </dict>
 </plist>
