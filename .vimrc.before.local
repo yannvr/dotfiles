@@ -1,2 +1,2 @@
-let g:spf13_bundle_groups=['general', 'writing', 'youcompleteme', 'programming', 'javascript', 'html', 'misc', 'snipmate']
+let g:spf13_bundle_groups=['general', 'writing', 'neocomplete', 'programming', 'javascript', 'html', 'misc', 'snipmate']
 " let g:spf13_bundle_groups=['general', 'writing', 'neocomplete', 'programming', 'python', 'javascript', 'html', 'misc',]
