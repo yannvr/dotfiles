@@ -2,6 +2,7 @@
 	excludesfile = /Users/yannvallery-radot/.gitignore_global
 	autocrlf = input
 	editor = /usr/local/bin/nvim
+	whitespace = trailing-space,space-before-tab,indent-with-non-tab
 [difftool "sourcetree"]
 	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
 	path = 
