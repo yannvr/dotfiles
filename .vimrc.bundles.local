@@ -28,6 +28,9 @@ if has('nvim')
     UnBundle 'undotree'
     Bundle 'neomake/neomake'
     Bundle 'simnalamburt/vim-mundo'
+    Bundle 'Shougo/deoplete.nvim'
+else
+    Bundle 'Shougo/neocomplete.vim'
 endif
 
 UnBundle 'xolox/vim-easytags'
@@ -36,7 +39,6 @@ UnBundle 'ervandew/supertab'
 UnBundle 'vim-airline/vim-airline'
 UnBundle 'vim-airline/vim-airline-themes'
 UnBundle 'gcmt/wildfire.vim'
-Bundle 'Shougo/neocomplete.vim'
 Bundle 'Shougo/neosnippet'
 Bundle 'Shougo/neosnippet-snippets'
 Bundle 'Shougo/context_filetype.vim'

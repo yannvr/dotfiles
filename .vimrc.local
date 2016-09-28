@@ -12,7 +12,7 @@ let g:multi_cursor_use_default_mapping=0
 let g:indent_guides_enable_on_vim_startup = 0
 
 
-let g:EasyClipAutoFormat=1
+let g:EasyClipAutoFormat=0
 
 " multiple cursors to remap
 "let g:multi_cursor_next_key='<C-n>'
@@ -80,7 +80,11 @@ nmap             <leader>sc :SessionClose<CR>:q<CR>
 
 nnoremap ; :w<CR>
 nnoremap <Leader>A :set autowrite<CR>
-nnoremap ÷ :NERDCommenterComment<CR>
+let g:deoplete#enable_at_startup = 1
+nnoremap ÷ :call NERDComment(0,"toggle")<CR>
+let $FZF_DEFAULT_COMMAND = 'ag -g ""'
+
+
 
 
 autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
@@ -97,7 +101,11 @@ call unite#custom#source('file_rec/async', 'ignore_pattern', 'node_modules\/|bui
 call unite#custom#source('file_rec', 'soters', 'sorter_length')
 
 nnoremap Ø :<C-u>UniteWithProjectDir -start-insert file_rec/async:!<CR>
+nnoremap Ø :<C-u>UniteWithProjectDir -start-insert file_rec/async:!<CR>
+nnoremap ƒ :FZF<CR>
+
 "nnoremap Ø :<C-u>UniteWithProjectDir -start-insert file_rec/async:!<CR>
+"
 nnoremap Ï :<C-u>UniteWithProjectDir grep -start-insert<cr>
 
 
