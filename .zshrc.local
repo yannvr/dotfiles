@@ -1,5 +1,5 @@
 eval "`npm completion`"
-
+export FZF_DEFAULT_COMMAND='ag -g ""'
 export NVM_DIR="/Users/yannvallery-radot/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
 eval $(thefuck --alias)

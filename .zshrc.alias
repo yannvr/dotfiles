@@ -20,6 +20,7 @@ a ka='killall'
 a nr='npm run'
 a gp='git pull'
 a tf='tail -f'
+a dotfiles='v ~/dotfiles'
 # github
 a clone-rep="cd ~/dev/cloned && gcl ${1}"
 
