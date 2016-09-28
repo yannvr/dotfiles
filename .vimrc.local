@@ -83,8 +83,10 @@ nnoremap <Leader>A :set autowrite<CR>
 let g:deoplete#enable_at_startup = 1
 nnoremap ÷ :call NERDComment(0,"toggle")<CR>
 let FZF_DEFAULT_COMMAND = 'ag -g ""'
+autocmd BufWinEnter,WinEnter term://* startinsert
 
 
+nnoremap <Leader>sx :SessionSave<CR>:SessionClose<CR>
 
 
 autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
