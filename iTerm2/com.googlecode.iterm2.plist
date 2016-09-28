@@ -671,7 +671,7 @@
 	<key>NSWindow Frame UKCrashReporter</key>
 	<string>713 422 592 584 0 0 1680 1027 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
-	<string>0 3 1676 1024 0 0 1680 1027 </string>
+	<string>-129 1050 1920 1057 -129 1050 1920 1057 </string>
 	<key>NSWindow Frame iTerm Window 1</key>
 	<string>118 1007 570 427 -129 900 1920 1057 </string>
 	<key>NSWindow Frame iTerm Window 2</key>
@@ -679,6 +679,14 @@
 	<key>NeverWarnAboutMeta</key>
 	<true/>
 	<key>NeverWarnAboutMeta_selection</key>
+	<integer>0</integer>
+	<key>NeverWarnAboutShortLivedSessions_06558463-339B-446A-A1D8-4AC6FAE5497D</key>
+	<true/>
+	<key>NeverWarnAboutShortLivedSessions_06558463-339B-446A-A1D8-4AC6FAE5497D_selection</key>
+	<integer>0</integer>
+	<key>NeverWarnAboutShortLivedSessions_A2B2A855-D971-4655-820E-FD3B5048B573</key>
+	<true/>
+	<key>NeverWarnAboutShortLivedSessions_A2B2A855-D971-4655-820E-FD3B5048B573_selection</key>
 	<integer>0</integer>
 	<key>New Bookmarks</key>
 	<array>
@@ -2962,7 +2970,7 @@
 	<key>SUHasLaunchedBefore</key>
 	<true/>
 	<key>SULastCheckTime</key>
-	<date>2016-09-23T10:07:28Z</date>
+	<date>2016-09-27T08:32:51Z</date>
 	<key>SavePasteHistory</key>
 	<false/>
 	<key>ShowBookmarkName</key>
