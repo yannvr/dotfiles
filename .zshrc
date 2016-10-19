@@ -88,12 +88,15 @@ export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:"
 #    zle autosuggest-start
 #}
 #zle -N zle-line-init
-source ~/.zshrc.local
 
 # Professional aliases
-source ~/alias.client
 
 #eval $(docker-machine env default)
 
 # added by travis gem
 [ -f /Users/yannvallery-radot/.travis/travis.sh ] && source /Users/yannvallery-radot/.travis/travis.sh
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+[ -f ~/.zshrc.local ] && source ~/.zshrc.local
+[ -f ~/.zshrc-e ] && source ~/.zshrc-e
+[ -f ~/.zshrc.private ] && source ~/.zshrc.private
