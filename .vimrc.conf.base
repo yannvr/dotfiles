@@ -1,10 +1,9 @@
 " Modeline and Notes
-" vim: set sw=4 ts=4 sts=4 et tw=78 foldmarker=, foldlevel=0 foldmethod=marker spell:
 "
 set nocompatible        " Must be first line
 set noautochdir
 
-
+let g:airline_powerline_fonts = 1
 " General
 
 set background=dark         " Assume a dark background
@@ -70,7 +69,7 @@ set backup                  " Backups are nice ...
 set showmode                    " Display the current mode
 
 highlight clear SignColumn      " SignColumn should match background
-highlight clear LineNr          " Current line number row will have same background color in relative mode
+"highlight clear LineNr          " Current line number row will have same background color in relative mode
 "highlight clear CursorLineNr    " Remove highlight color from current line number
 
 set ruler                   " Show the ruler
@@ -89,12 +88,9 @@ set ignorecase                  " Case insensitive search
 set smartcase                   " Case sensitive when uc present
 set whichwrap=b,s,h,l,<,>,[,]   " Backspace and cursor keys wrap too
 set scrolljump=5                " Lines to scroll when cursor leaves screen
-set scrolloff=3                 " Minimum lines to keep above and below cursor
-set foldenable                  " Auto fold code
 set list
 set listchars=tab:›\ ,trail:•,extends:#,nbsp:. " Highlight problematic whitespace
 
-"
 
 " Formatting
 
@@ -108,26 +104,17 @@ set nojoinspaces                " Prevents inserting two spaces after punctuatio
 set splitright                  " Puts new vsplit windows to the right of the current
 set splitbelow                  " Puts new split windows to the bottom of the current
 "set matchpairs+=<:>             " Match, to be used with %
-set pastetoggle=<F12>           " pastetoggle (sane indentation on pastes)
 "set comments=sl:/*,mb:*,elx:*/  " auto format comment blocks
 " Remove trailing whitespaces and ^M chars
 " To disable the stripping of whitespace, add the following to your
 " .vimrc.before.local file:
 "   let g:spf13_keep_trailing_whitespace = 1
-autocmd FileType c,cpp,java,go,php,javascript,puppet,python,rust,twig,xml,yml,perl,sql autocmd BufWritePre <buffer> if !exists('g:spf13_keep_trailing_whitespace') | call StripTrailingWhitespace() | endif
 "autocmd FileType go autocmd BufWritePre <buffer> Fmt
-autocmd BufNewFile,BufRead *.html.twig set filetype=html.twig
-autocmd FileType haskell,puppet,ruby,yml setlocal expandtab shiftwidth=2 softtabstop=2
 " preceding line best in a plugin but here for now.
 
-autocmd BufNewFile,BufRead *.coffee set filetype=coffee
 
 " Workaround vim-commentary for Haskell
-autocmd FileType haskell setlocal commentstring=--\ %s
 " Workaround broken colour highlighting in Haskell
-autocmd FileType haskell,rust setlocal nospell
-
-"
 
 let mapleader = ','
 " The default mappings for editing and applying the spf13 configuration
@@ -238,21 +225,6 @@ if gitroot != ''
 endif
 "
 
-" NerdTree
-map <C-e> <plug>NERDTreeTabsToggle<CR>
-map <leader>e :NERDTreeFind<CR>
-nmap <leader>nt :NERDTreeFind<CR>
-
-let NERDTreeShowBookmarks=1
-let NERDTreeIgnore=['\.py[cd]$', '\~$', '\.swo$', '\.swp$', '^\.git$', '^\.hg$', '^\.svn$', '\.bzr$']
-let NERDTreeChDirMode=0
-let NERDTreeQuitOnOpen=1
-let NERDTreeMouseMode=2
-let NERDTreeShowHidden=1
-let NERDTreeKeepTreeInNewTab=1
-let g:nerdtree_tabs_open_on_gui_startup=0
-"
-
 " Tabularize
 nmap <Leader>a& :Tabularize /&<CR>
 vmap <Leader>a& :Tabularize /&<CR>
@@ -271,14 +243,6 @@ vmap <Leader>a,, :Tabularize /,\zs<CR>
 nmap <Leader>a<Bar> :Tabularize /<Bar><CR>
 vmap <Leader>a<Bar> :Tabularize /<Bar><CR>
 "
-
-" Session List
-set sessionoptions=blank,buffers,curdir,folds,tabpages,winsize
-nmap <leader>sl :SessionList<CR>
-nmap <leader>ss :SessionSave<CR>
-nmap <leader>sc :SessionClose<CR>
-"
-
 " JSON
 nmap <leader>jt <Esc>:%!python -m json.tool<CR><Esc>:set filetype=json<CR>
 let g:vim_json_syntax_conceal = 0
@@ -620,33 +584,6 @@ if exists('g:neocomplcache')
 endif
 "
 
-" vim-airline
-" Set configuration options for the statusline plugin vim-airline.
-" Use the powerline theme and optionally enable powerline symbols.
-" To use the symbols , , , , , , and .in the statusline
-" segments add the following to your .vimrc.before.local file:
-"   let g:airline_powerline_fonts=1
-" If the previous symbols do not render for you then install a
-" powerline enabled font.
-
-" See `:echo g:airline_theme_map` for some more choices
-" Default in terminal vim is 'dark'
-if isdirectory(expand("~/.vim/bundle/vim-airline-themes/"))
-    if !exists('g:airline_theme')
-        let g:airline_theme = 'solarized'
-    endif
-    if !exists('g:airline_powerline_fonts')
-        " Use the default set of separators with a few customizations
-        let g:airline_left_sep='›'  " Slightly fancier than '>'
-        let g:airline_right_sep='‹' " Slightly fancier than '<'
-    endif
-endif
-"
-
-
-
-"
-
 " GUI Settings
 
 " GVIM- (here instead of .gvimrc)
@@ -730,44 +667,3 @@ function! s:ExpandFilenameAndExecute(command, file)
     execute a:command . " " . expand(a:file, ":p")
 endfunction
 
-function! s:EditSpf13Config()
-    call <SID>ExpandFilenameAndExecute("tabedit", "~/.vimrc")
-    call <SID>ExpandFilenameAndExecute("vsplit", "~/.vimrc.before")
-    call <SID>ExpandFilenameAndExecute("vsplit", "~/.vimrc.bundles")
-
-    execute bufwinnr(".vimrc") . "wincmd w"
-    call <SID>ExpandFilenameAndExecute("split", "~/.vimrc.local")
-    wincmd l
-    call <SID>ExpandFilenameAndExecute("split", "~/.vimrc.before.local")
-    wincmd l
-    call <SID>ExpandFilenameAndExecute("split", "~/.vimrc.bundles.local")
-
-    if <SID>IsSpf13Fork()
-        execute bufwinnr(".vimrc") . "wincmd w"
-        call <SID>ExpandFilenameAndExecute("split", "~/.vimrc.fork")
-        wincmd l
-        call <SID>ExpandFilenameAndExecute("split", "~/.vimrc.before.fork")
-        wincmd l
-        call <SID>ExpandFilenameAndExecute("split", "~/.vimrc.bundles.fork")
-    endif
-
-    execute bufwinnr(".vimrc.local") . "wincmd w"
-endfunction
-
-execute "noremap " . s:spf13_edit_config_mapping " :call <SID>EditSpf13Config()<CR>"
-execute "noremap " . s:spf13_apply_config_mapping . " :source ~/.vimrc<CR>"
-"
-
-" Use local vimrc if available
-if filereadable(expand("~/.vimrc.local"))
-    source ~/.vimrc.local
-endif
-"
-
-" Use local gvimrc if available and gui is running
-if has('gui_running')
-    if filereadable(expand("~/.gvimrc.local"))
-        source ~/.gvimrc.local
-    endif
-endif
-"

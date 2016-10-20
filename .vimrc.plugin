@@ -18,6 +18,7 @@ Plugin 'honza/vim-snippets'
 Plugin 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plugin 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePluginins' }
 
+
 Plugin 'Valloric/MatchTagAlways'
 Plugin 'vim-scripts/YankRing.vim'
 Plugin 'Quramy/tsuquyomi'
@@ -26,31 +27,31 @@ Plugin 'leafgarland/typescript-vim'
 Plugin 'fntlnz/atags.vim'
 Plugin 'xolox/vim-misc'
 Plugin 'HerringtonDarkholme/yats.vim'
-Plugin 'Shougo/unite.vim'
 Plugin 'jlanzarotta/bufexplorer'
 Plugin 'editorconfig/editorconfig-vim'
 
 " General
-Plugin 'scrooloose/nerdtree'
+"Plugin 'scrooloose/nerdtree'
 Plugin 'altercation/vim-colors-solarized'
 Plugin 'spf13/vim-colors'
 Plugin 'tpope/vim-surround'
 Plugin 'tpope/vim-repeat'
 Plugin 'rhysd/conflict-marker.vim'
 Plugin 'jiangmiao/auto-pairs'
-Plugin 'terryma/vim-multiple-cursors'
-Plugin 'vim-scripts/sessionman.vim'
+Plugin 'easymotion/vim-easymotion'
+"Plugin 'terryma/vim-multiple-cursors'
+Plugin 'xolox/vim-session'
 if (has("python") || has("python3")) && exists('g:spf13_use_powerline') && !exists('g:spf13_use_old_powerline')
-  Plugin 'Lokaltog/powerline', 'rtp':'/powerline/bindings/vim'
+  Plugin 'lokaltog/powerline', 'rtp':'/powerline/bindings/vim'
 elseif exists('g:spf13_use_powerline') && exists('g:spf13_use_old_powerline')
-  Plugin 'Lokaltog/vim-powerline'
+  Plugin 'lokaltog/vim-powerline'
 else
   Plugin 'vim-airline/vim-airline'
   Plugin 'vim-airline/vim-airline-themes'
 endif
+
 Plugin 'powerline/fonts'
 Plugin 'bling/vim-bufferline'
-Plugin 'sunaku/vim-unbundle'
 Plugin 'jistr/vim-nerdtree-tabs'
 Plugin 'flazz/vim-colorschemes'
 if !exists('g:spf13_no_views')
@@ -59,9 +60,8 @@ endif
 Plugin 'mhinz/vim-signify'
 Plugin 'tpope/vim-abolish'
 Plugin 'osyo-manga/vim-over'
-Plugin 'kana/vim-textobj-user'
-Plugin 'kana/vim-textobj-indent'
-Plugin 'gcmt/wildfire.vim'
+"Plugin 'kana/vim-textobj-user'
+"Plugin 'kana/vim-textobj-indent'
 "
 
 " General Programming
@@ -70,8 +70,8 @@ Plugin 'tpope/vim-fugitive'
 Plugin 'mattn/webapi-vim'
 Plugin 'mattn/gist-vim'
 Plugin 'scrooloose/nerdcommenter'
-Plugin 'tpope/vim-commentary'
-Plugin 'godlygeek/tabular'
+"Plugin 'tpope/vim-commentary'
+"Plugin 'godlygeek/tabular'
 Plugin 'luochen1990/rainbow'
 if executable('ctags')
   Plugin 'majutsushi/tagbar'
@@ -86,7 +86,6 @@ Plugin 'briancollins/vim-jst'
 Plugin 'kchmck/vim-coffee-script'
 
 "Report of spf13
-"
 
 " HTML
 Plugin 'amirh/HTML-AutoCloseTag'

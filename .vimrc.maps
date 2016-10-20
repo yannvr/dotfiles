@@ -1,0 +1,67 @@
+if has('nvim')
+    :tnoremap <Esc> <C-\><C-n>
+    nnoremap <leader>o :below 10sp term://$SHELL<cr>i<Paste>
+endif
+
+" multiple cursors to remap
+" nnoremap ∫ :BufExplorerVerticalSplit <CR>
+"" Map start key separately from next key
+"inoremap <expr><C-l>     neocomplete#complete_common_string()
+"inoremap <expr><Tab>
+map <c-w>L :vertical wincmd f<CR>
+map ˙ <F1>
+nnoremap <Leader>m :messages<CR>
+nnoremap ; :w<CR>
+nnoremap ¡ :buf1<CR>
+nnoremap € :buf2<CR>
+nnoremap # :buf3<CR>
+nnoremap ¢ :buf4<CR>
+nnoremap ∞ :buf5<CR>
+nnoremap § :buf6<CR>
+nnoremap ¶ :buf7<CR>
+nnoremap • :buf8<CR>
+nnoremap ª :buf9<CR>
+nnoremap º :buf10<CR>
+nnoremap <Leader>A :set autowrite<CR>
+nnoremap <Leader>A <C-W><C-V>:e ~/.zshrc.alias<CR>
+nnoremap <Leader>B :e ~/.vimrc.bundles.local<CR>
+nnoremap <Leader>E :e ~/.zshrc-e<CR>
+nnoremap <Leader>N :let NERDTreeQuitOnOpen = 0<bar>NERDTreeToggle<CR>
+nnoremap <Leader>T :TagbarToggle<CR>
+nnoremap <Leader>V :e ~/.vimrc<CR>
+nnoremap <Leader>Z :e ~/.zshrc<CR>
+nnoremap <Leader>b :BufExplorerVerticalSplit <CR>
+nnoremap <Leader>n :let NERDTreeQuitOnOpen = 1<bar>NERDTreeToggle<CR>
+nnoremap <Leader>r :registers<CR>
+nnoremap     <leader>sl :OpenSession<CR>
+nnoremap     <leader>sd :DeleteSession<CR>
+nnoremap     <leader>ss :SaveSession
+nnoremap     <leader>sx :SaveSession<CR>:CloseSession:q<CR>
+nnoremap     <leader>sc :CloseSession<CR>:q<CR>
+nnoremap <Leader>sx :SaveSession<CR>:CloseSession<CR>:q<CR>
+nnoremap <Leader>u :MundoToggle<CR>
+nnoremap <Leader>v :e ~/.vimrc.local<CR>
+nnoremap <Leader>z :e ~/.zshrc.local<CR>
+nnoremap <leader>l :nohlsearch<cr>:diffupdate<cr>:syntax sync fromstart<cr><c-l>
+nnoremap <space>/ :Unite -no-empty -no-resize grep<cr>
+nnoremap <space>s :Unite -quick-match buffer<cr>
+nnoremap Ï :<C-u>UniteWithProjectDir grep -start-insert<cr>
+nnoremap ÷ :call NERDComment(0,"toggle")<CR>
+nnoremap ø :FZF<CR>
+nnoremap π    :Unite -buffer-name=files -start-insert file_rec/async:!<cr>
+nnoremap ∫ :tabprevious<CR>
+nnoremap æ :tabnext<CR>
+nnoremap « :bnext<CR>
+
+nnoremap ∫ :enew<CR>
+nnoremap “ :bprev<CR>
+nnoremap ‘ :bnext<CR>
+
+nnoremap æ :tabprevious<CR>
+nnoremap « :tabnext<CR>
+nnoremap † :tabnew<CR><C-W>w<CR>
+
+nnoremap ∂ :t.<CR>
+nnoremap ∫ :call ToggleBG()<CR>
+vnoremap ,. :cd %:p:h<CR>
+vnoremap // y/<C-R>"<CR>
