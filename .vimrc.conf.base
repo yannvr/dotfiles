@@ -3,7 +3,7 @@
 set nocompatible        " Must be first line
 set noautochdir
 
-"let g:airline_powerline_fonts = 1
+let g:airline_powerline_fonts = 1
 " General
 
 set background=dark         " Assume a dark background
