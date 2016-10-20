@@ -1,7 +1,7 @@
 alias a="alias"
 a gpoat="git push origin && git push origin --tags"
 a date="date +%Y-%m-%d_%H-%M"
-a nv="nvim -c NERDTreeToggle -c SessionList -c 'set noautochdir'"
+a nv="nvim -c OpenSession -c 'set noautochdir'"
 a v='nvim -c "set noautochdir" --cmd "set noautochdir"'
 # a vim="nvim"
 a rm='rm -f'
