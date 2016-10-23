@@ -1,3 +1,6 @@
+filetype off
+
+
 " Required:
 set runtimepath+=/Users/yannvallery-radot/.vim/bundle/neobundle.vim/
 
@@ -11,7 +14,6 @@ NeoBundleFetch 'Shougo/neobundle.vim'
 " Add or remove your Bundles here:
 NeoBundle 'Shougo/neosnippet.vim'
 NeoBundle 'Shougo/neosnippet-snippets'
-NeoBundle 'flazz/vim-colorschemes'
 NeoBundle 'Shougo/vimproc.vim', {'do': 'make'}
 
 " You can specify revision/branch/tag.
@@ -24,33 +26,29 @@ endif
 NeoBundle 'sirver/ultisnips'
 NeoBundle 'honza/vim-snippets'
 
-"NeoBundle 'Shougo/neosnippet'
-"NeoBundle 'Shougo/neosnippet-snippets'
-"NeoBundle 'Shougo/context_filetype.vim'
 
 NeoBundle 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+
+NeoBundle 'tpope/vim-fugitive'
 
 NeoBundle 'Valloric/MatchTagAlways'
 NeoBundle 'vim-scripts/YankRing.vim'
 
-NeoBundle 'Quramy/tsuquyomi'
 NeoBundle 'moll/vim-bbye'
-NeoBundle 'leafgarland/typescript-vim'
+
+NeoBundleLazy 'leafgarland/typescript-vim', {'filetypes': ['typescript']}
+NeoBundleLazy 'Quramy/tsuquyomi', {'filetypes': ['typescript']}
+
 NeoBundle 'fntlnz/atags.vim'
 NeoBundle 'xolox/vim-misc'
 NeoBundle 'HerringtonDarkholme/yats.vim'
 NeoBundle 'jlanzarotta/bufexplorer'
 
 NeoBundleLazy 'editorconfig/editorconfig-vim'
-NeoBundle 'scrooloose/nerdtree', {'lazy': 1, 'autoload': {'on_cmd': ['NERDTree', 'NERDTreeToggle']}}
+NeoBundleLazy 'scrooloose/nerdtree',  {'on_cmd': ['NERDTree', 'NERDTreeToggle']}
 NeoBundleLazy 'scrooloose/syntastic'
 NeoBundleLazy 'easymotion/vim-easymotion'
-NeoBundle 'mattn/emmet-vim', {
-            \'lazy': 1,
-            \'autoload': {
-            \  'filetypes': ['html', 'jade']
-            \  }
-            \}
+NeoBundleLazy  'mattn/emmet-vim', {'filetypes': ['html', 'jade']}
 NeoBundleLazy 'simnalamburt/vim-mundo'
 
 NeoBundle 'vim-airline/vim-airline'
@@ -79,24 +77,17 @@ NeoBundle 'osyo-manga/vim-over'
 "NeoBundle 'kana/vim-textobj-indent'
 "
 
-" General Programming
-NeoBundle 'tpope/vim-fugitive', {'lazy': '0', 'autoload': {'commands' : ['Gstatus']}}
-NeoBundle 'mattn/webapi-vim'
-NeoBundle 'mattn/gist-vim'
-"NeoBundle 'tpope/vim-commentary'
 "NeoBundle 'godlygeek/tabular'
+NeoBundle 'mattn/gist-vim'
 NeoBundle 'luochen1990/rainbow'
-if executable('ctags')
- "NeoBundle 'majutsushi/tagbar'
-endif
 
-" Javacsript
+NeoBundleLazy 'elzr/vim-json'
 
-NeoBundle 'elzr/vim-json'
-NeoBundle 'groenewege/vim-less'
-NeoBundle 'pangloss/vim-javascript'
-NeoBundle 'briancollins/vim-jst'
-NeoBundle 'kchmck/vim-coffee-script'
+" Javascript
+NeoBundleLazy 'groenewege/vim-less', {'filetypes': ['javascript']}
+NeoBundleLazy 'pangloss/vim-javascript', {'filetypes': ['javascript']}
+NeoBundleLazy 'briancollins/vim-jst', {'filetypes': ['javascript']}
+NeoBundleLazy 'kchmck/vim-coffee-script', {'filetypes': ['javascript']}
 
 "Report of spf13
 
@@ -107,3 +98,6 @@ NeoBundle 'gorodinskiy/vim-coloresque'
 NeoBundle 'tpope/vim-haml'
 "
 call neobundle#end()
+
+filetype plugin indent on
+NeoBundleCheck
