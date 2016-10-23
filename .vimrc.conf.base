@@ -1,12 +1,8 @@
 " Modeline and Notes
 "
 set nocompatible        " Must be first line
-set noautochdir
 
-let g:airline_powerline_fonts = 1
 " General
-
-set background=dark         " Assume a dark background
 
 " Allow to trigger background
 function! ToggleBG()
@@ -66,6 +62,9 @@ augroup END
 
 " Setting up the directories
 set backup                  " Backups are nice ...
+set undofile                " So is persistent undo ...
+set undolevels=1000         " Maximum number of changes that can be undone
+set undoreload=10000        " Maximum number lines to save for undo on a buffer reload
 set showmode                    " Display the current mode
 
 highlight clear SignColumn      " SignColumn should match background

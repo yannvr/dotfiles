@@ -49,17 +49,18 @@ nnoremap Ï :<C-u>UniteWithProjectDir grep -start-insert<cr>
 nnoremap ÷ :call NERDComment(0,"toggle")<CR>
 nnoremap ø :FZF<CR>
 nnoremap π    :Unite -buffer-name=files -start-insert file_rec/async:!<cr>
-nnoremap ∫ :tabprevious<CR>
-nnoremap æ :tabnext<CR>
-nnoremap « :bnext<CR>
 
+"Buffer nav
 nnoremap ∫ :enew<CR>
+nnoremap ı :Bdelete!<CR>
 nnoremap “ :bprev<CR>
 nnoremap ‘ :bnext<CR>
 
+"Tab nav
+nnoremap † :tabnew<CR><C-W>w<CR>
 nnoremap æ :tabprevious<CR>
 nnoremap « :tabnext<CR>
-nnoremap † :tabnew<CR><C-W>w<CR>
+nnoremap Ê :tabclose<CR>
 
 nnoremap ∂ :t.<CR>
 nnoremap ∫ :call ToggleBG()<CR>

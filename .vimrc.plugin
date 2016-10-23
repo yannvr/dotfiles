@@ -1,91 +1,109 @@
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
+" Required:
+set runtimepath+=/Users/yannvallery-radot/.vim/bundle/neobundle.vim/
+
+" Required:
+call neobundle#begin(expand('/Users/yannvallery-radot/.vim/bundle'))
+
+" Let NeoBundle manage NeoBundle
+" Required:
+NeoBundleFetch 'Shougo/neobundle.vim'
+
+" Add or remove your Bundles here:
+NeoBundle 'Shougo/neosnippet.vim'
+NeoBundle 'Shougo/neosnippet-snippets'
+NeoBundle 'flazz/vim-colorschemes'
+NeoBundle 'Shougo/vimproc.vim', {'do': 'make'}
+
+" You can specify revision/branch/tag.
 if has('nvim')
-  Plugin 'neomake/neomake'
-  Plugin 'simnalamburt/vim-mundo'
-  Plugin 'Shougo/vimproc.vim', {'do': 'make'}
+  NeoBundle 'Shougo/deoplete.nvim', { 'do': ':UpdateRemoteNeoBundleins' }
 else
-  Plugin 'Shougo/neocomplete.vim'
+  NeoBundle 'Shougo/neocomplete.vim'
 endif
 
-Plugin 'sirver/ultisnips'
-Plugin 'honza/vim-snippets'
+NeoBundle 'sirver/ultisnips'
+NeoBundle 'honza/vim-snippets'
 
-"Plugin 'Shougo/neosnippet'
-"Plugin 'Shougo/neosnippet-snippets'
-"Plugin 'Shougo/context_filetype.vim'
+"NeoBundle 'Shougo/neosnippet'
+"NeoBundle 'Shougo/neosnippet-snippets'
+"NeoBundle 'Shougo/context_filetype.vim'
 
-Plugin 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-Plugin 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePluginins' }
+NeoBundle 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+
+NeoBundle 'Valloric/MatchTagAlways'
+NeoBundle 'vim-scripts/YankRing.vim'
+
+NeoBundle 'Quramy/tsuquyomi'
+NeoBundle 'moll/vim-bbye'
+NeoBundle 'leafgarland/typescript-vim'
+NeoBundle 'fntlnz/atags.vim'
+NeoBundle 'xolox/vim-misc'
+NeoBundle 'HerringtonDarkholme/yats.vim'
+NeoBundle 'jlanzarotta/bufexplorer'
+
+NeoBundleLazy 'editorconfig/editorconfig-vim'
+NeoBundle 'scrooloose/nerdtree', {'lazy': 1, 'autoload': {'on_cmd': ['NERDTree', 'NERDTreeToggle']}}
+NeoBundleLazy 'scrooloose/syntastic'
+NeoBundleLazy 'easymotion/vim-easymotion'
+NeoBundle 'mattn/emmet-vim', {
+            \'lazy': 1,
+            \'autoload': {
+            \  'filetypes': ['html', 'jade']
+            \  }
+            \}
+NeoBundleLazy 'simnalamburt/vim-mundo'
+
+NeoBundle 'vim-airline/vim-airline'
+NeoBundle 'vim-airline/vim-airline-themes'
 
 
-Plugin 'Valloric/MatchTagAlways'
-Plugin 'vim-scripts/YankRing.vim'
-Plugin 'Quramy/tsuquyomi'
-Plugin 'moll/vim-bbye'
-Plugin 'leafgarland/typescript-vim'
-Plugin 'fntlnz/atags.vim'
-Plugin 'xolox/vim-misc'
-Plugin 'HerringtonDarkholme/yats.vim'
-Plugin 'jlanzarotta/bufexplorer'
-Plugin 'editorconfig/editorconfig-vim'
-
-" General
-"Plugin 'scrooloose/nerdtree'
-Plugin 'altercation/vim-colors-solarized'
-Plugin 'spf13/vim-colors'
-Plugin 'tpope/vim-surround'
-Plugin 'tpope/vim-repeat'
-Plugin 'rhysd/conflict-marker.vim'
-Plugin 'jiangmiao/auto-pairs'
-Plugin 'easymotion/vim-easymotion'
-"Plugin 'terryma/vim-multiple-cursors'
-Plugin 'xolox/vim-session'
-Plugin 'vim-airline/vim-airline'
-Plugin 'vim-airline/vim-airline-themes'
-
-Plugin 'powerline/fonts'
-Plugin 'bling/vim-bufferline'
-Plugin 'jistr/vim-nerdtree-tabs'
-Plugin 'flazz/vim-colorschemes'
+NeoBundle 'altercation/vim-colors-solarized'
+NeoBundle 'spf13/vim-colors'
+NeoBundle 'tpope/vim-surround'
+NeoBundle 'tpope/vim-repeat'
+NeoBundle 'rhysd/conflict-marker.vim'
+NeoBundle 'jiangmiao/auto-pairs'
+"NeoBundle 'terryma/vim-multiple-cursors'
+NeoBundle 'xolox/vim-session'
+NeoBundle 'powerline/fonts'
+NeoBundle 'bling/vim-bufferline'
+NeoBundle 'jistr/vim-nerdtree-tabs'
+NeoBundle 'flazz/vim-colorschemes'
 if !exists('g:spf13_no_views')
-  Plugin 'vim-scripts/restore_view.vim'
+ "NeoBundle 'vim-scripts/restore_view.vim'
 endif
-Plugin 'mhinz/vim-signify'
-Plugin 'tpope/vim-abolish'
-Plugin 'osyo-manga/vim-over'
-"Plugin 'kana/vim-textobj-user'
-"Plugin 'kana/vim-textobj-indent'
+NeoBundle 'mhinz/vim-signify'
+NeoBundle 'tpope/vim-abolish'
+NeoBundle 'osyo-manga/vim-over'
+"NeoBundle 'kana/vim-textobj-user'
+"NeoBundle 'kana/vim-textobj-indent'
 "
 
 " General Programming
-Plugin 'scrooloose/syntastic'
-Plugin 'tpope/vim-fugitive'
-Plugin 'mattn/webapi-vim'
-Plugin 'mattn/gist-vim'
-Plugin 'scrooloose/nerdcommenter'
-"Plugin 'tpope/vim-commentary'
-"Plugin 'godlygeek/tabular'
-Plugin 'luochen1990/rainbow'
+NeoBundle 'tpope/vim-fugitive', {'lazy': '0', 'autoload': {'commands' : ['Gstatus']}}
+NeoBundle 'mattn/webapi-vim'
+NeoBundle 'mattn/gist-vim'
+"NeoBundle 'tpope/vim-commentary'
+"NeoBundle 'godlygeek/tabular'
+NeoBundle 'luochen1990/rainbow'
 if executable('ctags')
-  Plugin 'majutsushi/tagbar'
+ "NeoBundle 'majutsushi/tagbar'
 endif
 
 " Javacsript
 
-Plugin 'elzr/vim-json'
-Plugin 'groenewege/vim-less'
-Plugin 'pangloss/vim-javascript'
-Plugin 'briancollins/vim-jst'
-Plugin 'kchmck/vim-coffee-script'
+NeoBundle 'elzr/vim-json'
+NeoBundle 'groenewege/vim-less'
+NeoBundle 'pangloss/vim-javascript'
+NeoBundle 'briancollins/vim-jst'
+NeoBundle 'kchmck/vim-coffee-script'
 
 "Report of spf13
 
 " HTML
-Plugin 'amirh/HTML-AutoCloseTag'
-Plugin 'hail2u/vim-css3-syntax'
-Plugin 'gorodinskiy/vim-coloresque'
-Plugin 'tpope/vim-haml'
-Plugin 'mattn/emmet-vim'
+NeoBundle 'amirh/HTML-AutoCloseTag'
+NeoBundle 'hail2u/vim-css3-syntax'
+NeoBundle 'gorodinskiy/vim-coloresque'
+NeoBundle 'tpope/vim-haml'
 "
-call vundle#end()
+call neobundle#end()
