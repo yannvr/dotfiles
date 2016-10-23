@@ -25,23 +25,24 @@ nnoremap º :buf10<CR>
 nnoremap <Leader>A :set autowrite<CR>
 nnoremap <Leader>A <C-W><C-V>:e ~/.zshrc.alias<CR>
 nnoremap <Leader>B :e ~/.vimrc.bundles.local<CR>
-nnoremap <Leader>E :e ~/.zshrc-e<CR>
-nnoremap <Leader>N :let NERDTreeQuitOnOpen = 0<bar>NERDTreeToggle<CR>
 nnoremap <Leader>T :TagbarToggle<CR>
 nnoremap <Leader>V :e ~/.vimrc<CR>
 nnoremap <Leader>Z :e ~/.zshrc<CR>
 nnoremap <Leader>b :BufExplorerVerticalSplit <CR>
-nnoremap <Leader>n :let NERDTreeQuitOnOpen = 1<bar>NERDTreeToggle<CR>
 nnoremap <Leader>r :registers<CR>
-nnoremap     <leader>sl :OpenSession<CR>
-nnoremap     <leader>sd :DeleteSession<CR>
-nnoremap     <leader>ss :SaveSession
-nnoremap     <leader>sx :SaveSession<CR>:CloseSession:q<CR>
-nnoremap     <leader>sc :CloseSession<CR>:q<CR>
+
+"Vim
+nnoremap <leader>R :source ~/.vimrc<CR>
+nnoremap <Leader>e :Lexplore<CR>
+
+"Sessions
+nnoremap <leader>sl :OpenSession<CR>
+nnoremap <leader>sd :DeleteSession<CR>
+nnoremap <leader>ss :SaveSession
+nnoremap <leader>sx :SaveSession<CR>:CloseSession:q<CR>
+nnoremap <leader>sc :CloseSession<CR>:q<CR>
 nnoremap <Leader>sx :SaveSession<CR>:CloseSession<CR>:q<CR>
 nnoremap <Leader>u :MundoToggle<CR>
-nnoremap <Leader>v :e ~/.vimrc.local<CR>
-nnoremap <Leader>z :e ~/.zshrc.local<CR>
 nnoremap <leader>l :nohlsearch<cr>:diffupdate<cr>:syntax sync fromstart<cr><c-l>
 nnoremap <space>/ :Unite -no-empty -no-resize grep<cr>
 nnoremap <space>s :Unite -quick-match buffer<cr>
@@ -51,7 +52,6 @@ nnoremap ø :FZF<CR>
 nnoremap π    :Unite -buffer-name=files -start-insert file_rec/async:!<cr>
 
 "Buffer nav
-nnoremap ∫ :enew<CR>
 nnoremap ı :Bdelete!<CR>
 nnoremap “ :bprev<CR>
 nnoremap ‘ :bnext<CR>

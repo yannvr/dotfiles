@@ -37,6 +37,7 @@ NeoBundle 'vim-scripts/YankRing.vim'
 NeoBundle 'moll/vim-bbye'
 
 NeoBundleLazy 'leafgarland/typescript-vim', {'filetypes': ['typescript']}
+NeoBundle 'scrooloose/nerdcommenter'
 NeoBundleLazy 'Quramy/tsuquyomi', {'filetypes': ['typescript']}
 
 NeoBundle 'fntlnz/atags.vim'
@@ -45,7 +46,9 @@ NeoBundle 'HerringtonDarkholme/yats.vim'
 NeoBundle 'jlanzarotta/bufexplorer'
 
 NeoBundleLazy 'editorconfig/editorconfig-vim'
-NeoBundleLazy 'scrooloose/nerdtree',  {'on_cmd': ['NERDTree', 'NERDTreeToggle']}
+" Obsoleted by native Lexplore!
+"NeoBundleLazy 'scrooloose/nerdtree',  {'on_cmd': ['NERDTree', 'NERDTreeToggle']}
+"
 NeoBundleLazy 'scrooloose/syntastic'
 NeoBundleLazy 'easymotion/vim-easymotion'
 NeoBundleLazy  'mattn/emmet-vim', {'filetypes': ['html', 'jade']}
