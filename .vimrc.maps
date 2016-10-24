@@ -30,6 +30,7 @@ nnoremap <Leader>V :e ~/.vimrc<CR>
 nnoremap <Leader>Z :e ~/.zshrc<CR>
 nnoremap <Leader>b :BufExplorerVerticalSplit <CR>
 nnoremap <Leader>r :registers<CR>
+map <Leader>t :call atags#generate()<cr>
 
 "Vim
 nnoremap <leader>R :source ~/.vimrc<CR>
