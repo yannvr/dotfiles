@@ -5,6 +5,7 @@ a v="nvim"
 a rm='rm -f'
 a wget='wget -c'
 a p='n-panelize'
+a grep='ag'
 a G='grep -nrIi'
 a b='brew'
 a realias='source ~/.zshrc.alias'
