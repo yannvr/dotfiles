@@ -25,6 +25,5 @@ a clone-rep="cd ~/dev/cloned && gcl ${1}"
 a myip="ifconfig | grep 'inet ' | grep -v 127.0.0.1 | cut -d\   -f2"
 a ip="curl icanhazip.com" # Your public IP address
 
-# That fucks things like clone-rep?? :(
 a nv="nvim -c OpenSession -c 'set noautochdir'"
 a v='nvim -c "set noautochdir" --cmd "set noautochdir"'

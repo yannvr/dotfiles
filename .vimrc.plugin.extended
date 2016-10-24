@@ -1,0 +1,102 @@
+filetype off
+
+"Use vim-plugins-profile-master to assess performane impact: https://github.com/hyiltiz/vim-plugins-profile
+
+" Required:
+set runtimepath+=/Users/yannvallery-radot/.vim/bundle/neobundle.vim/
+
+" Required:
+call neobundle#begin(expand('/Users/yannvallery-radot/.vim/bundle'))
+
+" Let NeoBundle manage NeoBundle
+" Required:
+NeoBundleFetch 'Shougo/neobundle.vim'
+
+" Add or remove your Bundles here:
+NeoBundle 'Shougo/neosnippet.vim'
+NeoBundle 'Shougo/neosnippet-snippets'
+NeoBundle 'Shougo/vimproc.vim', {'do': 'make'}
+
+" You can specify revision/branch/tag.
+if has('nvim')
+  NeoBundle 'Shougo/deoplete.nvim', { 'do': ':UpdateRemoteNeoBundleins' }
+  NeoBundle 'fntlnz/atags.vim'
+else
+  NeoBundle 'Shougo/neocomplete.vim'
+endif
+
+NeoBundle 'sirver/ultisnips'
+NeoBundle 'honza/vim-snippets'
+
+NeoBundle 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+NeoBundle 'tpope/vim-fugitive'
+
+NeoBundle 'Valloric/MatchTagAlways'
+NeoBundle 'vim-scripts/YankRing.vim'
+
+NeoBundle 'moll/vim-bbye'
+
+NeoBundleLazy 'leafgarland/typescript-vim', {'filetypes': ['typescript']}
+NeoBundle 'scrooloose/nerdcommenter'
+NeoBundleLazy 'Quramy/tsuquyomi', {'filetypes': ['typescript']}
+
+NeoBundle 'HerringtonDarkholme/yats.vim'
+NeoBundle 'jlanzarotta/bufexplorer'
+
+NeoBundleLazy 'editorconfig/editorconfig-vim'
+" Obsoleted by native Lexplore!
+"NeoBundleLazy 'scrooloose/nerdtree',  {'on_cmd': ['NERDTree', 'NERDTreeToggle']}
+"
+NeoBundleLazy 'scrooloose/syntastic'
+NeoBundleLazy 'easymotion/vim-easymotion'
+NeoBundleLazy  'mattn/emmet-vim', {'filetypes': ['html', 'jade']}
+NeoBundleLazy 'simnalamburt/vim-mundo'
+
+NeoBundle 'vim-airline/vim-airline'
+NeoBundle 'vim-airline/vim-airline-themes'
+
+NeoBundle 'tpope/vim-surround'
+NeoBundle 'tpope/vim-repeat'
+NeoBundle 'rhysd/conflict-marker.vim'
+NeoBundle 'jiangmiao/auto-pairs'
+"NeoBundle 'terryma/vim-multiple-cursors'
+"
+NeoBundle 'xolox/vim-misc'
+NeoBundle 'xolox/vim-session'
+NeoBundle 'powerline/fonts'
+NeoBundle 'bling/vim-bufferline'
+NeoBundle 'jistr/vim-nerdtree-tabs'
+NeoBundle 'flazz/vim-colorschemes'
+if !exists('g:spf13_no_views')
+ "NeoBundle 'vim-scripts/restore_view.vim'
+endif
+NeoBundle 'mhinz/vim-signify'
+NeoBundle 'tpope/vim-abolish'
+NeoBundle 'osyo-manga/vim-over'
+"NeoBundle 'kana/vim-textobj-user'
+"NeoBundle 'kana/vim-textobj-indent'
+"
+
+"NeoBundle 'godlygeek/tabular'
+NeoBundle 'mattn/gist-vim'
+NeoBundle 'luochen1990/rainbow'
+
+NeoBundleLazy 'elzr/vim-json'
+
+" Javascript
+NeoBundleLazy 'groenewege/vim-less', {'filetypes': ['javascript']}
+NeoBundleLazy 'pangloss/vim-javascript', {'filetypes': ['javascript']}
+NeoBundleLazy 'briancollins/vim-jst', {'filetypes': ['javascript']}
+NeoBundleLazy 'kchmck/vim-coffee-script', {'filetypes': ['javascript']}
+
+"Report of spf13
+
+" HTML
+NeoBundle 'amirh/HTML-AutoCloseTag'
+NeoBundle 'hail2u/vim-css3-syntax'
+NeoBundle 'gorodinskiy/vim-coloresque'
+NeoBundle 'tpope/vim-haml'
+call neobundle#end()
+
+filetype plugin indent on
+NeoBundleCheck
