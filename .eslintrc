@@ -7,6 +7,9 @@
     "jasmine": false,
     "es6": true
   },
+      "parserOptions": {
+        "sourceType": "module",
+    }
   "ecmaFeatures": {
     "arrowFunctions": true,
     "binaryLiterals": true,
