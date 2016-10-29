@@ -1,6 +1,7 @@
 filetype off
 
 "Use vim-plugins-profile-master to assess performane impact: https://github.com/hyiltiz/vim-plugins-profile
+"solarized themes: https://github.com/lifepillar/vim-solarized8
 
 " Required:
 set runtimepath+=/Users/yannvallery-radot/.vim/bundle/neobundle.vim/
@@ -25,8 +26,8 @@ else
   NeoBundle 'Shougo/neocomplete.vim'
 endif
 
-"NeoBundle 'sirver/ultlsnips'
-NeoBundle 'honza/vim-snippets'
+"NeoBundle 'SirVer/ultisnips'
+"NeoBundle 'honza/vim-snippets'
 NeoBundle 'rking/ag.vim'
 
 NeoBundle 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
@@ -37,6 +38,7 @@ NeoBundle 'Valloric/MatchTagAlways', {'filetypes': ['html', 'xml', 'xhtml']}
 
 NeoBundle 'moll/vim-bbye'
 NeoBundle 'scrooloose/nerdcommenter'
+NeoBundle 'tpope/vim-commentary'
 
 "Typescript
 NeoBundleLazy 'leafgarland/typescript-vim', {'filetypes': ['typescript']}
