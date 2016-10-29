@@ -1,6 +1,7 @@
 eval "`npm completion`"
 
 set noautochdir
+bindkey ® fzf-history-widget
 bindkey ç fzf-cd-widget
 
 autoload znt-history-widget
