@@ -45,10 +45,15 @@ nnoremap <Leader>u :MundoToggle<CR>
 nnoremap <leader>l :nohlsearch<cr>:diffupdate<cr>:syntax sync fromstart<cr><c-l>
 nnoremap <space>/ :Unite -no-empty -no-resize grep<cr>
 nnoremap <space>s :Unite -quick-match buffer<cr>
-nnoremap Ï :<C-u>UniteWithProjectDir grep -start-insert<cr>
-nnoremap ÷ :call NERDComment(0,"toggle")<CR>
+
+"IDE commands like
+" S-F
+nnoremap Ï :AgBuffer 
+
+" S-f
+nnoremap ƒ :Ag 
+" S-o
 nnoremap ø :FZF<CR>
-nnoremap π    :Unite -buffer-name=files -start-insert file_rec/async:!<cr>
 
 " format
 nnoremap <Leader>fn :set number<CR>
