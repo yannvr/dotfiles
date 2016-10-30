@@ -61,6 +61,8 @@ NeoBundle 'vim-airline/vim-airline'
 NeoBundle 'vim-airline/vim-airline-themes'
 
 "Editing
+NeoBundle 'godlygeek/tabular'
+
 NeoBundle 'tpope/vim-surround'
 NeoBundle 'tpope/vim-repeat'
 NeoBundle 'rhysd/conflict-marker.vim'
@@ -81,9 +83,9 @@ NeoBundle 'osyo-manga/vim-over'
 "NeoBundle 'kana/vim-textobj-indent'
 
 NeoBundleLazy 'groenewege/vim-less', {'filetypes': ['less']}
+NeoBundle 'neomake/neomake'
 
 " Javascript
-NeoBundleLazy 'scrooloose/syntastic', {'filetypes': ['javascript', 'typescript']}
 NeoBundleLazy 'pangloss/vim-javascript', {'filetypes': ['javascript']}
 NeoBundleLazy 'kchmck/vim-coffee-script', {'filetypes': ['coffeescript']}
 

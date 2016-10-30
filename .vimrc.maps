@@ -21,8 +21,7 @@ nnoremap ¶ :buf7<CR>
 nnoremap • :buf8<CR>
 nnoremap ª :buf9<CR>
 nnoremap º :buf10<CR>
-nnoremap <Leader>A :set autowrite<CR>
-nnoremap <Leader>A <C-W><C-V>:e ~/.zshrc.alias<CR>
+nnoremap <Leader>fA :set autowrite<CR>
 nnoremap <Leader>T :TagbarToggle<CR>
 nnoremap <Leader>V :e ~/.vimrc<CR>
 nnoremap <Leader>Z :e ~/.zshrc<CR>
