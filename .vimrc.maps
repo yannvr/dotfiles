@@ -10,6 +10,8 @@ endif
 map <c-w>L :vertical wincmd f<CR>
 map ˙ <F1>
 nnoremap <Leader>m :messages<CR>
+
+" Buffers
 nnoremap … :w<CR>
 nnoremap ¡ :buf1<CR>
 nnoremap € :buf2<CR>
@@ -21,19 +23,26 @@ nnoremap ¶ :buf7<CR>
 nnoremap • :buf8<CR>
 nnoremap ª :buf9<CR>
 nnoremap º :buf10<CR>
-nnoremap <Leader>fA :set autowrite<CR>
-nnoremap <Leader>T :TagbarToggle<CR>
+nnoremap <Leader>fa :set autowriteall<CR>
+nnoremap <Leader>fA :set noautowriteall<CR>
+nnoremap <Leader>tu :!find . -type f -iregex ".*\.js$" -not -path "./node_modules/*" -exec jsctags {} -f \; <bar> sed '/^$/d' <bar> sort > tags<CR>
+nnoremap <Leader>tU :!find . -type f -iregex ".*\.js$" -exec jsctags {} -f \; \| sed '/^$/d' \| sort > tags<CR>
 nnoremap <Leader>V :e ~/.vimrc<CR>
 nnoremap <Leader>Z :e ~/.zshrc<CR>
+nnoremap <Leader>w :w<CR>
 nnoremap <Leader>b :BufExplorerVerticalSplit <CR>
 nnoremap <Leader>r :registers<CR>
-nnoremap <Leader>t :call atags#generate()<cr>
+
+" Insert one character: http://vim.wikia.com/wiki/Insert_a_single_character
+nnoremap <Space> i_<Esc>r
 
 "Vim
 nnoremap <leader>R :source ~/.vimrc<CR>
 nnoremap <Leader>e :Lexplore<CR>
 
 "Sessions
+"S-L
+nnoremap ¬ :OpenSession<CR>
 nnoremap <leader>sl :OpenSession<CR>
 nnoremap <leader>sd :DeleteSession<CR>
 nnoremap <leader>ss :SaveSession

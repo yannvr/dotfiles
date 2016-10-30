@@ -1,12 +1,8 @@
-autocmd FileType c,cpp,java,go,php,javascript,puppet,python,rust,twig,xml,yml,perl,sql autocmd BufWritePre <buffer> if !exists('g:spf13_keep_trailing_whitespace') | call StripTrailingWhitespace() | endif
 autocmd BufNewFile,BufRead *.html set filetype=html
-autocmd FileType haskell,puppet,ruby,yml setlocal expandtab shiftwidth=2 softtabstop=2
 autocmd BufNewFile,BufRead *.coffee set filetype=coffee
-autocmd FileType haskell setlocal commentstring=--\ %s
-autocmd FileType haskell,rust setlocal nospell
 autocmd BufWinEnter,WinEnter term://* startinsert
-autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
 
 au BufRead,BufNewFile .vimrc* setfiletype vim
-au BufNew,BufRead *.ts setlocal omnifunc=javascriptcomplete#CompleteJS
+au BufNew,BufRead javascript, *.ts setlocal omnifunc=javascriptcomplete#CompleteJS
 au BufRead,BufNewFile *.ts        setlocal filetype=typescript
+au BufHidden * :wa

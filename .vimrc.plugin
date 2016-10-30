@@ -25,7 +25,7 @@ if has('nvim')
 else
   NeoBundle 'Shougo/neocomplete.vim'
 endif
-
+NeoBundle 'majutsushi/tagbar'
 "NeoBundle 'SirVer/ultisnips'
 "NeoBundle 'honza/vim-snippets'
 NeoBundle 'rking/ag.vim'
@@ -76,7 +76,6 @@ NeoBundleLazy 'elzr/vim-json', {'filetypes': ['json']}
 NeoBundle 'xolox/vim-misc'
 NeoBundle 'xolox/vim-session'
 NeoBundle 'powerline/fonts'
-"NeoBundle 'bling/vim-bufferline'
 NeoBundle 'mhinz/vim-signify'
 NeoBundle 'osyo-manga/vim-over'
 "NeoBundle 'kana/vim-textobj-user'

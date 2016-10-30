@@ -4,5 +4,4 @@ source ~/.vimrc.conf.base
 source ~/.vimrc.conf
 source ~/.vimrc.maps
 source ~/.vimrc.plugin
-"Source file if required
 "source ~/.vimrc.plugin.extended
