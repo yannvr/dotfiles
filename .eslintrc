@@ -9,7 +9,7 @@
   },
       "parserOptions": {
         "sourceType": "module",
-    }
+    },
   "ecmaFeatures": {
     "arrowFunctions": true,
     "binaryLiterals": true,
