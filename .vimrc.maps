@@ -56,7 +56,7 @@ nnoremap <space>s :Unite -quick-match buffer<cr>
 
 "IDE commands like
 " S-F
-nnoremap Ï :AgBuffer 
+nnoremap Ï :AgBuffer
 
 " S-f
 nnoremap ƒ :Ag 
@@ -65,8 +65,8 @@ nnoremap ø :FZF<CR>
 
 " format
 nnoremap <Leader>fn :set number<CR>
-nnoremap <Leader>fs :set nonumber<CR>
-nnoremap <Leader>fS :set nowrap<CR>
+nnoremap <Leader>fN :set nonumber<CR>
+nnoremap <Leader>fs :set nowrap<CR>
 nnoremap <Leader>fS :set nowrap<CR>
 
 "Buffer nav
