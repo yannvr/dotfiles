@@ -94,7 +94,7 @@ export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:"
 #eval $(docker-machine env default)
 
 # added by travis gem
-[ -f /Users/yannvallery-radot/.travis/travis.sh ] && source /Users/yannvallery-radot/.travis/travis.sh
+[ -f ~/.travis/travis.sh ] && source ~/.travis/travis.sh
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 [ -f ~/.zshrc.local ] && source ~/.zshrc.local

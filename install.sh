@@ -29,7 +29,7 @@ read brew
 
 if [ $brew= 'y' ]; then
     brew update
-    brew install n
+    brew install nvm
     brew install neovim
     brew install fzf
     brew install ag

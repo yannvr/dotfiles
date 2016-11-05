@@ -3,10 +3,10 @@ filetype off
 "Use vim-plugins-profile-master to assess performane impact: https://github.com/hyiltiz/vim-plugins-profile
 
 " Required:
-set runtimepath+=/Users/yannvallery-radot/.vim/bundle/neobundle.vim/
+set runtimepath+=~/.vim/bundle/neobundle.vim/
 
 " Required:
-call neobundle#begin(expand('/Users/yannvallery-radot/.vim/bundle'))
+call neobundle#begin(expand('~/.vim/bundle'))
 
 " Let NeoBundle manage NeoBundle
 " Required:

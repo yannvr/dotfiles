@@ -1,5 +1,5 @@
 [core]
-	excludesfile = /Users/yannvallery-radot/.gitignore_global
+	excludesfile = ~/.gitignore_global
 	autocrlf = input
 	editor = /usr/local/bin/nvim
 	whitespace = trailing-space,space-before-tab,indent-with-non-tab
