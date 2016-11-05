@@ -1,4 +1,5 @@
 #!/bin/zsh
+#TODO: Input git author settings, don't hardcode it!
 
 date=`date +%d_%m_%Y`
 bkpDir="~/bkp/dotfiles-${date}"
@@ -45,5 +46,7 @@ done
 `ln -s ~/.vimrc ~/.config/nvim/init.vim`
 if [ $? -ne 0  ]; then echo 'LINKING NVIM config to an existing config failed. Ignore '; fi
 
-
 echo "dotfiles are linked!"
+
+echo "Installing vim/neovim bundles.."
+vim -c :NeoBundleInstall

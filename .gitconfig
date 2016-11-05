@@ -1,8 +1,10 @@
 [core]
 	excludesfile = ~/.gitignore_global
-	autocrlf = input
+	autocrlf = false
 	editor = /usr/local/bin/nvim
 	whitespace = trailing-space,space-before-tab,indent-with-non-tab
+[apply]
+    whitespace = fix
 [difftool "sourcetree"]
 	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
 	path = 

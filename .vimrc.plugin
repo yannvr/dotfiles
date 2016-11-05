@@ -1,66 +1,52 @@
 filetype off
 
-"Use vim-plugins-profile-master to assess performane impact: https://github.com/hyiltiz/vim-plugins-profile
-"solarized themes: https://github.com/lifepillar/vim-solarized8
-
-" Required:
 set runtimepath+=~/.vim/bundle/neobundle.vim
-
-" Required:
 call neobundle#begin(expand('~/.vim/bundle'))
-
-" Let NeoBundle manage NeoBundle
-" Required:
 NeoBundleFetch 'Shougo/neobundle.vim'
 
-" Add or remove your Bundles here:
 NeoBundle 'Shougo/neosnippet.vim'
 NeoBundle 'Shougo/neosnippet-snippets'
-NeoBundle 'Shougo/vimproc.vim', {'do': 'make'}
+NeoBundle 'Shougo/vimproc.vim',  {'build' : { 'mac' : 'make' }  }
 
-" You can specify revision/branch/tag.
 if has('nvim')
   NeoBundle 'Shougo/deoplete.nvim', { 'do': ':UpdateRemoteNeoBundleins' }
   NeoBundle 'fntlnz/atags.vim'
 else
   NeoBundle 'Shougo/neocomplete.vim'
 endif
+
 NeoBundle 'majutsushi/tagbar'
-"NeoBundle 'SirVer/ultisnips'
-"NeoBundle 'honza/vim-snippets'
+" NeoBundle 'SirVer/ultisnips'
+" NeoBundle 'honza/vim-snippets'
 NeoBundle 'rking/ag.vim'
 
 NeoBundle 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 NeoBundle 'tpope/vim-fugitive'
 
 NeoBundle 'Valloric/MatchTagAlways', {'filetypes': ['html', 'xml', 'xhtml']}
-"NeoBundle 'vim-scripts/YankRing.vim'
 
 NeoBundle 'moll/vim-bbye'
-NeoBundle 'scrooloose/nerdcommenter'
 NeoBundle 'tpope/vim-commentary'
 
-"Typescript
+" Typescript
 NeoBundleLazy 'leafgarland/typescript-vim', {'filetypes': ['typescript']}
 NeoBundleLazy 'Quramy/tsuquyomi', {'filetypes': ['typescript']}
 NeoBundleLazy 'HerringtonDarkholme/yats.vim', {'filetypes': ['typescript']}
 
+" Coding
 NeoBundleLazy 'editorconfig/editorconfig-vim'
-" Obsoleted by native Lexplore!
-"NeoBundleLazy 'scrooloose/nerdtree',  {'on_cmd': ['NERDTree', 'NERDTreeToggle']}
-"
 NeoBundleLazy 'mattn/emmet-vim', {'filetypes': ['html', 'jade']}
 NeoBundleLazy 'simnalamburt/vim-mundo'
 
-"Nav
+" Nav
 NeoBundle 'easymotion/vim-easymotion'
 NeoBundle 'jlanzarotta/bufexplorer'
 
-"Themes
+" Themes
 NeoBundle 'vim-airline/vim-airline'
 NeoBundle 'vim-airline/vim-airline-themes'
 
-"Editing
+" Editing
 NeoBundle 'godlygeek/tabular'
 
 NeoBundle 'tpope/vim-surround'
@@ -70,21 +56,21 @@ NeoBundle 'jiangmiao/auto-pairs'
 NeoBundle 'flazz/vim-colorschemes'
 NeoBundleLazy 'elzr/vim-json', {'filetypes': ['json']}
 
-"NeoBundle 'terryma/vim-multiple-cursors'
+" NeoBundle 'terryma/vim-multiple-cursors'
 
-"Others
+" Others
 NeoBundle 'xolox/vim-misc'
 NeoBundle 'xolox/vim-session'
 NeoBundle 'powerline/fonts'
 NeoBundle 'mhinz/vim-signify'
 NeoBundle 'osyo-manga/vim-over'
-"NeoBundle 'kana/vim-textobj-user'
-"NeoBundle 'kana/vim-textobj-indent'
+" NeoBundle 'kana/vim-textobj-user'
+" NeoBundle 'kana/vim-textobj-indent'
 
 NeoBundleLazy 'groenewege/vim-less', {'filetypes': ['less']}
 NeoBundle 'neomake/neomake'
 
-" Javascript
+"  Javascript
 NeoBundleLazy 'pangloss/vim-javascript', {'filetypes': ['javascript']}
 NeoBundleLazy 'kchmck/vim-coffee-script', {'filetypes': ['coffeescript']}
 
