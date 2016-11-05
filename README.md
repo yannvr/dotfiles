@@ -6,7 +6,6 @@ Installation (from your home dir):
 ```
 
 Requirements:
-* VIM: http://spf13.com (3.00)
-* ZSH: https://github.com/robbyrussell/oh-my-zsh
+* https://github.com/adobe-fonts/source-code-pro/releases
 
 Enjoy!

@@ -4,10 +4,10 @@ filetype off
 "solarized themes: https://github.com/lifepillar/vim-solarized8
 
 " Required:
-set runtimepath+=/Users/yannvallery-radot/.vim/bundle/neobundle.vim/
+set runtimepath+=~/.vim/bundle/neobundle.vim
 
 " Required:
-call neobundle#begin(expand('/Users/yannvallery-radot/.vim/bundle'))
+call neobundle#begin(expand('~/.vim/bundle'))
 
 " Let NeoBundle manage NeoBundle
 " Required:
