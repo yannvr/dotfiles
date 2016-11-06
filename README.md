@@ -26,6 +26,6 @@ or python3:
 ```
 sudo pip3 install --upgrade neovim
 ```
-* https://github.com/adobe-fonts/source-code-pro/releases
+* Font: https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/SourceCodePro/Regular/complete/Sauce%20Code%20Pro%20Nerd%20Font%20Complete.tt://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/SourceCodePro/Regular/complete/Sauce%20Code%20Pro%20Nerd%20Font%20Complete.ttf
 
 Enjoy!
