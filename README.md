@@ -18,6 +18,14 @@ Installation (from your home dir):
 Requirements:
 * ZSH shell: ```brew install zsh```
 * Neovim: ```brew install neovim/neovim/neovim```
+* Python support is recommended. With Python2: 
+```
+sudo pip2 install --upgrade neovim
+```
+or python3:
+```
+sudo pip3 install --upgrade neovim
+```
 * https://github.com/adobe-fonts/source-code-pro/releases
 
 Enjoy!
