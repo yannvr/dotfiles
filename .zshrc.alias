@@ -24,7 +24,7 @@ a myip="ifconfig | grep 'inet ' | grep -v 127.0.0.1 | cut -d\   -f2"
 a ip="curl icanhazip.com" # Your public IP address
 
 a nv="nvim -c OpenSession -c 'set noautochdir'"
-a vv="nvim -c OpenSession -c 'set noautochdir'"
+a vv="vim -c OpenSession -c 'set noautochdir'"
 a nvp="nvim --noplugin"
 a vp="vim --noplugin"
 a nvo="nvim -c OpenSession"

@@ -23,7 +23,7 @@ NeoBundle 'rking/ag.vim'
 NeoBundle 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 NeoBundle 'tpope/vim-fugitive'
 
-NeoBundle 'Valloric/MatchTagAlways', {'filetypes': ['html', 'xml', 'xhtml']}
+" NeoBundle 'Valloric/MatchTagAlways', {'filetypes': ['html', 'xml', 'xhtml']}
 
 NeoBundle 'moll/vim-bbye'
 NeoBundle 'tpope/vim-commentary'
@@ -35,7 +35,7 @@ NeoBundleLazy 'HerringtonDarkholme/yats.vim', {'filetypes': ['typescript']}
 
 " Coding
 NeoBundleLazy 'editorconfig/editorconfig-vim'
-NeoBundleLazy 'mattn/emmet-vim', {'filetypes': ['html', 'jade']}
+" NeoBundleLazy 'mattn/emmet-vim', {'filetypes': ['html', 'jade']}
 NeoBundleLazy 'simnalamburt/vim-mundo'
 
 " Nav
@@ -62,7 +62,7 @@ NeoBundleLazy 'elzr/vim-json', {'filetypes': ['json']}
 NeoBundle 'xolox/vim-misc'
 NeoBundle 'xolox/vim-session'
 NeoBundle 'powerline/fonts'
-NeoBundle 'mhinz/vim-signify'
+NeoBundle 'airblade/vim-gitgutter'
 NeoBundle 'osyo-manga/vim-over'
 " NeoBundle 'kana/vim-textobj-user'
 " NeoBundle 'kana/vim-textobj-indent'
