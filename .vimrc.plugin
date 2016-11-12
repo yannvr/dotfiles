@@ -54,6 +54,8 @@ NeoBundle 'tpope/vim-repeat'
 NeoBundle 'rhysd/conflict-marker.vim'
 NeoBundle 'jiangmiao/auto-pairs'
 NeoBundle 'flazz/vim-colorschemes'
+NeoBundle 'rhysd/clever-f.vim'
+NeoBundle 'justinmk/vim-sneak'
 NeoBundleLazy 'elzr/vim-json', {'filetypes': ['json']}
 
 " NeoBundle 'terryma/vim-multiple-cursors'

@@ -102,4 +102,15 @@ if [ $solarized8 = 'y' ]; then
     mv /tmp/vim-solarized8/colors/*.vim ~/.vim/colors
 fi
 
+# TODO: Install brews and osx default setting
+
+# echo "Do you want to fix some annoying osx default settings (y/n)"
+# read osx
+
+# if [ $osx = 'y' ]; then
+#     echo "Installing minor osx default settings"
+#     git clone https://github.com/lifepillar/vim-solarized8.git/ /tmp/vim-solarized8
+#     mkdir ~/.vim/colors 2&>1 > /dev/null
+#     mv /tmp/vim-solarized8/colors/*.vim ~/.vim/colors
+# fi
 echo -e "\n\nIt's Jagertime!"
