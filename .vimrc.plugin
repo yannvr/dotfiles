@@ -34,8 +34,8 @@ NeoBundleLazy 'Quramy/tsuquyomi', {'filetypes': ['typescript']}
 NeoBundleLazy 'HerringtonDarkholme/yats.vim', {'filetypes': ['typescript']}
 
 " Coding
-NeoBundleLazy 'editorconfig/editorconfig-vim'
-" NeoBundleLazy 'mattn/emmet-vim', {'filetypes': ['html', 'jade']}
+NeoBundle 'editorconfig/editorconfig-vim'
+NeoBundleLazy 'mattn/emmet-vim', {'filetypes': ['html', 'jade']}
 NeoBundleLazy 'simnalamburt/vim-mundo'
 
 " Nav

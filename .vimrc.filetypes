@@ -5,4 +5,4 @@ autocmd BufWinEnter,WinEnter term://* startinsert
 au BufRead,BufNewFile .vimrc* setfiletype vim
 au BufNew,BufRead javascript, *.ts setlocal omnifunc=javascriptcomplete#CompleteJS
 au BufRead,BufNewFile *.ts        setlocal filetype=typescript
-au BufHidden,CursorMovedI,InsertLeave * :wa
+au InsertLeave *.ts,*.js :wa
