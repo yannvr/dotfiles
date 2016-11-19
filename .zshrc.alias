@@ -5,7 +5,6 @@ a v="nvim"
 a rm='rm -f'
 a wget='wget -c'
 a p='n-panelize'
-a grep='ag'
 a G='grep -nrIi'
 a b='brew'
 a realias='source ~/.zshrc.alias'
@@ -29,3 +28,8 @@ a nvp="nvim --noplugin"
 a vp="vim --noplugin"
 a nvo="nvim -c OpenSession"
 a v='nvim -c "set noautochdir" --cmd "set noautochdir"'
+
+# Git
+unalias gpoat
+a gpr='git pull -r'
+a gpot='git push origin'
