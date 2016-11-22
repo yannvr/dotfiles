@@ -74,6 +74,7 @@ NeoBundle 'neomake/neomake'
 
 "  Javascript
 NeoBundleLazy 'pangloss/vim-javascript', {'filetypes': ['javascript']}
+NeoBundle 'mxw/vim-jsx'
 NeoBundleLazy 'kchmck/vim-coffee-script', {'filetypes': ['coffeescript']}
 
 call neobundle#end()
