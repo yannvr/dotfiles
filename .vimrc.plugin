@@ -61,6 +61,7 @@ NeoBundleLazy 'elzr/vim-json', {'filetypes': ['json']}
 " NeoBundle 'terryma/vim-multiple-cursors'
 
 " Others
+" NeoBundle 'gioele/vim-autoswap'
 NeoBundle 'xolox/vim-misc'
 NeoBundle 'xolox/vim-session'
 NeoBundle 'powerline/fonts'
@@ -74,7 +75,7 @@ NeoBundle 'neomake/neomake'
 
 "  Javascript
 NeoBundleLazy 'pangloss/vim-javascript', {'filetypes': ['javascript']}
-NeoBundle 'mxw/vim-jsx'
+NeoBundleLazy 'mxw/vim-jsx', {'filetypes': ['javascript']}
 NeoBundleLazy 'kchmck/vim-coffee-script', {'filetypes': ['coffeescript']}
 
 call neobundle#end()
