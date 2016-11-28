@@ -1,6 +1,6 @@
 autocmd BufNewFile,BufRead *.html set filetype=html
 autocmd BufNewFile,BufRead *.coffee set filetype=coffee
-autocmd BufWinEnter,WinEnter term://* startinsert
+" autocmd BufWinEnter,WinEnter term://* startinsert
 
 au BufRead,BufNewFile .vimrc* setfiletype vim
 au BufNew,BufRead javascript, *.ts setlocal omnifunc=javascriptcomplete#CompleteJS
