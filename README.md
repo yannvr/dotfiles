@@ -20,6 +20,7 @@ Requirements:
 * ZSH shell: ```brew install zsh```
 * Neovim: ```brew install neovim/neovim/neovim```
 * Python support is recommended. With Python2: 
+* iTerm2 schemes (optional): https://github.com/mbadolato/iTerm2-Color-Schemes/
 ```
 sudo pip2 install --upgrade neovim
 ```
