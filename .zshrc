@@ -46,7 +46,7 @@ ZSH_THEME="steeef"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 
-plugins=(git fzf bower brew npm colorize command-not-found colored-man-pages history frontend-search brew git-extra zsh_reload themes meteor grunt cp gem command-not-found cp redis-cli fuck jira zsh-navigation-tools git-flow node docker docker-compose aws codeclimate)
+plugins=(git fzf fzf-marks bower brew npm colorize command-not-found colored-man-pages history frontend-search brew git-extra zsh_reload themes cp command-not-found cp fuck zsh-navigation-tools node docker docker-compose aws fzf-marks)
 source $ZSH/oh-my-zsh.sh
 
 # User configuration

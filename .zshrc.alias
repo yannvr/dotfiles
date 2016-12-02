@@ -35,3 +35,4 @@ a v='nvim -c "set noautochdir" --cmd "set noautochdir"'
 unalias gpoat
 a gpr='git pull -r'
 a gpot='git push origin'
+a gca='git commit --amend --no-edit'
