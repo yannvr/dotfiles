@@ -38,7 +38,7 @@ nnoremap <Space> i_<Esc>r
 
 "Vim
 nnoremap <leader>R :source ~/.vimrc<CR>
-nnoremap <Leader>e :Lexplore<CR>
+nnoremap <Leader>e :Lexplore<CR>c
 
 "Sessions
 "S-L
@@ -58,7 +58,8 @@ nnoremap <space>s :Unite -quick-match buffer<cr>
 "IDE commands like
 " S-F
 nnoremap Ï :AgBuffer
-
+" S-s
+nnoremap ß :Ag --js
 " S-f
 nnoremap ƒ :Ag
 " S-o
