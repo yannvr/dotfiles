@@ -16,8 +16,8 @@ else
 endif
 
 NeoBundle      'majutsushi/tagbar'
-" NeoBundle 'SirVer/ultisnips'
-" NeoBundle 'honza/vim-snippets'
+NeoBundle 'SirVer/ultisnips'
+NeoBundle 'honza/vim-snippets'
 NeoBundle      'rking/ag.vim'
 
 NeoBundle      'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
