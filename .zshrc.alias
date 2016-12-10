@@ -31,7 +31,6 @@ a nvo="nvim -c OpenSession"
 a v='nvim -c "set noautochdir" --cmd "set noautochdir"'
 
 # Git
-unalias gpoat
 a gpr='git pull -r'
 a gpot='git push origin && git push origin --tags'
 a gca='git commit --amend --no-edit'
