@@ -81,16 +81,6 @@ set whichwrap=b,s,h,l,<,>,[,]   " Backspace and cursor keys wrap too
 set list
 set listchars=tab:›\ ,trail:•,extends:#,nbsp:. " Highlight problematic whitespace
 
-"set matchpairs+=<:>             " Match, to be used with %
-"set comments=sl:/*,mb:*,elx:*/  " auto format comment blocks
-" Remove trailing whitespaces and ^M chars
-" To disable the stripping of whitespace, add the following to your
-" .vimrc.before.local file:
-"   let g:spf13_keep_trailing_whitespace = 1
-"autocmd FileType go autocmd BufWritePre <buffer> Fmt
-" preceding line best in a plugin but here for now.
-
-
 " Easier moving in tabs and windows
 " The lines conflict with the default digraph mapping of <C-K>
 " If you prefer that functionality, add the following to your
@@ -154,28 +144,6 @@ if gitroot != ''
 endif
 "
 
-" Tabularize
-nmap <Leader>a& :Tabularize /&<CR>
-vmap <Leader>a& :Tabularize /&<CR>
-nmap <Leader>a= :Tabularize /^[^=]*\zs=<CR>
-vmap <Leader>a= :Tabularize /^[^=]*\zs=<CR>
-nmap <Leader>a=> :Tabularize /=><CR>
-vmap <Leader>a=> :Tabularize /=><CR>
-nmap <Leader>a: :Tabularize /:<CR>
-vmap <Leader>a: :Tabularize /:<CR>
-nmap <Leader>a:: :Tabularize /:\zs<CR>
-vmap <Leader>a:: :Tabularize /:\zs<CR>
-nmap <Leader>a, :Tabularize /,<CR>
-vmap <Leader>a, :Tabularize /,<CR>
-nmap <Leader>a,, :Tabularize /,\zs<CR>
-vmap <Leader>a,, :Tabularize /,\zs<CR>
-nmap <Leader>a<Bar> :Tabularize /<Bar><CR>
-vmap <Leader>a<Bar> :Tabularize /<Bar><CR>
-"
-" JSON
-nmap <leader>jt <Esc>:%!python -m json.tool<CR><Esc>:set filetype=json<CR>
-let g:vim_json_syntax_conceal = 0
-"
 
 " PyMode
 " Disable if python support not present
@@ -208,7 +176,6 @@ if isdirectory(expand("~/.vim/bundle/vim-fugitive/"))
     nnoremap <silent> <leader>ge :Gedit<CR>
     " Mnemonic _i_nteractive
     nnoremap <silent> <leader>gi :Git add -p %<CR>
-    nnoremap <silent> <leader>gg :SignifyToggle<CR>
 endif
 
 

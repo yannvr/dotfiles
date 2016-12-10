@@ -6,6 +6,7 @@ export FZF_ALT_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export NVM_DIR="/Users/yannvallery-radot/.nvm"
 
 export NVIM_TUI_ENABLE_TRUE_COLOR=1
+export EDTIOR=/usr/local/bin/nvim
 
 # _gen_fzf_default_opts() {
 #   local base03="234"
@@ -47,3 +48,7 @@ if [ -f /usr/local/opt/nvm/nvm.sh ]; then
     . "/usr/local/opt/nvm/nvm.sh"
 fi
 
+export PYENV_ROOT="$HOME/.pyenv"
+export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
+eval "$(pyenv virtualenv-init -)"
