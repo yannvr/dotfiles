@@ -1,5 +1,4 @@
 alias a="alias"
-a gpoat="git push origin && git push origin --tags"
 a dateh="date +%Y-%m-%d_%H-%M"
 a v="nvim"
 a rm='rm -f'
@@ -17,7 +16,7 @@ a gp='git pull'
 a tf='tail -f'
 a dotfiles='v ~/dotfiles'
 # github
-a clone-rep="cd ~/dev/cloned && gcl ${1}"
+a clone-rep="f() {take ${1} && gcl ${1} && cd ${1}"
 
 a myip="ifconfig | grep 'inet ' | grep -v 127.0.0.1 | cut -d\   -f2"
 a ip="curl icanhazip.com" # Your public IP address
@@ -34,5 +33,8 @@ a v='nvim -c "set noautochdir" --cmd "set noautochdir"'
 # Git
 unalias gpoat
 a gpr='git pull -r'
-a gpot='git push origin'
+a gpot='git push origin && git push origin --tags'
 a gca='git commit --amend --no-edit'
+a gcommit='f() { git add -v ${1} && git commit --message="${2}"  };f'
+a grf='f() { git reset ${1} };f'
+a gcommit-and-push='f() {git add -v ${1} && git commit --message="${2}" && git push};f'
