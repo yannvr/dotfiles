@@ -16,7 +16,13 @@ a gp='git pull'
 a tf='tail -f'
 a dotfiles='v ~/dotfiles'
 # github
-a clone-rep="f() {take ${1} && gcl ${1} && cd ${1}"
+a clone-rep='f() {
+  cd ~/dev/cloned && gcl ${1}
+  repo=`echo ${x} | cut -d / -f 5`
+  cd ${repo}
+  npm install
+};
+f'
 
 a myip="ifconfig | grep 'inet ' | grep -v 127.0.0.1 | cut -d\   -f2"
 a ip="curl icanhazip.com" # Your public IP address
