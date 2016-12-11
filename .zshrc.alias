@@ -4,31 +4,26 @@ a v="nvim"
 a rm='rm -f'
 a wget='wget -c'
 a p='n-panelize'
-a G='grep -nrIi'
 a b='brew'
-a realias='source ~/.zshrc.alias'
-a reload='source ~/.zshrc && echo "feeling fresh now"'
 a n='npm'
 a k9='killall -9'
 a ka='killall'
 a nr='npm run'
-a gp='git pull'
 a tf='tail -f'
 a dotfiles='v ~/dotfiles'
-# github
-a clone-rep='f() {
-  cd ~/dev/cloned && gcl ${1}
-  repo=`echo ${x} | cut -d / -f 5`
-  cd ${repo}
-  npm install
-};
-f'
 
+# ZSH
+a realias='source ~/.zshrc.alias'
+a reload='source ~/.zshrc && echo "feeling fresh now"'
+
+# Network
 a myip="ifconfig | grep 'inet ' | grep -v 127.0.0.1 | cut -d\   -f2"
 a ip="curl icanhazip.com" # Your public IP address
 
+# Admin. See also: zshtips.html
 a large-files="du -ah . | sort -nr | head"
 
+# Vim
 a nv="nvim -c OpenSession -c 'set noautochdir'"
 a vv="vim -c OpenSession -c 'set noautochdir'"
 a nvp="nvim --noplugin"
@@ -43,3 +38,20 @@ a gca='git commit --amend --no-edit'
 a gcommit='f() { git add -v ${1} && git commit --message="${2}"  };f'
 a grf='f() { git reset ${1} };f'
 a gcommit-and-push='f() {git add -v ${1} && git commit --message="${2}" && git push};f'
+
+# Github
+a clone-rep='f() {
+  cd ~/dev/cloned && gcl ${1} &&
+  repo=`echo ${x} | cut -d / -f 5`
+  cd ${repo}
+};
+f'
+
+a clone-rep-and-install='f() {
+  cd ~/dev/cloned && gcl ${1} &&
+  repo=`echo ${x} | cut -d / -f 5`
+  cd ${repo}
+  npm install
+};
+f'
+
