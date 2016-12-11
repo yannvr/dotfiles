@@ -41,15 +41,16 @@ a gcommit-and-push='f() {git add -v ${1} && git commit --message="${2}" && git p
 
 # Github
 a clone-rep='f() {
-  cd ~/dev/cloned && gcl ${1} &&
-  repo=`echo ${x} | cut -d / -f 5`
+  cd ~/dev/cloned
+  git clone ${1}
+  repo=`echo ${1} | cut -d / -f 5`
   cd ${repo}
 };
 f'
 
 a clone-rep-and-install='f() {
-  cd ~/dev/cloned && gcl ${1} &&
-  repo=`echo ${x} | cut -d / -f 5`
+  cd ~/dev/cloned && gcl ${1}
+  repo=`echo ${1} | cut -d / -f 5`
   cd ${repo}
   npm install
 };
