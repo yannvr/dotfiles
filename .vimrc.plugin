@@ -46,7 +46,6 @@ NeoBundle      'vim-airline/vim-airline-themes'
 
 " Editing
 NeoBundle      'junegunn/vim-easy-align'
-
 NeoBundle      'tpope/vim-surround'
 NeoBundle      'tpope/vim-repeat'
 NeoBundle      'rhysd/conflict-marker.vim'
