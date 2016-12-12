@@ -65,7 +65,9 @@ nnoremap ƒ :Ag
 " S-o
 nnoremap ø :FZF<CR>
 
-" format
+" Format
+nnoremap <Leader>fr :set relativenumber<CR>
+nnoremap <Leader>fR :set norelativenumber<CR>
 nnoremap <Leader>fn :set number<CR>
 nnoremap <Leader>fN :set nonumber<CR>
 nnoremap <Leader>fs :set wrap<CR>
