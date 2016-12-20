@@ -12,6 +12,9 @@ a nr='npm run'
 a tf='tail -f'
 a dotfiles='v ~/dotfiles'
 
+# NPM
+a ni='npm install'
+
 # ZSH
 a realias='source ~/.zshrc.alias'
 a reload='source ~/.zshrc && echo "feeling fresh now"'
@@ -21,6 +24,8 @@ a myip="ifconfig | grep 'inet ' | grep -v 127.0.0.1 | cut -d\   -f2"
 a ip="curl icanhazip.com" # Your public IP address
 
 # Admin. See also: zshtips.html
+# Requires GNU find: brew install findutils. Slow one
+a large-files-vis="gfind . -mount -type f -printf "%k %p\n" | sort -rg | cut -d \  -f 2- | xargs -I {} du -sh {} | less"
 a large-files="du -ah . | sort -nr | head"
 
 # Vim
