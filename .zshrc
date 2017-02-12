@@ -48,7 +48,8 @@ ZSH_THEME="steeef"
 
 # Custom plugin: https://github.com/urbainvaes/fzf-marks
 
-plugins=(git fzf fzf-marks bower brew npm colorize command-not-found colored-man-pages history frontend-search brew git-extra zsh_reload themes cp command-not-found cp fuck zsh-navigation-tools node docker docker-compose aws fzf-marks)
+plugins=(git fzf brew npm colored-man-pages history zsh_reload themes cp fuck zsh-navigation-tools node aws fzf-marks)
+# plugins=(git fzf brew npm colored-man-pages history git-extra zsh_reload themes cp fuck zsh-navigation-tools node docker docker-compose aws fzf-marks)
 source $ZSH/oh-my-zsh.sh
 
 # User configuration
@@ -95,10 +96,9 @@ export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:"
 
 #eval $(docker-machine env default)
 
-# added by travis gem
-[ -f ~/.travis/travis.sh ] && source ~/.travis/travis.sh
-
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+# [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 [ -f ~/.zshrc.local ] && source ~/.zshrc.local
 [ -f ~/.zshrc-e ] && source ~/.zshrc-e
 [ -f ~/.zshrc.private ] && source ~/.zshrc.private
+
+eval "`npm completion`"
