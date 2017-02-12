@@ -4222,13 +4222,13 @@
 	<key>NSWindow Frame SUUpdateAlert</key>
 	<string>382 1548 620 392 -268 1050 1920 1057 </string>
 	<key>NSWindow Frame SessionsPreferences</key>
-	<string>277 1981 606 456 -494 1050 2560 1417 </string>
+	<string>277 2153 606 456 -494 1200 2560 1440 </string>
 	<key>NSWindow Frame SharedPreferences</key>
-	<string>98 524 796 473 0 0 1680 1027 </string>
+	<string>72 383 796 473 0 0 1440 877 </string>
 	<key>NSWindow Frame UKCrashReporter</key>
 	<string>1240 1658 592 584 -494 1050 2560 1417 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
-	<string>838 0 954 1027 0 0 1680 1027 </string>
+	<string>0 13 1431 864 0 0 1440 877 </string>
 	<key>NSWindow Frame iTerm Window 1</key>
 	<string>118 1007 570 427 -129 900 1920 1057 </string>
 	<key>NSWindow Frame iTerm Window 2</key>
@@ -6000,7 +6000,7 @@
 			<key>Idle Code</key>
 			<integer>0</integer>
 			<key>Initial Text</key>
-			<string></string>
+			<string>nvm use v4.4.6</string>
 			<key>Jobs to Ignore</key>
 			<array>
 				<string>rlogin</string>
@@ -6710,7 +6710,7 @@
 			<key>Idle Code</key>
 			<integer>0</integer>
 			<key>Initial Text</key>
-			<string></string>
+			<string>nvm use v4.4.6</string>
 			<key>Jobs to Ignore</key>
 			<array>
 				<string>rlogin</string>
@@ -8019,7 +8019,7 @@
 	<key>SUHasLaunchedBefore</key>
 	<true/>
 	<key>SULastCheckTime</key>
-	<date>2017-01-04T10:11:04Z</date>
+	<date>2017-02-08T17:10:00Z</date>
 	<key>SavePasteHistory</key>
 	<true/>
 	<key>ShowBookmarkName</key>
@@ -10541,7 +10541,7 @@
 	<key>findRegex_iTerm</key>
 	<false/>
 	<key>iTerm Version</key>
-	<string>3.0.13</string>
+	<string>3.0.14</string>
 	<key>kCPKSelectionViewPreferredModeKey</key>
 	<integer>0</integer>
 	<key>kCPKSelectionViewShowHSBTextFieldsKey</key>
