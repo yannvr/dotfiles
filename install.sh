@@ -14,19 +14,27 @@ bkpDir="~/bkp/dotfiles-${date}"
 mkdir -p ${bkpDir}
 echo "Backing up overriden dotfiles in ${bkpDir}"
 
-for i in `find .* -depth 0 -type f`; do
+if [[ "$OSTYPE" == darwin* ]]; then
+    listFilesCmd=`find .* -depth 0 -type f`
+else
+    #GNU (linux)
+    listFilesCmd=`find .* -maxdepth 0 -type f`
+fi
+
+for i in $listFilesCmd; do
     mv ~/${i} ${bkpDir} 2&>1 > /dev/null
-    ln -s ~/dotfiles/${i} ~/${i} 2&>1 > /dev/null
+    cp ${i} ~/${i} 2&>1 > /dev/null
 done
 
 # Takes care of this big gotcha using neovim..
-`ln -s ~/.vim ~/.config/nvim`
-`ln -s ~/.vimrc ~/.config/nvim/init.vim`
+ln -s ~/.vim ~/.config/nvim 2&>1 > /dev/null
+ln -s ~/.vimrc ~/.config/nvim/init.vim 2&>1 > /dev/null
+
 if [ $? -ne 0  ]; then echo 'LINKING NVIM config to an existing config failed. Ignore '; fi
 
 echo "\ndotfiles are linked!"
 
-echo "Do you want to setup your environment?"
+echo "Do you want to setup your environment? (y/n)"
 read setup
 
 if [ $setup != 'y' ]; then
@@ -70,15 +78,30 @@ if [ $ohmyzsh = 'y' ]; then
 fi
 
 
-echo "Install brew dependencies? (y/n)"
-read brew
+if [[ "$OSTYPE" == darwin* ]]; then
+    listFilesCmd=`find .* -depth 0 -type f`
+    echo "Install brew dependencies? (y/n)"
+    read brew
 
-if [ $brew = 'y' ]; then
-    brew update
-    brew install nvm
-    brew install neovim
-    brew install fzf
-    brew install ag
+    if [ $brew = 'y' ]; then
+        brew update
+        brew install nvm
+        brew install neovim
+        brew install fzf
+        brew install ag
+    fi
+
+    # TODO: Install brews and osx default setting
+
+    # echo "Do you want to fix some annoying osx default settings (y/n)"
+    # read osx
+
+    # if [ $osx = 'y' ]; then
+    #     echo "Installing minor osx default settings"
+    #     git clone https://github.com/lifepillar/vim-solarized8.git/ /tmp/vim-solarized8
+    #     mkdir ~/.vim/colors 2&>1 > /dev/null
+    #     mv /tmp/vim-solarized8/colors/*.vim ~/.vim/colors
+    # fi
 fi
 
 echo "You can install Vim/Neovim plugins now or next time you unleash the beast"
@@ -91,7 +114,7 @@ if [ $vimplugins = 'y' ]; then
     vim -c :NeoBundleInstall
 fi
 
-echo "Install Solarized8 (true colors)?"
+echo "Install Solarized8 (true colors)? (y/n)"
 
 read solarized8
 
@@ -102,15 +125,4 @@ if [ $solarized8 = 'y' ]; then
     mv /tmp/vim-solarized8/colors/*.vim ~/.vim/colors
 fi
 
-# TODO: Install brews and osx default setting
-
-# echo "Do you want to fix some annoying osx default settings (y/n)"
-# read osx
-
-# if [ $osx = 'y' ]; then
-#     echo "Installing minor osx default settings"
-#     git clone https://github.com/lifepillar/vim-solarized8.git/ /tmp/vim-solarized8
-#     mkdir ~/.vim/colors 2&>1 > /dev/null
-#     mv /tmp/vim-solarized8/colors/*.vim ~/.vim/colors
-# fi
 echo -e "\n\nIt's Jagertime!"

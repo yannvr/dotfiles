@@ -13,7 +13,7 @@ Get setup for coding from ground zero with NeoVim and ZSH!
 
 Installation (from your home dir):
 ```
-./dotfiles/install.sh
+./install.sh
 ```
 
 Requirements:
