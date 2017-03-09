@@ -48,8 +48,8 @@ ZSH_THEME="steeef"
 
 # Custom plugin: https://github.com/urbainvaes/fzf-marks
 
-plugins=(git fzf brew npm colored-man-pages history zsh_reload themes cp fuck zsh-navigation-tools node aws fzf-marks)
-# plugins=(git fzf brew npm colored-man-pages history git-extra zsh_reload themes cp fuck zsh-navigation-tools node docker docker-compose aws fzf-marks)
+# plugins=(git fzf brew npm colored-man-pages history zsh_reload themes cp fuck zsh-navigation-tools node aws fzf-marks)
+plugins=(git fzf brew npm colored-man-pages history git-extra zsh_reload themes cp fuck zsh-navigation-tools node docker docker-compose aws fzf-marks)
 source $ZSH/oh-my-zsh.sh
 
 # User configuration
@@ -102,3 +102,5 @@ export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:"
 [ -f ~/.zshrc.private ] && source ~/.zshrc.private
 
 eval "`npm completion`"
+
+export PATH="$HOME/.yarn/bin:$PATH"
