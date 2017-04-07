@@ -14,6 +14,18 @@ map ≥ df.
 map ˙ <F1>
 nnoremap <Leader>m :messages<CR>
 
+" stop yanking on changes
+nnoremap <leader>C "_C
+vnoremap <leader>C "_C
+
+nnoremap <leader>D "_D
+vnoremap <leader>D "_D
+
+
+nnoremap <leader>d "_d
+vnoremap <leader>d "_d
+vnoremap <leader>p "_dP
+
 " Buffers
 nnoremap … :w<CR>
 nnoremap ¡ :buf1<CR>

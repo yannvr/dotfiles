@@ -40,7 +40,6 @@ NeoBundleLazy 'simnalamburt/vim-mundo'
 NeoBundle     'easymotion/vim-easymotion'
 NeoBundle     'jlanzarotta/bufexplorer'
 NeoBundle     'numkil/ag.nvim'
-'
 
 " Themes
 NeoBundle      'vim-airline/vim-airline'

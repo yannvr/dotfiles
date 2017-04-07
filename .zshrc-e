@@ -54,3 +54,8 @@ if [ hash pyeven 2>/dev/null ]; then
   eval "$(pyenv init -)" 2&>1 > /dev/null
   eval "$(pyenv virtualenv-init -)" 2&>1 > /dev/null
 fi
+
+# Source chtf
+if [[ -f /usr/local/share/chtf/chtf.sh ]]; then
+    source "/usr/local/share/chtf/chtf.sh"
+fi

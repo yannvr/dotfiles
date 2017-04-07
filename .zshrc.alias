@@ -7,7 +7,7 @@ a p='n-panelize'
 a b='brew'
 a n='npm'
 a ka='killall'
-a k9='f() { killall -9 {1}};f'
+a k9='f() { killall -9 ${1}};f'
 a large-files="du -ah . | sort -nr | head"
 
 # Vim
