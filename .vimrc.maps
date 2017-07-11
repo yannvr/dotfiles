@@ -5,6 +5,7 @@ endif
 
 imap jj <Esc>
 
+imap <leader><leader> <C-y>,<CR>
 " multiple cursors to remap
 "" Map start key separately from next key
 "inoremap <expr><C-l>     neocomplete#complete_common_string()
@@ -17,6 +18,9 @@ nnoremap <Leader>m :messages<CR>
 " stop yanking on changes
 nnoremap <leader>C "_C
 vnoremap <leader>C "_C
+
+nnoremap <leader>c "_c
+vnoremap <leader>c "_c
 
 nnoremap <leader>D "_D
 vnoremap <leader>D "_D
@@ -86,6 +90,8 @@ nnoremap <Leader>fn :set number<CR>
 nnoremap <Leader>fN :set nonumber<CR>
 nnoremap <Leader>fs :set wrap<CR>
 nnoremap <Leader>fS :set nowrap<CR>
+
+
 
 "Buffer nav
 nnoremap ı :Bdelete!<CR>

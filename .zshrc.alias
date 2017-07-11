@@ -29,7 +29,7 @@ a gcommit-and-push='f() {git add -v ${1} && git commit --message="${2}" && git p
 # Github
 a clone-rep='f() {
   cd ~/dev/cloned
-  git clone ${1}
+  git clone --depth=1 ${1}
   repo=`echo ${1} | cut -d / -f 5`
   cd ${repo}
 };
