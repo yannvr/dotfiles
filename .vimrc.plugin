@@ -33,7 +33,7 @@ NeoBundleLazy  'HerringtonDarkholme/yats.vim', {'filetypes': ['typescript']}
 
 " Coding
 NeoBundle     'editorconfig/editorconfig-vim'
-NeoBundle     'mattn/emmet-vim'
+NeoBundleLazy  'mattn/emmet-vim', {'filetypes': ['html']}
 NeoBundleLazy 'simnalamburt/vim-mundo'
 
 " Nav
