@@ -25,3 +25,5 @@
 [user]
 	name = Yann VR
 	email = yannvr@gmail.com
+[help]
+	autocorrect = -1
