@@ -11,8 +11,9 @@ a k9='f() { killall -9 ${1}};f'
 a large-files="du -ah . | sort -nr | head"
 
 # Vim
-a nv="nvim -c OpenSession -c 'set noautochdir'"
-a vv="vim -c OpenSession -c 'set noautochdir'"
+# a nv="nvim -c OpenSession -c 'set noautochdir'"
+a nv="nvim -c OpenSession"
+a vv="vim -c OpenSession"
 a nvp="nvim --noplugin"
 a vp="vim --noplugin"
 a nvo="nvim -c OpenSession"

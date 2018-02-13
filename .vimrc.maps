@@ -77,7 +77,8 @@ nnoremap <space>s :Unite -quick-match buffer<cr>
 " S-F
 nnoremap Ï :AgBuffer
 " S-s
-nnoremap ß :Ag --js
+nnoremap ∆ :Ag --js
+
 " S-f
 nnoremap ƒ :Ag
 " S-o
