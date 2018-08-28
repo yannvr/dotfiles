@@ -29,7 +29,7 @@
 	<key>CheckTestRelease</key>
 	<true/>
 	<key>CloseBookmarksWindowAfterOpening</key>
-	<true/>
+	<false/>
 	<key>ClosingHotkeySwitchesSpaces</key>
 	<true/>
 	<key>CommandSelection</key>
@@ -4222,7 +4222,7 @@
 	<key>NSWindow Frame Preferences</key>
 	<string>274 570 606 456 0 0 1680 1027 </string>
 	<key>NSWindow Frame ProfilesPanel</key>
-	<string>557 437 735 382 0 0 1680 1050 </string>
+	<string>553 349 735 382 0 0 1920 1080 </string>
 	<key>NSWindow Frame SUStatusFrame</key>
 	<string>638 673 400 129 0 0 1680 1027 </string>
 	<key>NSWindow Frame SUUpdateAlert</key>
@@ -4230,11 +4230,11 @@
 	<key>NSWindow Frame SessionsPreferences</key>
 	<string>108 336 606 469 0 0 1680 1050 </string>
 	<key>NSWindow Frame SharedPreferences</key>
-	<string>448 336 796 473 0 0 1440 900 </string>
+	<string>1073 -407 770 429 0 0 1440 900 </string>
 	<key>NSWindow Frame UKCrashReporter</key>
 	<string>747 231 592 584 0 0 1440 900 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
-	<string>-120 1065 1680 1050 -240 1050 1920 1080 </string>
+	<string>304 175 948 658 0 0 1440 900 </string>
 	<key>NSWindow Frame iTerm Window 1</key>
 	<string>118 1007 570 427 -129 900 1920 1057 </string>
 	<key>NSWindow Frame iTerm Window 2</key>
@@ -7335,7 +7335,7 @@
 	<key>SUHasLaunchedBefore</key>
 	<true/>
 	<key>SULastCheckTime</key>
-	<date>2018-01-10T01:09:29Z</date>
+	<date>2018-05-31T21:42:33Z</date>
 	<key>SavePasteHistory</key>
 	<true/>
 	<key>Secure Input</key>
@@ -14149,7 +14149,7 @@
 	<key>findRegex_iTerm</key>
 	<false/>
 	<key>iTerm Version</key>
-	<string>3.1.5.beta.2</string>
+	<string>3.1.6beta5</string>
 	<key>kCPKSelectionViewPreferredModeKey</key>
 	<integer>0</integer>
 	<key>kCPKSelectionViewShowHSBTextFieldsKey</key>

@@ -1,6 +1,6 @@
 [core]
 	excludesfile = ~/.gitignore_global
-	autocrlf = false
+	autocrlf = input
 	editor = /usr/local/bin/nvim
 [difftool "sourcetree"]
 	cmd = opendiff \"$LOCAL\" \"$REMOTE\"

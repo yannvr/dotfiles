@@ -10,26 +10,19 @@ NeoBundle   'Shougo/neosnippet-snippets'
 
 if          has('nvim')
   NeoBundle 'Shougo/deoplete.nvim', { 'do': ':UpdateRemoteNeoBundleins' }
-  NeoBundle 'fntlnz/atags.vim'
 else
   NeoBundle 'Shougo/neocomplete.vim'
 endif
 
-" NeoBundle   'majutsushi/tagbar'
 NeoBundle     'SirVer/ultisnips'
 NeoBundle     'honza/vim-snippets'
-NeoBundle     'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+NeoBundle     'junegunn/fzf'
 NeoBundle     'tpope/vim-fugitive'
 
 " NeoBundle 'Valloric/MatchTagAlways', {'filetypes': ['html', 'xml', 'xhtml']}
 
 NeoBundle     'moll/vim-bbye'
 NeoBundle     'tpope/vim-commentary'
-
-" Typescript
-NeoBundleLazy 'leafgarland/typescript-vim', {'filetypes': ['typescript']}
-NeoBundleLazy 'Quramy/tsuquyomi', {'filetypes': ['typescript']}
-NeoBundleLazy 'HerringtonDarkholme/yats.vim', {'filetypes': ['typescript']}
 
 " Coding
 NeoBundle     'editorconfig/editorconfig-vim'
@@ -75,7 +68,7 @@ NeoBundleLazy 'groenewege/vim-less', {'filetypes': ['less']}
 "  Javascript
 NeoBundleLazy 'pangloss/vim-javascript', {'filetypes': ['javascript']}
 NeoBundleLazy 'mxw/vim-jsx', {'filetypes': ['javascript']}
-NeoBundleLazy 'kchmck/vim-coffee-script', {'filetypes': ['coffeescript']}
+" NeoBundleLazy 'kchmck/vim-coffee-script', {'filetypes': ['coffeescript']}
 
 call          neobundle#end()
 

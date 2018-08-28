@@ -59,6 +59,8 @@ nnoremap <Space> i_<Esc>r
 nnoremap <leader>R :source ~/.vimrc<CR>
 nnoremap <Leader>e :Lexplore<CR>c
 
+" map :convertLineEnding<<CR>%s/\r/\r/g<CR>
+
 "Sessions
 "S-L
 nnoremap ¬ :OpenSession<CR>
