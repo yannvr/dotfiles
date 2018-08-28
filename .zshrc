@@ -83,10 +83,10 @@ export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:"
 #
 #parent Color conflict with prediction https://github.com/tarruda/zsh-autosuggestions
 # Load zsh-syntax-highlighting.
-source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+# source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 # Load zsh-autosuggestions.
-source ~/.zsh/zsh-autosuggestions/autosuggestions.zsh
+# source ~/.zsh/zsh-autosuggestions/autosuggestions.zsh
 
 # Enable autosuggestions automatically.
 #zle-line-init() {
@@ -98,14 +98,14 @@ source ~/.zsh/zsh-autosuggestions/autosuggestions.zsh
 
 #eval $(docker-machine env default)
 
+[ -f ~/.zshrc-e ] && source ~/.zshrc-e
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 [ -f ~/.zshrc.local ] && source ~/.zshrc.local
-[ -f ~/.zshrc-e ] && source ~/.zshrc-e
 [ -f ~/.zshrc.private ] && source ~/.zshrc.private
 
 eval "`npm completion`"
 
-export PATH="$HOME/.yarn/bin:$PATH"
+# export PATH="$HOME/.yarn/bin:$PATH"
 
 # tabtab source for serverless package
 # uninstall by removing these lines or running `tabtab uninstall serverless`

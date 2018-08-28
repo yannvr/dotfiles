@@ -7,6 +7,7 @@ export NVM_DIR="/Users/yannvallery-radot/.nvm"
 
 export NVIM_TUI_ENABLE_TRUE_COLOR=1
 export EDTIOR=/usr/local/bin/nvim
+export PYTHONPATH=/usr/local/bin/python3
 
 # _gen_fzf_default_opts() {
 #   local base03="234"
@@ -59,3 +60,5 @@ fi
 if [[ -f /usr/local/share/chtf/chtf.sh ]]; then
     source "/usr/local/share/chtf/chtf.sh"
 fi
+
+eval $(thefuck --alias)
