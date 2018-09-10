@@ -56,6 +56,8 @@ if [ hash pyeven 2>/dev/null ]; then
   eval "$(pyenv virtualenv-init -)" 2&>1 > /dev/null
 fi
 
+export PATH=~/Library/Python/3.7/bin:$PATH
+
 # Source chtf
 if [[ -f /usr/local/share/chtf/chtf.sh ]]; then
     source "/usr/local/share/chtf/chtf.sh"

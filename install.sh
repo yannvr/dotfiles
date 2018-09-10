@@ -35,6 +35,7 @@ ln -s ~/.vimrc ~/.config/nvim/init.vim 2&>1 > /dev/null
 if [ $? -ne 0  ]; then echo 'LINKING NVIM config to an existing config failed. Ignore '; fi
 
 ln -s dotfiles/.vimrc dotfiles/.vimrc.completion dotfiles/.vimrc.conf dotfiles/.vimrc.conf.base dotfiles/.vimrc.filetypes dotfiles/.vimrc.maps dotfiles/.vimrc.plugin dotfiles/.vimrc.plugin.extended .
+ln -s dotfiles/.vimrc.maps .ideavimrc
 ln -s dotfiles/.zshenv dotfiles/.zshrc dotfiles/.zshrc-e dotfiles/.zshrc.alias dotfiles/.zshrc.local .
 
 echo "\ndotfiles are linked!"
