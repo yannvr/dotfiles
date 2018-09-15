@@ -7,10 +7,9 @@ autocmd FileType html imap <tab> <plug>(emmet-expand-abbr)
 au BufRead,BufNewFile .vimrc* setfiletype vim
 au BufNew,BufRead javascript, *.ts setlocal omnifunc=javascriptcomplete#CompleteJS
 au BufRead,BufNewFile *.ts        setlocal filetype=typescript
-au InsertLeave *.ts,*.js,*.html,*.jade,*.pug,.* :wa
+" au InsertLeave *.ts,*.js,*.html,*.jade,*.pug,.* :wa
 
 " Do not move back cursor to the left after leaving insert
 " let CursorColumnI = 0 "the cursor column position in INSERT
 " autocmd InsertEnter * let CursorColumnI = col('.')
 " autocmd CursorMovedI * let CursorColumnI = col('.')
-" autocmd InsertLeave * if col('.') != CursorColumnI | call cursor(0, col('.')+1) | endif
