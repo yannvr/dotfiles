@@ -20,6 +20,7 @@ a nvo="nvim -c OpenSession"
 a v='nvim -c "set noautochdir" --cmd "set noautochdir"'
 
 # Git
+a gp='git pull'
 a gpr='git pull -r'
 a gpot='git push origin && git push origin --tags'
 a gca='git commit --amend --no-edit'
@@ -30,7 +31,7 @@ a gcommit-and-push='f() {git add -v ${1} && git commit --message="${2}" && git p
 # Github
 a clone-rep='f() {
   cd ~/dev/cloned
-  git clone --depth=1 ${1}
+  git clone ${1}
   repo=`echo ${1} | cut -d / -f 5`
   cd ${repo}
 };
