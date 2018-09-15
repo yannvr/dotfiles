@@ -8,8 +8,10 @@ echo -e '\n\n\n\n\n\n\n\n\n\n'
 unalias date 2&>1 > /dev/null
 
 date=`date +%d_%m_%Y`
-bkpDir="~/bkp/dotfiles-${date}"
+mkdir bkp
+bkpDir="bkp/dotfiles-${date}"
 
+cd $HOME
 
 mkdir -p ${bkpDir}
 echo "Backing up overriden dotfiles in ${bkpDir}"
@@ -23,7 +25,7 @@ fi
 
 for i in $listFilesCmd; do
     mv ~/${i} ${bkpDir} 2&>1 > /dev/null
-    cp ${i} ~/${i} 2&>1 > /dev/null
+    # cp ${i} ~/${i} 2&>1 > /dev/null
 done
 
 # Takes care of this big gotcha using neovim..
@@ -31,6 +33,10 @@ ln -s ~/.vim ~/.config/nvim 2&>1 > /dev/null
 ln -s ~/.vimrc ~/.config/nvim/init.vim 2&>1 > /dev/null
 
 if [ $? -ne 0  ]; then echo 'LINKING NVIM config to an existing config failed. Ignore '; fi
+
+ln -s dotfiles/.vimrc dotfiles/.vimrc.completion dotfiles/.vimrc.conf dotfiles/.vimrc.conf.base dotfiles/.vimrc.filetypes dotfiles/.vimrc.maps dotfiles/.vimrc.plugin dotfiles/.vimrc.plugin.extended .
+ln -s dotfiles/.vimrc.maps .ideavimrc
+ln -s dotfiles/.zshenv dotfiles/.zshrc dotfiles/.zshrc-e dotfiles/.zshrc.alias dotfiles/.zshrc.local .
 
 echo "\ndotfiles are linked!"
 

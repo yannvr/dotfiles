@@ -2,13 +2,11 @@ export FZF_DEFAULT_OPTS='--reverse'
 export FZF_DEFAULT_COMMAND='ag -g ""'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export FZF_ALT_T_COMMAND="$FZF_DEFAULT_COMMAND"
-
 export NVM_DIR="/Users/yannvallery-radot/.nvm"
 # export PS1="%{$(iterm2_prompt_mark)%}"
 
 export NVIM_TUI_ENABLE_TRUE_COLOR=1
 export EDTIOR=/usr/local/bin/vim
-
 if [ -f /usr/local/opt/nvm/nvm.sh ]; then
     export NVM_DIR="$HOME/.nvm"
     . "/usr/local/opt/nvm/nvm.sh"
@@ -21,7 +19,11 @@ if [ hash pyeven 2>/dev/null ]; then
   eval "$(pyenv virtualenv-init -)" 2&>1 > /dev/null
 fi
 
+export PATH=~/Library/Python/3.7/bin:$PATH
+
 # Source chtf
 if [[ -f /usr/local/share/chtf/chtf.sh ]]; then
     source "/usr/local/share/chtf/chtf.sh"
 fi
+
+eval $(thefuck --alias)

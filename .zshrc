@@ -12,7 +12,6 @@ export EDITOR='vim'
 
 source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 source ~/.zsh/zsh-autosuggestions/autosuggestions.zsh
-
 # Enable autosuggestions automatically.
 zle-line-init() {
     zle autosuggest-start
@@ -20,6 +19,7 @@ zle-line-init() {
 
 #eval $(docker-machine env default)
 
+[ -f ~/.zshrc-e ] && source ~/.zshrc-e
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 [ -f ~/.zshrc.alias ] && source ~/.zshrc.alias
 [ -f ~/.zshrc.local ] && source ~/.zshrc.local
@@ -27,7 +27,7 @@ zle-line-init() {
 
 # eval "`npm completion`"
 
-export PATH="$HOME/.yarn/bin:$PATH"
+# export PATH="$HOME/.yarn/bin:$PATH"
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 [ -f ~/.zshrc-e ] && source ~/.zshrc-e
