@@ -19,7 +19,7 @@ source $ZSH/oh-my-zsh.sh
 
 # User configuration
 export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:"
-export EDITOR='vim'
+export EDITOR='nvim'
 
 source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 source ~/.zsh/zsh-autosuggestions/autosuggestions.zsh
