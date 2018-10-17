@@ -1,6 +1,6 @@
 filetype off
 
-set runtimepath+=~/.vim/bundle/neobundle.vim
+set runtimepath+=~/.vim,$VIM/vimfiles,$VIMRUNTIME,/usr/local/Cellar/vim/8.0.0019/share/vim/vim80,~/.vim/bundle/neobundle.vim
 call neobundle#begin(expand('~/.vim/bundle'))
 NeoBundleFetch 'Shougo/neobundle.vim'
 
