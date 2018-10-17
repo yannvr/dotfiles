@@ -1,6 +1,17 @@
 export ZSH=$HOME/.oh-my-zsh
-# ZSH_THEME="steeef"
-ZSH_THEME="peepcode"
+ZSH_THEME="minimal"
+ZSH_THEME="steeef"
+ZSH_THEME="Soliah"
+ZSH_THEME="candy"
+ZSH_THEME="juanghurtado"
+ZSH_THEME="kphoen"
+ZSH_THEME="mortalscumbag"
+ZSH_THEME="murilasso"
+ZSH_THEME="nicoulaj"
+ZSH_THEME="sorin"
+ZSH_THEME="tjkirch"
+ZSH_THEME="nicoulaj"
+# ZSH_THEME="peepcode"
 ENABLE_CORRECTION="false"
 DISABLE_UNTRACKED_FILES_DIRTY="true"
 plugins=(fzf colored-man-pages yarn aws brew cp fuck fzf-marks git history node npm nvm themes web-search zsh-navigation-tools)
@@ -13,9 +24,9 @@ export EDITOR='vim'
 source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 source ~/.zsh/zsh-autosuggestions/autosuggestions.zsh
 # Enable autosuggestions automatically.
-zle-line-init() {
-    zle autosuggest-start
-}
+# zle-line-init() {
+#     zle autosuggest-start
+# }
 
 #eval $(docker-machine env default)
 
@@ -29,6 +40,6 @@ zle-line-init() {
 
 # export PATH="$HOME/.yarn/bin:$PATH"
 
-test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+# test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 [ -f ~/.zshrc-e ] && source ~/.zshrc-e
 

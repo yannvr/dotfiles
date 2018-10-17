@@ -4222,7 +4222,7 @@
 	<key>NSWindow Frame Preferences</key>
 	<string>274 570 606 456 0 0 1680 1027 </string>
 	<key>NSWindow Frame ProfilesPanel</key>
-	<string>553 349 735 382 0 0 1920 1080 </string>
+	<string>441 334 735 382 0 0 1680 1050 </string>
 	<key>NSWindow Frame SUStatusFrame</key>
 	<string>638 673 400 129 0 0 1680 1027 </string>
 	<key>NSWindow Frame SUUpdateAlert</key>
@@ -4230,11 +4230,11 @@
 	<key>NSWindow Frame SessionsPreferences</key>
 	<string>108 336 606 469 0 0 1680 1050 </string>
 	<key>NSWindow Frame SharedPreferences</key>
-	<string>1073 -407 770 429 0 0 1440 900 </string>
+	<string>880 86 796 486 0 0 1920 1080 </string>
 	<key>NSWindow Frame UKCrashReporter</key>
 	<string>747 231 592 584 0 0 1440 900 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
-	<string>304 175 948 658 0 0 1440 900 </string>
+	<string>0 0 1872 1080 0 0 1920 1080 </string>
 	<key>NSWindow Frame iTerm Window 1</key>
 	<string>118 1007 570 427 -129 900 1920 1057 </string>
 	<key>NSWindow Frame iTerm Window 2</key>
@@ -4881,7 +4881,7 @@
 			<key>Screen</key>
 			<integer>-1</integer>
 			<key>Scrollback Lines</key>
-			<integer>1000</integer>
+			<integer>0</integer>
 			<key>Scrollback With Status Bar</key>
 			<false/>
 			<key>Scrollback in Alternate Screen</key>
@@ -7172,7 +7172,7 @@
 	<key>NoSyncInstallationId</key>
 	<string>9BCC3BE7-40F8-4060-BB9A-A4A26B524010</string>
 	<key>NoSyncLastTipTime</key>
-	<real>495800008.86697203</real>
+	<real>558665571.87288702</real>
 	<key>NoSyncNeverRemindPrefsChangesLostForFile</key>
 	<true/>
 	<key>NoSyncNeverRemindPrefsChangesLostForFile_selection</key>
@@ -7258,6 +7258,7 @@
 		<string>0062</string>
 		<string>0063</string>
 		<string>0064</string>
+		<string>0064</string>
 	</array>
 	<key>NoSyncTurnOffMouseReportingOnHostChange</key>
 	<true/>
@@ -7335,7 +7336,7 @@
 	<key>SUHasLaunchedBefore</key>
 	<true/>
 	<key>SULastCheckTime</key>
-	<date>2018-05-31T21:42:33Z</date>
+	<date>2018-09-14T23:49:35Z</date>
 	<key>SavePasteHistory</key>
 	<true/>
 	<key>Secure Input</key>
@@ -7368,6 +7369,7 @@
 	<array>
 		<string>Profiles</string>
 		<string>Paste History</string>
+		<string>Command History</string>
 	</array>
 	<key>TripleClickSelectsFullWrappedLines</key>
 	<false/>
@@ -14149,7 +14151,7 @@
 	<key>findRegex_iTerm</key>
 	<false/>
 	<key>iTerm Version</key>
-	<string>3.1.6beta5</string>
+	<string>3.2.0beta3</string>
 	<key>kCPKSelectionViewPreferredModeKey</key>
 	<integer>0</integer>
 	<key>kCPKSelectionViewShowHSBTextFieldsKey</key>

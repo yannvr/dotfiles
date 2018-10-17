@@ -9,12 +9,12 @@ NeoBundle   'Shougo/neosnippet-snippets'
 " NeoBundle   'Shougo/vimproc.vim',  {'build' : { 'mac' : 'make' }  }
 
 if          has('nvim')
-  NeoBundle 'Shougo/deoplete.nvim', { 'do': ':UpdateRemoteNeoBundleins' }
+  NeoBundle 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 else
   NeoBundle 'Shougo/neocomplete.vim'
 endif
 
-NeoBundle     'SirVer/ultisnips'
+" NeoBundle     'SirVer/ultisnips'
 NeoBundle     'honza/vim-snippets'
 NeoBundle     'junegunn/fzf'
 NeoBundle     'tpope/vim-fugitive'
