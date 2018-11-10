@@ -19,6 +19,10 @@ a vp="vim --noplugin"
 a nvo="nvim -c OpenSession"
 a v='nvim -c "set noautochdir" --cmd "set noautochdir"'
 
+a jtags="ctags -R src && sed -i '' -E '/^(if|switch|function|module\.exports|it|describe).+language:js$/d' tags"
+
+a f='fuck'
+
 # Git
 a gp='git pull'
 a gpr='git pull -r'
