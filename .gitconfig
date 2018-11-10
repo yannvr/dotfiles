@@ -24,3 +24,10 @@
 	default = simple
 [help]
 	autocorrect = -1
+[user]
+	name = Yann VR
+	email = yannvr@gmail.com
+[gpg]
+	program = gpg
+[commit]
+	gpgsign = true

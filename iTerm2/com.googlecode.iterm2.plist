@@ -4234,7 +4234,7 @@
 	<key>NSWindow Frame UKCrashReporter</key>
 	<string>747 231 592 584 0 0 1440 900 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
-	<string>0 0 1872 1080 0 0 1920 1080 </string>
+	<string>755 1044 864 667 -267 900 1920 1080 </string>
 	<key>NSWindow Frame iTerm Window 1</key>
 	<string>118 1007 570 427 -129 900 1920 1057 </string>
 	<key>NSWindow Frame iTerm Window 2</key>
@@ -7336,7 +7336,7 @@
 	<key>SUHasLaunchedBefore</key>
 	<true/>
 	<key>SULastCheckTime</key>
-	<date>2018-09-14T23:49:35Z</date>
+	<date>2018-11-08T23:01:45Z</date>
 	<key>SavePasteHistory</key>
 	<true/>
 	<key>Secure Input</key>
@@ -7367,9 +7367,11 @@
 	<integer>10</integer>
 	<key>ToolbeltTools</key>
 	<array>
-		<string>Profiles</string>
 		<string>Paste History</string>
 		<string>Command History</string>
+		<string>Jobs</string>
+		<string>Recent Directories</string>
+		<string>Captured Output</string>
 	</array>
 	<key>TripleClickSelectsFullWrappedLines</key>
 	<false/>
