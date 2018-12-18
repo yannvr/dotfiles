@@ -29,8 +29,9 @@ for i in $listFilesCmd; do
 done
 
 # Takes care of this big gotcha using neovim..
-ln -s ~/.vim ~/.config/nvim 2&>1 > /dev/null
-ln -s ~/.vimrc ~/.config/nvim/init.vim 2&>1 > /dev/null
+mkdir -p ~/.config/nvim
+ln -s ~/dotfiles/.vim ~/.config/nvim
+ln -s ~/dotfiles/.vimrc ~/.config/nvim/init.vim
 
 if [ $? -ne 0  ]; then echo 'LINKING NVIM config to an existing config failed. Ignore '; fi
 
@@ -85,6 +86,8 @@ fi
 
 
 if [[ "$OSTYPE" == darwin* ]]; then
+    echo "Install brew... "
+    /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
     listFilesCmd=`find .* -depth 0 -type f`
     echo "Install brew dependencies? (y/n)"
     read brew
