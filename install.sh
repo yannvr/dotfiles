@@ -98,6 +98,7 @@ if [[ "$OSTYPE" == darwin* ]]; then
         brew install neovim
         brew install fzf
         brew install ag
+        brew install thefuck
     fi
 
     # TODO: Install brews and osx default setting
