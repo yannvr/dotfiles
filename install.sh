@@ -135,4 +135,7 @@ if [ $solarized8 = 'y' ]; then
     mv /tmp/vim-solarized8/colors/*.vim ~/.vim/colors
 fi
 
+echo "Downloading FiraCode font.Don't forget to install the version you like"
+curl https://github.com/tonsky/FiraCode/releases/download/1.206/FiraCode_1.206.zip --output FiraCode_1.206.zip
+
 echo -e "\n\nIt's Jagertime!"

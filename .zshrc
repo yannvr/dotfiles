@@ -13,6 +13,7 @@ ZSH_THEME="tjkirch"
 ZSH_THEME="nicoulaj"
 
 ZSH_THEME="candy"
+ZSH_THEME="wezm"
 # ZSH_THEME="peepcode"
 ENABLE_CORRECTION="false"
 DISABLE_UNTRACKED_FILES_DIRTY="true"

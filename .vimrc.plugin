@@ -4,6 +4,8 @@ set runtimepath+=~/.vim,$VIM/vimfiles,$VIMRUNTIME,/usr/local/Cellar/vim/8.0.0019
 call neobundle#begin(expand('~/.vim/bundle'))
 NeoBundleFetch 'Shougo/neobundle.vim'
 
+
+NeoBundle   'kaicataldo/material.vim'
 NeoBundle   'Shougo/neosnippet.vim'
 NeoBundle   'Shougo/neosnippet-snippets'
 " NeoBundle   'Shougo/vimproc.vim',  {'build' : { 'mac' : 'make' }  }
