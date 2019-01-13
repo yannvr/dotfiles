@@ -47,3 +47,11 @@ export EDITOR='nvim'
 # test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 [ -f ~/.zshrc-e ] && source ~/.zshrc-e
 
+ZSH_THEME=""
+# autoload -U promptinit; promptinit
+
+# # optionally define some options
+# PURE_CMD_MAX_EXEC_TIME=10
+
+# prompt pure
+

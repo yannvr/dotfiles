@@ -31,7 +31,8 @@ vnoremap <leader>d "_d
 vnoremap <leader>p "_dP
 
 " Buffers
-nnoremap … :w<CR>
+imap … <Esc>:w<CR>
+map … <Esc>:w<CR>
 nnoremap ¡ :buf1<CR>
 nnoremap € :buf2<CR>
 nnoremap # :buf3<CR>
