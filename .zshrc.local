@@ -1,4 +1,4 @@
-bindkey ® fzf-history-widget
+bindkey ® znt-history-widget
 # bindkey ç fzf-cd-widget
 # bindkey † fzf-cd-widget
 
@@ -6,7 +6,7 @@ autoload znt-cd-widget
 zle -N znt-cd-widget
 autoload znt-history-widget
 zle -N znt-history-widget
-bindkey "^R" znt-history-widget
+bindkey "^R" fzf-history-widget
 bindkey "^T" znt-cd-widget
 
 # bindkey '^T' fzf-completion
