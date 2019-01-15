@@ -32,7 +32,7 @@ NeoBundleLazy 'mattn/emmet-vim', {'filetypes': ['html']}
 NeoBundleLazy 'simnalamburt/vim-mundo'
 
 " Nav
-NeoBundle     'easymotion/vim-easymotion'
+" NeoBundle     'easymotion/vim-easymotion'
 NeoBundle     'jlanzarotta/bufexplorer'
 NeoBundle     'numkil/ag.nvim'
 
@@ -69,6 +69,7 @@ NeoBundleLazy 'groenewege/vim-less', {'filetypes': ['less']}
 
 "  Javascript
 NeoBundleLazy 'pangloss/vim-javascript', {'filetypes': ['javascript']}
+NeoBundleLazy 'posva/vim-vue', {'filetypes': ['vue']}
 NeoBundleLazy 'mxw/vim-jsx', {'filetypes': ['javascript']}
 " NeoBundleLazy 'kchmck/vim-coffee-script', {'filetypes': ['coffeescript']}
 
