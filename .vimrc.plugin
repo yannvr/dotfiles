@@ -69,6 +69,7 @@ NeoBundleLazy 'groenewege/vim-less', {'filetypes': ['less']}
 
 "  Javascript
 NeoBundleLazy 'pangloss/vim-javascript', {'filetypes': ['javascript']}
+NeoBundle      'leafgarland/typescript-vim', {'filetypes': ['typescript']}
 NeoBundleLazy 'posva/vim-vue', {'filetypes': ['vue']}
 NeoBundleLazy 'mxw/vim-jsx', {'filetypes': ['javascript']}
 " NeoBundleLazy 'kchmck/vim-coffee-script', {'filetypes': ['coffeescript']}
