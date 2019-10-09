@@ -34,18 +34,18 @@ export EDITOR='nvim'
 
 #eval $(docker-machine env default)
 
-[ -f ~/.zshrc-e ] && source ~/.zshrc-e
+# [ -f ~/.zshrc-e ] && source ~/.zshrc-e
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 [ -f ~/.zshrc.alias ] && source ~/.zshrc.alias
 [ -f ~/.zshrc.local ] && source ~/.zshrc.local
 [ -f ~/.zshrc.private ] && source ~/.zshrc.private
+[ -f ~/.zshrc-e ] && source ~/.zshrc-e
 
 # eval "`npm completion`"
 
 # export PATH="$HOME/.yarn/bin:$PATH"
 
 # test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
-[ -f ~/.zshrc-e ] && source ~/.zshrc-e
 
 ZSH_THEME=""
 # autoload -U promptinit; promptinit
