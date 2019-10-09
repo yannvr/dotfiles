@@ -19,7 +19,6 @@ if [ hash pyeven 2>/dev/null ]; then
   eval "$(pyenv virtualenv-init -)" 2&>1 > /dev/null
 fi
 
-export PATH=/usr/local/opt/python/libexec/bin/:$PATH
 
 # Source chtf
 if [[ -f /usr/local/share/chtf/chtf.sh ]]; then
@@ -31,3 +30,7 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "/usr/local/opt/nvm/etc/bash_completion" ] && . "/usr/local/opt/nvm/etc/bash_completion"
 
 eval $(thefuck --alias)
+
+
+YARN_GLOBAL_BIN=`yarn global dir`/.bin
+export PATH=$YARN_GLOBAL_BIN:/usr/local/opt/python/libexec/bin/:$PATH
