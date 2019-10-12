@@ -1,5 +1,5 @@
 alias a="alias"
-a dateh="date +%Y-%m-%d_%H-%M"
+a dateh="date +%d-%m-%y"
 a v="nvim"
 a rm='rm -f'
 a wget='wget -c'
@@ -9,6 +9,8 @@ a n='npm'
 a ka='killall'
 a k9='f() { killall -9 ${1}};f'
 a large-files="du -ah . | sort -nr | head"
+a tf='tail -f '
+a ag='ag -a'
 
 # Vim
 # a nv="nvim -c OpenSession -c 'set noautochdir'"
@@ -24,7 +26,7 @@ a jtags="ctags -R src && sed -i '' -E '/^(if|switch|function|module\.exports|it|
 a f='fuck'
 
 # Git
-a gp='git pull'
+a gp='git push'
 a gpr='git pull -r'
 a gpot='git push origin && git push origin --tags'
 a gca='git commit --amend --no-edit'
