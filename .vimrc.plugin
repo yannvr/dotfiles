@@ -49,7 +49,6 @@ NeoBundle     'jiangmiao/auto-pairs'
 
 
 NeoBundle     'godlygeek/tabular'
-NeoBundle     'rhysd/clever-f.vim'
 NeoBundleLazy 'elzr/vim-json', {'filetypes': ['json']}
 
 " NeoBundle 'terryma/vim-multiple-cursors'
