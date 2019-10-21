@@ -10,7 +10,7 @@ a ka='killall'
 a k9='f() { killall -9 ${1}};f'
 a large-files="du -ah . | sort -nr | head"
 a tf='tail -f '
-a ag='ag -a'
+# a ag='ag -a'
 
 # Vim
 # a nv="nvim -c OpenSession -c 'set noautochdir'"
