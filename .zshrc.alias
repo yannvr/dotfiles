@@ -1,7 +1,22 @@
 alias a="alias"
 a dateh="date +%d-%m-%y"
+a rm='rm -f'
+a wget='wget -c'
+a rm='rm -f'
+a wget='wget -c'
+a p='n-panelize'
+a b='brew'
+a n='npm'
+a ka='killall'
+a k9='f() { killall -9 ${1}};f'
+a large-files="du -ah . | sort -nr | head"
+a tf='tail -f '
+a ag='ag -a'
+a jtags="ctags -R src && sed -i '' -E '/^(if|switch|function|module\.exports|it|describe).+language:js$/d' tags"
+a f='fuck'
 
-if [ -z `which nvim` ]
+HAS_NVIM=`which nvim`
+if [ ! -z $HAS_NVIM ]
 then
     a v="nvim"
     a nv="nvim -c OpenSession"
@@ -21,23 +36,6 @@ else
     a v='vim -c "set noautochdir" --cmd "set noautochdir"'
 fi
 
-a rm='rm -f'
-a wget='wget -c'
-a rm='rm -f'
-a wget='wget -c'
-a p='n-panelize'
-a b='brew'
-a n='npm'
-a ka='killall'
-a k9='f() { killall -9 ${1}};f'
-a large-files="du -ah . | sort -nr | head"
-a tf='tail -f '
-a ag='ag -a'
-
-
-a jtags="ctags -R src && sed -i '' -E '/^(if|switch|function|module\.exports|it|describe).+language:js$/d' tags"
-
-    a f='fuck'
 
 # Git
 a gp='git push'
