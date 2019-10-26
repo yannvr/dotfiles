@@ -46,6 +46,13 @@ a gcommit='f() { git add -v ${1} && git commit --message="${2}"  };f'
 a grf='f() { git reset ${1} };f'
 a gcommit-and-push='f() {git add -v ${1} && git commit --message="${2}" && git push};f'
 
+a fix-gitignore='f() {
+git rm -r --cached .
+git add .
+git commit -m "fixed untracked files"
+};
+f'
+
 # Github
 a clone-rep='f() {
 cd ~/dev/cloned
