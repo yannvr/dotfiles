@@ -14,6 +14,10 @@ a tf='tail -f '
 a ag='ag -a'
 a jtags="ctags -R src && sed -i '' -E '/^(if|switch|function|module\.exports|it|describe).+language:js$/d' tags"
 a f='fuck'
+a sl='screen -list'
+a sr'screen -r'
+a sd'screen -d'
+
 
 HAS_NVIM=`which nvim`
 if [ ! -z $HAS_NVIM ]
