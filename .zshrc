@@ -11,7 +11,6 @@ ZSH_THEME="nicoulaj"
 ZSH_THEME="sorin"
 ZSH_THEME="tjkirch"
 ZSH_THEME="nicoulaj"
-
 ZSH_THEME="candy"
 ZSH_THEME="wezm"
 # ZSH_THEME="peepcode"
@@ -37,9 +36,10 @@ export EDITOR='nvim'
 # [ -f ~/.zshrc-e ] && source ~/.zshrc-e
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 [ -f ~/.zshrc.alias ] && source ~/.zshrc.alias
+[ -f ~/.zshrc-e ] && source ~/.zshrc-e
+# excluded from dotfiles.
 [ -f ~/.zshrc.local ] && source ~/.zshrc.local
 [ -f ~/.zshrc.private ] && source ~/.zshrc.private
-[ -f ~/.zshrc-e ] && source ~/.zshrc-e
 
 # eval "`npm completion`"
 
@@ -54,4 +54,56 @@ ZSH_THEME=""
 # PURE_CMD_MAX_EXEC_TIME=10
 
 # prompt pure
+autoload -U promptinit; promptinit
+prompt pure
 
+# bind keys
+
+bindkey ® znt-history-widget
+# bindkey ç fzf-cd-widget
+# bindkey † fzf-cd-widget
+
+autoload znt-cd-widget
+zle -N znt-cd-widget
+autoload znt-history-widget
+zle -N znt-history-widget
+bindkey "^R" fzf-history-widget
+bindkey "^T" znt-cd-widget
+
+# bindkey '^T' fzf-completion
+# bindkey '^I' expand-or-complete
+
+
+eval $(thefuck --alias)
+
+# place this after nvm initialization!
+autoload -U add-zsh-hook
+# load-nvmrc() {
+#   local node_version="$(nvm version)"
+#   local nvmrc_path="$(nvm_find_nvmrc)"
+set rtp+=/usr/local/opt/fzf
+
+#   if [ -n "$nvmrc_path" ]; then
+#     local nvmrc_node_version=$(nvm version "$(cat "${nvmrc_path}")")
+
+#     if [ "$nvmrc_node_version" = "N/A" ]; then
+#       nvm install
+#     elif [ "$nvmrc_node_version" != "$node_version" ]; then
+#       nvm use
+#     fi
+#   elif [ "$node_version" != "$(nvm version default)" ]; then
+#     echo "Reverting to nvm default version"
+#     nvm use default
+#   fi
+# }
+# add-zsh-hook chpwd load-nvmrc
+# load-nvmrc
+
+if [[ -z `which pyenv` ]]
+then
+    eval "$(pyenv init -)"
+fi
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "/usr/local/opt/nvm/nvm.sh" ] && . "/usr/local/opt/nvm/nvm.sh"  # This loads nvm
+[ -s "/usr/local/opt/nvm/etc/bash_completion" ] && . "/usr/local/opt/nvm/etc/bash_completion"  # This loads nvm bash_completion
