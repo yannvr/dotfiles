@@ -43,6 +43,7 @@ fi
 
 # Git
 a gp='git push'
+a gs='git stash save'
 a gpr='git pull -r'
 a gpot='git push origin && git push origin --tags'
 a gca='git commit --amend --no-edit'
