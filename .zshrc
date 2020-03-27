@@ -16,7 +16,8 @@ ZSH_THEME="wezm"
 # ZSH_THEME="peepcode"
 ENABLE_CORRECTION="false"
 DISABLE_UNTRACKED_FILES_DIRTY="true"
-plugins=(fzf colored-man-pages yarn aws brew cp git gitfast history node npm nvm themes web-search zsh-navigation-tools)
+# plugins=(fzf colored-man-pages yarn aws brew cp git gitfast history node npm nvm themes web-search zsh-navigation-tools z zsh_reload pip themes)
+plugins=(fzf colored-man-pages yarn aws brew cp git gitfast history node npm nvm themes web-search zsh-navigation-tools z zsh_reload pip)
 source $ZSH/oh-my-zsh.sh
 
 # User configuration
