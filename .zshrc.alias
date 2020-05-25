@@ -15,8 +15,9 @@ a ag='ag -a'
 a jtags="ctags -R src && sed -i '' -E '/^(if|switch|function|module\.exports|it|describe).+language:js$/d' tags"
 a f='fuck'
 a sl='screen -list'
-a sr'screen -r'
-a sd'screen -d'
+a sr='screen -r'
+a sd='screen -d'
+a fix-gitignore='git rm -r --cached . && git add . && git commit -m "fixed untracked files"'
 
 
 HAS_NVIM=`which nvim`
