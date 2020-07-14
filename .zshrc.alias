@@ -15,9 +15,15 @@ a ag='ag -a'
 a jtags="ctags -R src && sed -i '' -E '/^(if|switch|function|module\.exports|it|describe).+language:js$/d' tags"
 a fu='fuck'
 a sl='screen -list'
+<<<<<<< HEAD
 a sr'screen -r'
 a sd'screen -d'
 a myip="curl http://ipecho.net/plain; echo"
+=======
+a sr='screen -r'
+a sd='screen -d'
+a fix-gitignore='git rm -r --cached . && git add . && git commit -m "fixed untracked files"'
+>>>>>>> 2d0e49dd5f1bb2f92152c2ae49ec722b6c3bb36e
 
 
 HAS_NVIM=`which nvim`
