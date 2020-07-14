@@ -13,10 +13,11 @@ a large-files="du -ah . | sort -nr | head"
 a tf='tail -f '
 a ag='ag -a'
 a jtags="ctags -R src && sed -i '' -E '/^(if|switch|function|module\.exports|it|describe).+language:js$/d' tags"
-a f='fuck'
+a fu='fuck'
 a sl='screen -list'
 a sr'screen -r'
 a sd'screen -d'
+a myip="curl http://ipecho.net/plain; echo"
 
 
 HAS_NVIM=`which nvim`
