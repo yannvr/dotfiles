@@ -67,6 +67,8 @@ nnoremap <Leader>e :Lexplore<CR>c
 "S-L
 "
 "
+"
+command ReplaceCR %s/\\n/\r/g
 
 nnoremap ¬ :OpenSession<CR>
 nnoremap <leader>sl :OpenSession<CR>
