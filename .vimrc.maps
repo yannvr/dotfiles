@@ -69,6 +69,7 @@ nnoremap <Leader>e :Lexplore<CR>c
 "
 "
 command ReplaceCR %s/\\n/\r/g
+command ConvertLineEnding %s/\\n/\r/g
 
 nnoremap ¬ :OpenSession<CR>
 nnoremap <leader>sl :OpenSession<CR>
