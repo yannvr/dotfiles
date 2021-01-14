@@ -48,7 +48,7 @@ NeoBundle     'rhysd/conflict-marker.vim'
 NeoBundle     'jiangmiao/auto-pairs'
 
 
-NeoBundle     'godlygeek/tabular'
+" NeoBundle     'godlygeek/tabular'
 NeoBundleLazy 'elzr/vim-json', {'filetypes': ['json']}
 
 " NeoBundle 'terryma/vim-multiple-cursors'
