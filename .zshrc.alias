@@ -19,7 +19,7 @@ a sr'screen -r'
 a sd'screen -d'
 a myip="curl http://ipecho.net/plain; echo"
 a fix-gitignore='git rm -r --cached . && git add . && git commit -m "fixed untracked files"'
-
+a h="htop"
 
 HAS_NVIM=`which nvim`
 if [ ! -z $HAS_NVIM ]
