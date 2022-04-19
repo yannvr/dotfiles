@@ -18,7 +18,8 @@ ZSH_THEME="wezm"
 ENABLE_CORRECTION="false"
 DISABLE_UNTRACKED_FILES_DIRTY="true"
 # plugins=(fzf colored-man-pages yarn brew cp git gitfast history node npm nvm themes web-search zsh-navigation-tools z zsh_reload pip themes)
-plugins=(fzf colored-man-pages yarn brew cp git gitfast history node npm nvm themes web-search zsh-navigation-tools z zsh_reload pip)
+# plugins=(fzf colored-man-pages yarn brew cp git gitfast history node npm nvm themes web-search zsh-navigation-tools z pip)
+plugins=(fzf yarn brew cp git gitfast history zsh-navigation-tools z pip)
 source $ZSH/oh-my-zsh.sh
 
 # User configuration
@@ -105,7 +106,29 @@ then
     eval "$(pyenv init -)"
 fi
 
-# export NVM_DIR="$HOME/.nvm"
-# [ -s "/usr/local/opt/nvm/nvm.sh" ] && . "/usr/local/opt/nvm/nvm.sh"  # This loads nvm
-# [ -s "/usr/local/opt/nvm/etc/bash_completion" ] && . "/usr/local/opt/nvm/etc/bash_completion"  # This loads nvm bash_completion
 # zprof
+export PATH="/usr/local/opt/python@3.7/bin:$PATH"
+export PATH="/usr/local/opt/python@3.7/bin:$PATH"
+export PATH="/usr/local/opt/python@3.7/bin:$PATH"
+export PATH="/usr/local/opt/python@3.7/bin:$PATH"
+export PATH="/usr/local/opt/python@3.7/bin:$PATH"
+export PATH="/usr/local/opt/python@3.7/bin:$PATH"
+export PATH="/usr/local/opt/python@3.7/bin:$PATH"
+export PATH="/usr/local/opt/python@3.7/bin:$PATH"
+export PATH="/usr/local/opt/python@3.7/bin:$PATH"
+export PATH="/usr/local/opt/python@3.7/bin:$PATH"
+export PATH="/usr/local/opt/python@3.7/bin:$PATH"
+export PATH="/usr/local/opt/python@3.7/bin:$PATH"
+export PATH="/usr/local/opt/python@3.7/bin:$PATH"
+export PATH="/usr/local/opt/python@3.7/bin:$PATH"
+export PATH="/usr/local/opt/python@3.7/bin:$PATH"
+export PATH="/usr/local/opt/python@3.7/bin:$PATH"
+export PATH="/usr/local/opt/python@3.7/bin:$PATH"
+export PATH="/usr/local/opt/python@3.7/bin:$PATH"
+export PATH="/usr/local/opt/python@3.7/bin:$PATH"
+export PATH="/usr/local/opt/python@3.7/bin:$PATH"
+export PATH="/usr/local/opt/python@3.7/bin:$PATH"
+export PATH="/usr/local/opt/python@3.7/bin:$PATH"
+export PATH="/usr/local/opt/python@3.7/bin:$PATH"
+export PATH="/usr/local/opt/python@3.7/bin:$PATH"
+export PATH="/usr/local/opt/python@3.7/bin:$PATH"
