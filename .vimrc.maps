@@ -3,7 +3,7 @@ if has('nvim')
     nnoremap <leader>o :below 10sp term://$SHELL<cr>
 endif
 
-" imap jj <Esc>
+imap jj <Esc>
 
 imap <leader><leader> <C-y>,<CR>
 " multiple cursors to remap
@@ -31,8 +31,7 @@ vnoremap <leader>d "_d
 vnoremap <leader>p "_dP
 
 " Buffers
-imap … <Esc>:w<CR>
-map … <Esc>:w<CR>
+nnoremap … :w<CR>
 nnoremap ¡ :buf1<CR>
 nnoremap € :buf2<CR>
 nnoremap # :buf3<CR>
@@ -60,17 +59,10 @@ nnoremap <Space> i_<Esc>r
 nnoremap <leader>R :source ~/.vimrc<CR>
 nnoremap <Leader>e :Lexplore<CR>c
 
-"lll map :convertLineEnding<<CR>%s/\r/\r/g<CR>
+" map :convertLineEnding<<CR>%s/\r/\r/g<CR>
+
 "Sessions
 "S-L
-"ll map :convertLineEnding<<CR>%s/\r/\r/g<CR>
-"S-L
-"
-"
-"
-command ReplaceCR %s/\\n/\r/g
-command ConvertLineEnding %s/\\n/\r/g
-
 nnoremap ¬ :OpenSession<CR>
 nnoremap <leader>sl :OpenSession<CR>
 nnoremap <leader>sd :DeleteSession<CR>

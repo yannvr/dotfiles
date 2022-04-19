@@ -182,70 +182,70 @@ endif
 
 " GUI Settings
 
-" GVIM- (here instead of .gvimrc)
-if has('gui_running')
-    set guioptions-=T           " Remove the toolbar
-    set lines=40                " 40 lines of text instead of 24
-    "if !exists("g:spf13_no_big_font")
-    "if LINUX() && has("gui_running")
-    "set guifont=Andale\ Mono\ Regular\ 12,Menlo\ Regular\ 11,Consolas\ Regular\ 12,Courier\ New\ Regular\ 14
-    "elseif OSX() && has("gui_running")
-    "set guifont=Andale\ Mono\ Regular:h12,Menlo\ Regular:h11,Consolas\ Regular:h12,Courier\ New\ Regular:h14
-    "elseif WINDOWS() && has("gui_running")
-    "set guifont=Andale_Mono:h10,Menlo:h10,Consolas:h10,Courier_New:h10
-    "endif
-    "endif
-else
-    if &term == 'xterm' || &term == 'screen'
-        set t_Co=256            " Enable 256 colors to stop the CSApprox warning and make xterm vim shine
-    endif
-    "set term=builtin_ansi       " Make arrow and other keys work
-endif
+"" GVIM- (here instead of .gvimrc)
+"if has('gui_running')
+"    set guioptions-=T           " Remove the toolbar
+"    set lines=40                " 40 lines of text instead of 24
+"    "if !exists("g:spf13_no_big_font")
+"    "if LINUX() && has("gui_running")
+"    "set guifont=Andale\ Mono\ Regular\ 12,Menlo\ Regular\ 11,Consolas\ Regular\ 12,Courier\ New\ Regular\ 14
+"    "elseif OSX() && has("gui_running")
+"    "set guifont=Andale\ Mono\ Regular:h12,Menlo\ Regular:h11,Consolas\ Regular:h12,Courier\ New\ Regular:h14
+"    "elseif WINDOWS() && has("gui_running")
+"    "set guifont=Andale_Mono:h10,Menlo:h10,Consolas:h10,Courier_New:h10
+"    "endif
+"    "endif
+"else
+"    if &term == 'xterm' || &term == 'screen'
+"        set t_Co=256            " Enable 256 colors to stop the CSApprox warning and make xterm vim shine
+"    endif
+"    "set term=builtin_ansi       " Make arrow and other keys work
+"endif
 
-"
+""
 
-" Functions
+"" Functions
 
-" Initialize directories
+"" Initialize directories
 
-" Strip whitespace
-function! StripTrailingWhitespace()
-    " Preparation: save last search, and cursor position.
-    let _s=@/
-    let l = line(".")
-    let c = col(".")
-    " do the business:
-    %s/\s\+$//e
-    " clean up: restore previous search history, and cursor position
-    let @/=_s
-    call cursor(l, c)
-endfunction
-"
+"" Strip whitespace
+"function! StripTrailingWhitespace()
+"    " Preparation: save last search, and cursor position.
+"    let _s=@/
+"    let l = line(".")
+"    let c = col(".")
+"    " do the business:
+"    %s/\s\+$//e
+"    " clean up: restore previous search history, and cursor position
+"    let @/=_s
+"    call cursor(l, c)
+"endfunction
+""
 
-" Shell command
-function! s:RunShellCommand(cmdline)
-    botright new
+"" Shell command
+"function! s:RunShellCommand(cmdline)
+"    botright new
 
-    setlocal buftype=nofile
-    setlocal bufhidden=delete
-    setlocal nobuflisted
-    setlocal noswapfile
-    setlocal nowrap
-    setlocal filetype=shell
-    setlocal syntax=shell
+"    setlocal buftype=nofile
+"    setlocal bufhidden=delete
+"    setlocal nobuflisted
+"    setlocal noswapfile
+"    setlocal nowrap
+"    setlocal filetype=shell
+"    setlocal syntax=shell
 
-    call setline(1, a:cmdline)
-    call setline(2, substitute(a:cmdline, '.', '=', 'g'))
-    execute 'silent $read !' . escape(a:cmdline, '%#')
-    setlocal nomodifiable
-    1
-endfunction
+"    call setline(1, a:cmdline)
+"    call setline(2, substitute(a:cmdline, '.', '=', 'g'))
+"    execute 'silent $read !' . escape(a:cmdline, '%#')
+"    setlocal nomodifiable
+"    1
+"endfunction
 
-command! -complete=file -nargs=+ Shell call s:RunShellCommand(<q-args>)
-" e.g. Grep current file for <search_term>: Shell grep -Hn <search_term> %
-"
+"command! -complete=file -nargs=+ Shell call s:RunShellCommand(<q-args>)
+"" e.g. Grep current file for <search_term>: Shell grep -Hn <search_term> %
+""
 
-function! s:ExpandFilenameAndExecute(command, file)
-    execute a:command . " " . expand(a:file, ":p")
-endfunction
+"function! s:ExpandFilenameAndExecute(command, file)
+"    execute a:command . " " . expand(a:file, ":p")
+"endfunction
 

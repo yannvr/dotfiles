@@ -1,3 +1,10 @@
 a onboard-commerzbank='python dbsetup/scripts/glide_createuser.py --endpoint https://commerzbank.alphakinetic.com:34000/json --username jacky_zhang --password akrcm2017 --environment commerzbank  csv --filename ~/Documents/glide-onboarding-accounts.csv'
 a onboard-hayfin-test='python dbsetup/scripts/glide_createuser.py --endpoint https://hayfin-test.alphakinetic.com:34000/json --username jacky_zhang --password akrcm2017 --environment hayfin-test  csv --filename ~/Documents/glide-onboarding-accounts.csv'
 a onboard-rcm-test='python dbsetup/scripts/glide_createuser.py --endpoint https://rcm-test.alphakinetic.com:34000/json --username jacky_zhang --password akrcm2017 --environment rcm-test  csv --filename ~/Documents/glide-onboarding-accounts.csv'
+
+
+ export NVM_DIR="$HOME/.nvm"
+ [ -s "/usr/local/opt/nvm/nvm.sh" ] && . "/usr/local/opt/nvm/nvm.sh"  # This loads nvm
+ [ -s "/usr/local/opt/nvm/etc/bash_completion" ] && . "/usr/local/opt/nvm/etc/bash_completion"  # This loads nvm bash_completion
+
+ echo 'export PATH="/usr/local/opt/python@3.7/bin:$PATH"' >> ~/.zshrc
