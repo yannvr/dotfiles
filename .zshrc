@@ -18,7 +18,6 @@ ZSH_THEME="wezm"
 ENABLE_CORRECTION="false"
 DISABLE_UNTRACKED_FILES_DIRTY="true"
 # plugins=(fzf colored-man-pages yarn brew cp git gitfast history node npm nvm themes web-search zsh-navigation-tools z zsh_reload pip themes)
-# plugins=(fzf colored-man-pages yarn brew cp git gitfast history node npm nvm themes web-search zsh-navigation-tools z pip)
 plugins=(fzf yarn brew cp git gitfast history zsh-navigation-tools z pip)
 source $ZSH/oh-my-zsh.sh
 
@@ -76,7 +75,7 @@ bindkey "^T" znt-cd-widget
 # bindkey '^I' expand-or-complete
 
 
-eval $(thefuck --alias)
+# eval $(thefuck --alias)
 
 # place this after nvm initialization!
 autoload -U add-zsh-hook
@@ -101,34 +100,10 @@ set rtp+=/usr/local/opt/fzf
 # add-zsh-hook chpwd load-nvmrc
 # load-nvmrc
 
-if [[ -z `which pyenv` ]]
-then
-    eval "$(pyenv init -)"
-fi
+# if [[ -z `which pyenv` ]]
+# then
+    # eval "$(pyenv init -)"
+    # eval "$(pyenv virtualenv-init -)"
+# fi
 
 # zprof
-export PATH="/usr/local/opt/python@3.7/bin:$PATH"
-export PATH="/usr/local/opt/python@3.7/bin:$PATH"
-export PATH="/usr/local/opt/python@3.7/bin:$PATH"
-export PATH="/usr/local/opt/python@3.7/bin:$PATH"
-export PATH="/usr/local/opt/python@3.7/bin:$PATH"
-export PATH="/usr/local/opt/python@3.7/bin:$PATH"
-export PATH="/usr/local/opt/python@3.7/bin:$PATH"
-export PATH="/usr/local/opt/python@3.7/bin:$PATH"
-export PATH="/usr/local/opt/python@3.7/bin:$PATH"
-export PATH="/usr/local/opt/python@3.7/bin:$PATH"
-export PATH="/usr/local/opt/python@3.7/bin:$PATH"
-export PATH="/usr/local/opt/python@3.7/bin:$PATH"
-export PATH="/usr/local/opt/python@3.7/bin:$PATH"
-export PATH="/usr/local/opt/python@3.7/bin:$PATH"
-export PATH="/usr/local/opt/python@3.7/bin:$PATH"
-export PATH="/usr/local/opt/python@3.7/bin:$PATH"
-export PATH="/usr/local/opt/python@3.7/bin:$PATH"
-export PATH="/usr/local/opt/python@3.7/bin:$PATH"
-export PATH="/usr/local/opt/python@3.7/bin:$PATH"
-export PATH="/usr/local/opt/python@3.7/bin:$PATH"
-export PATH="/usr/local/opt/python@3.7/bin:$PATH"
-export PATH="/usr/local/opt/python@3.7/bin:$PATH"
-export PATH="/usr/local/opt/python@3.7/bin:$PATH"
-export PATH="/usr/local/opt/python@3.7/bin:$PATH"
-export PATH="/usr/local/opt/python@3.7/bin:$PATH"
