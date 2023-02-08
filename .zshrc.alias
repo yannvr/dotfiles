@@ -18,6 +18,10 @@ a sl='screen -list'
 a sr'screen -r'
 a sd'screen -d'
 
+# GPT
+a gpt='python /Users/yannvr/dev/cloned/Speak_with_ChatGPT/start_conversation.py'
+a gypton=gpt
+
 a myip="curl http://ipecho.net/plain; echo"
 a whatsmyip=myip
 a fix-gitignore='git rm -r --cached . && git add . && git commit -m "fixed untracked files"'
