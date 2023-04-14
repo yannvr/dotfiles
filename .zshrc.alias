@@ -70,19 +70,17 @@ git commit -m "fixed untracked files"
 f'
 
 # Github
-a clone-rep='f() {
-cd ~/dev/cloned
-git clone ${1}
-repo=`echo ${1} | cut -d / -f 5`
-cd ${repo}
+function clone-rep() {
+    cd ~/dev/cloned
+    git clone ${1}
+    repo=`echo ${1} | cut -d / -f 5`
+    cd ${repo}
 };
-f'
 
-a clone-rep-and-install='f() {
-cd ~/dev/cloned && gcl ${1}
-repo=`echo ${1} | cut -d / -f 5`
-cd ${repo}
-npm install
-};
-f'
+function clone-rep-and-install() {
+    cd ~/dev/cloned && gcl ${1}
+    repo=`echo ${1} | cut -d / -f 5`
+    cd ${repo}
+    npm install
+}
 
