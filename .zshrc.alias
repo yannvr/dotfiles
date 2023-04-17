@@ -52,6 +52,7 @@ fi
 a ytu='yarn test -u'
 
 # Git
+a hh='yarn hardhat'
 a gp='git push'
 a gs='git stash save'
 a gpr='git pull -r'
