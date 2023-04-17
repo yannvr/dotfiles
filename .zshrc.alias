@@ -52,6 +52,7 @@ fi
 a ytu='yarn test -u'
 
 # Git
+a quote='curl -s https://api.quotable.io/quotes/random | jq ".[].content"'
 a hh='yarn hardhat'
 a gp='git push'
 a gs='git stash save'
