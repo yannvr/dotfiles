@@ -95,6 +95,7 @@ nnoremap <Leader>fs :set wrap<CR>
 nnoremap <Leader>fS :set nowrap<CR>
 
 
+map π :bprev<CR>
 
 "Buffer nav
 nnoremap ı :Bdelete!<CR>
