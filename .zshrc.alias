@@ -52,7 +52,7 @@ fi
 a ytu='yarn test -u'
 
 # Git
-a quote='curl -s https://api.quotable.io/quotes/random | jq ".[].content"'
+a quote="curl -s https://api.quotable.io/quotes/random | jq '.[].content,.[].author'"
 a hh='yarn hardhat'
 a gp='git push'
 a gs='git stash save'
@@ -64,12 +64,11 @@ a grf='f() { git reset ${1} };f'
 a gcommit-and-push='f() {git add -v ${1} && git commit --message="${2}" && git push};f'
 a gmod='git fetch && git merge origin/develop'
 
-a fix-gitignore='f() {
+function fix-gitignore() {
 git rm -r --cached .
 git add .
 git commit -m "fixed untracked files"
 };
-f'
 
 # Github
 function clone-rep() {
@@ -77,7 +76,7 @@ function clone-rep() {
     git clone ${1}
     repo=`echo ${1} | cut -d / -f 5`
     cd ${repo}
-};
+}
 
 function clone-rep-and-install() {
     cd ~/dev/cloned && gcl ${1}
