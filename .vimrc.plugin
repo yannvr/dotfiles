@@ -5,6 +5,7 @@ call neobundle#begin(expand('~/.vim/bundle'))
 NeoBundleFetch 'Shougo/neobundle.vim'
 
 
+NeoBundle   'github/copilot.vim'
 NeoBundle   'kaicataldo/material.vim'
 NeoBundle   'Shougo/neosnippet.vim'
 NeoBundle   'Shougo/neosnippet-snippets'
@@ -17,7 +18,7 @@ else
 endif
 
 " NeoBundle     'SirVer/ultisnips'
-NeoBundle     'honza/vim-snippets'
+"NeoBundle     'honza/vim-snippets'
 NeoBundle     'junegunn/fzf'
 NeoBundle     'tpope/vim-fugitive'
 
