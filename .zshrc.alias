@@ -85,3 +85,15 @@ function clone-rep-and-install() {
     npm install
 }
 
+function update-children-repos() {
+  for dir in `ls`
+    do cd $dir
+    rebase=`git pull -r`
+    if [ $? -ne 0 ]; then
+      echo "error pulling $dir"
+    else
+      echo "$dir: $rebase"
+    fi
+    cd ..
+  done
+}
