@@ -113,3 +113,7 @@ nnoremap ∂ :t.<CR>
 nnoremap <leader>B  :call ToggleBG()<CR>
 vnoremap ,. :cd %:p:h<CR>
 vnoremap // y/<C-R>"<CR>
+
+
+command ReplaceNewline %s/\\n/\r/g
+
