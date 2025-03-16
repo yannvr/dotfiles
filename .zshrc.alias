@@ -65,6 +65,7 @@ a gcommit-and-push='f() {git add -v ${1} && git commit --message="${2}" && git p
 a gmod='git fetch && git merge origin/develop'
 a npm='pnpm'
 a yarn='pnpm'
+a c="cursor"
 
 function fix-gitignore() {
 git rm -r --cached .
