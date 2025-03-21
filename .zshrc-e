@@ -27,7 +27,4 @@ export NVM_DIR="$HOME/.nvm"
 
 # eval $(thefuck --alias)
 
-# YARN_GLOBAL_BIN=`yarn global dir`/.bin
-export PATH=$YARN_GLOBAL_BIN:/usr/local/opt/python/libexec/bin/:$PATH
-# export PATH=$YARN_GLOBAL_BIN:/usr/local/opt/python/libexec/bin/:$PATH
 export PATH=$YARN_GLOBAL_BIN:$PATH
