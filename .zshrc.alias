@@ -27,9 +27,9 @@ a whatsmyip=myip
 a fix-gitignore='git rm -r --cached . && git add . && git commit -m "fixed untracked files"'
 a h="htop"
 
-HAS_NVIM=`which nvim`
-if [ ! -z $HAS_NVIM ]
-then
+HAS_NVIM=$(which nvim 2>/dev/null)
+
+if [ -z "$HAS_NVIM" ]; then
     a v="nvim"
     a nv="nvim -c OpenSession"
     a vv="vim -c OpenSession"
@@ -37,7 +37,6 @@ then
     a vp="vim --noplugin"
     a nvo="nvim -c OpenSession"
     a v='nvim -c "set noautochdir" --cmd "set noautochdir"'
-    # a nv="nvim -c OpenSession -c 'set noautochdir'"
 else
     a v="vim"
     a nv="vim -c OpenSession"
