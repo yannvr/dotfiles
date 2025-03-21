@@ -56,7 +56,7 @@ export EDITOR='nvim'
 
 # prompt pure
 autoload -U promptinit; promptinit
-prompt pure
+# prompt pure
 
 # bind keys
 
