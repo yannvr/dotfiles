@@ -1,4 +1,4 @@
-# zmodload zsh/zprof
+# zmodllad zsh/zprof
 export ZSH=$HOME/.oh-my-zsh
 ZSH_THEME="minimal"
 ZSH_THEME="steeef"
@@ -48,7 +48,6 @@ export EDITOR='nvim'
 # export PATH="$HOME/.yarn/bin:$PATH"
 
 # test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
-
 # autoload -U promptinit; promptinit
 
 # # optionally define some options
@@ -109,3 +108,10 @@ set rtp+=/usr/local/opt/fzf
 # zprof
 #
 quote
+
+# bun completions
+[ -s "/Users/yannvallery-radot/.oh-my-zsh/completions/_bun" ] && source "/Users/yannvallery-radot/.oh-my-zsh/completions/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export qATH="$BUN_INSTALL/bin:$PATH"

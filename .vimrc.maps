@@ -63,13 +63,24 @@ nnoremap <Leader>e :Lexplore<CR>c
 
 "Sessions
 "S-L
-nnoremap ¬ :OpenSession<CR>
-nnoremap <leader>sl :OpenSession<CR>
-nnoremap <leader>sd :DeleteSession<CR>
-nnoremap <leader>ss :SaveSession<CR>
-nnoremap <leader>sx :SaveSession<CR>:CloseSession:q<CR>
-nnoremap <leader>sc :CloseSession<CR>:q<CR>
-nnoremap <Leader>sx :SaveSession<CR>:CloseSession<CR>:q<CR>
+if has('nvim')
+  nnoremap ¬ :lua require("persistence").load()<CR>
+  nnoremap <leader>sl :lua require("persistence").load()<CR>
+  nnoremap <leader>sd :lua require("persistence").stop()<CR>
+  nnoremap <leader>ss :lua require("persistence").save()<CR>
+  nnoremap <leader>sx :lua require("persistence").save()<CR>:qa<CR>
+  nnoremap <leader>sc :lua require("persistence").stop()<CR>:q<CR>
+  nnoremap <Leader>sx :lua require("persistence").save()<CR>:qa<CR>
+else
+  nnoremap ¬ :OpenSession<CR>
+  nnoremap <leader>sl :OpenSession<CR>
+  nnoremap <leader>sd :DeleteSession<CR>
+  nnoremap <leader>ss :SaveSession<CR>
+  nnoremap <leader>sx :SaveSession<CR>:CloseSession:q<CR>
+  nnoremap <leader>sc :CloseSession<CR>:q<CR>
+  nnoremap <Leader>sx :SaveSession<CR>:CloseSession<CR>:q<CR>
+endif
+
 nnoremap <Leader>u :MundoToggle<CR>
 nnoremap <leader>l :nohlsearch<cr>:diffupdate<cr>:syntax sync fromstart<cr><c-l>
 nnoremap <space>/ :Unite -no-empty -no-resize grep<cr>
@@ -105,8 +116,8 @@ nnoremap ∫ :enew<CR>
 
 "Tab nav
 nnoremap † :tabnew<CR><C-W>w<CR>
-nnoremap “ :tabprevious<CR>
-nnoremap ‘ :tabnext<CR>
+nnoremap " :tabprevious<CR>
+nnoremap ' :tabnext<CR>
 nnoremap Ê :tabclose<CR>
 
 nnoremap ∂ :t.<CR>
