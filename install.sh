@@ -101,14 +101,14 @@ read -r ohmyzsh
 
 if [[ "$ohmyzsh" = "y" ]]; then
     echo "Installing oh-my-zsh..."
-    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh | bash)"
 fi
 
 if [[ "$OSTYPE" == darwin* ]]; then
     echo "Checking if Homebrew is installed..."
     if ! command -v brew &>/dev/null; then
         echo "Installing Homebrew..."
-        /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+        /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh | bash)"
     else
         echo "Homebrew already installed."
     fi
