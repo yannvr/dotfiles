@@ -39,6 +39,7 @@ export EDITOR='nvim'
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 [ -f ~/.zshrc.alias ] && source ~/.zshrc.alias
 [ -f ~/.zshrc-e ] && source ~/.zshrc-e
+[ -f ~/.zshenv ] && source ~/.zshenv
 # excluded from dotfiles.
 [ -f ~/.zshrc.local ] && source ~/.zshrc.local
 [ -f ~/.zshrc.private ] && source ~/.zshrc.private
@@ -115,3 +116,14 @@ quote
 # bun
 export BUN_INSTALL="$HOME/.bun"
 export qATH="$BUN_INSTALL/bin:$PATH"
+
+# pnpm
+export PNPM_HOME="/Users/yannvallery-radot/Library/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end
+
+# Added by Windsurf
+export PATH="/Users/yannvallery-radot/.codeium/windsurf/bin:$PATH"

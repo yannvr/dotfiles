@@ -31,3 +31,5 @@
 	program = gpg
 [commit]
 	gpgsign = true
+[pull]
+  rebase = false # or true/merges, depending on your preferred workflow

@@ -7,8 +7,9 @@
 # export PATH=$PATH:$ANDROID_HOME/tools
 # export PATH=$PATH:$ANDROID_HOME/tools/bin
 # export PATH=$PATH:$ANDROID_HOME/platform-tools
-export PATH=$PATH:/opt/homebrew/bin
+export PATH=$PATH:/opt/homebrew/bin:~/.bun/bin:~/bin
 export PYTHONWARNINGS=default
+alias p=pnpm
 
 # Homebrew initialization
 if [ -f "/opt/homebrew/bin/brew" ]; then
@@ -61,3 +62,6 @@ echodrift() {
     # Return to original directory
     cd "$ORIGINAL_DIR"
 }
+
+
+# eval "$(direnv hook zsh)"
