@@ -10,6 +10,8 @@ if not vim.loop.fs_stat(lazypath) then
     lazypath,
   })
 end
+
+-- Add lazy.nvim to runtimepath
 vim.opt.rtp:prepend(lazypath)
 
 -- Set leader key before lazy
@@ -17,33 +19,34 @@ vim.g.mapleader = "\\"
 vim.g.maplocalleader = "\\"
 
 -- Configure lazy.nvim
-require("lazy").setup("plugins", {
-  change_detection = {
-    notify = false,
-  },
-  install = {
-    colorscheme = { "desert" },
-  },
-  performance = {
-    rtp = {
-      disabled_plugins = {
-        "gzip",
-        "matchit",
-        "matchparen",
-        "netrwPlugin",
-        "tarPlugin",
-        "tohtml",
-        "tutor",
-        "zipPlugin",
+local lazy_status, lazy = pcall(require, "lazy")
+if lazy_status then
+  lazy.setup("plugins", {
+    change_detection = {
+      notify = false,
+    },
+    install = {
+      colorscheme = { "desert" },
+    },
+    ui = {
+      border = "rounded",
+    },
+    performance = {
+      rtp = {
+        disabled_plugins = {
+          "gzip",
+          "matchit",
+          "matchparen",
+          "netrwPlugin",
+          "tarPlugin",
+          "tohtml",
+          "tutor",
+          "zipPlugin",
+        },
       },
     },
-  },
-})
-
--- Load your existing vim settings (excluding the plugin file)
-vim.cmd('source ~/.vimrc.conf')
-vim.cmd('source ~/.vimrc.filetypes')
-vim.cmd('source ~/.vimrc.maps')
+  })
+end
 
 -- Python provider setup
 vim.g.python3_host_prog = '/usr/bin/python3'

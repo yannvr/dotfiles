@@ -1,7 +1,7 @@
+-- All plugins are defined here
 return {
-
   -- Colorscheme
-  { "kaicataldo/material.vim", lazy = true },
+  { "kaicataldo/material.vim", lazy = false, priority = 1000 },
 
   -- Completion
   {
@@ -47,8 +47,8 @@ return {
     dependencies = { "Shougo/neosnippet-snippets" },
     event = "InsertEnter",
     config = function()
-      vim.g.neosnippet#enable_completed_snippet = 1
-      vim.g.neosnippet#enable_preview = 1
+      vim.g["neosnippet#enable_completed_snippet"] = 1
+      vim.g["neosnippet#enable_preview"] = 1
     end,
   },
 
@@ -99,13 +99,11 @@ return {
 
   -- Session Management
   {
-    {
-      "olimorris/persisted.nvim",
-      event = "BufReadPre", -- Ensure the plugin loads only when a buffer has been loaded
-      opts = {
-        -- Your config goes here ...
-      },
-    }
+    "olimorris/persisted.nvim",
+    event = "BufReadPre", -- Ensure the plugin loads only when a buffer has been loaded
+    opts = {
+      -- Your config goes here ...
+    },
   },
 
   -- Powerline Fonts
