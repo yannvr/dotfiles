@@ -18,7 +18,7 @@ ZSH_THEME="wezm"
 ENABLE_CORRECTION="false"
 DISABLE_UNTRACKED_FILES_DIRTY="true"
 # plugins=(fzf colored-man-pages yarn brew cp git gitfast history node npm nvm themes web-search zsh-navigation-tools z zsh_reload pip themes)
-plugins=(fzf yarn brew cp git gitfast history zsh-navigation-tools z pip)
+plugins=(fzf yarn brew cp git gitfast history zsh-navigation-tools z pip hitchhiker)
 source $ZSH/oh-my-zsh.sh
 
 # User configuration
@@ -108,7 +108,7 @@ set rtp+=/usr/local/opt/fzf
 
 # zprof
 #
-quote
+# quote
 
 # bun completions
 [ -s "/Users/yannvallery-radot/.oh-my-zsh/completions/_bun" ] && source "/Users/yannvallery-radot/.oh-my-zsh/completions/_bun"
@@ -116,7 +116,6 @@ quote
 # bun
 export BUN_INSTALL="$HOME/.bun"
 export qATH="$BUN_INSTALL/bin:$PATH"
-
 # pnpm
 export PNPM_HOME="/Users/yannvallery-radot/Library/pnpm"
 case ":$PATH:" in
