@@ -1,6 +1,6 @@
 # zmodllad zsh/zprof
-export ZSH=$HOME/.oh-my-zsh
-ZSH_THEME="minimal"
+export ZSH="$HOME/.oh-my-zsh"
+ZSH_THEME="agnoster"
 ZSH_THEME="steeef"
 ZSH_THEME="Soliah"
 ZSH_THEME="candy"
@@ -18,13 +18,16 @@ ZSH_THEME="wezm"
 ENABLE_CORRECTION="false"
 DISABLE_UNTRACKED_FILES_DIRTY="true"
 # plugins=(fzf colored-man-pages yarn brew cp git gitfast history node npm nvm themes web-search zsh-navigation-tools z zsh_reload pip themes)
-plugins=(fzf yarn brew cp git gitfast history zsh-navigation-tools z pip hitchhiker)
-source $ZSH/oh-my-zsh.sh
+plugins=(fzf yarn brew cp git gitfast history zsh-navigation-tools z pip hitchhiker git zsh-syntax-highlighting)
+
+# Load Oh My Zsh if it exists
+if [ -f "$ZSH/oh-my-zsh.sh" ]; then
+    source $ZSH/oh-my-zsh.sh
+fi
 
 # User configuration
-export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:"
-export ZSH_HIGHLIGHT_HIGHLIGHTERS_DIR=/usr/local/share/zsh-syntax-highlighting/highlighters
-export EDITOR='nvim'
+export PATH=$HOME/bin:/usr/local/bin:$PATH
+export LANG=en_US.UTF-8
 
 # source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 # source ~/.zsh/zsh-autosuggestions/autosuggestions.zsh
@@ -58,7 +61,7 @@ export EDITOR='nvim'
 autoload -U promptinit; promptinit
 # prompt pure
 
-# bind keys
+# bind keys
 
 bindkey ® znt-history-widget
 # bindkey ç fzf-cd-widget
@@ -111,18 +114,20 @@ set rtp+=/usr/local/opt/fzf
 # quote
 
 # bun completions
-[ -s "/Users/yannvallery-radot/.oh-my-zsh/completions/_bun" ] && source "/Users/yannvallery-radot/.oh-my-zsh/completions/_bun"
+[ -s "$HOME/.oh-my-zsh/completions/_bun" ] && source "$HOME/.oh-my-zsh/completions/_bun"
 
 # bun
 export BUN_INSTALL="$HOME/.bun"
 export qATH="$BUN_INSTALL/bin:$PATH"
 # pnpm
-export PNPM_HOME="/Users/yannvallery-radot/Library/pnpm"
+export PNPM_HOME="$HOME/Library/pnpm"
 case ":$PATH:" in
   *":$PNPM_HOME:"*) ;;
   *) export PATH="$PNPM_HOME:$PATH" ;;
 esac
 # pnpm end
 
-# Added by Windsurf
-export PATH="/Users/yannvallery-radot/.codeium/windsurf/bin:$PATH"
+# Windsurf path (if exists)
+export PATH="$HOME/.codeium/windsurf/bin:$PATH"
+
+# Add custom configurations here

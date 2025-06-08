@@ -1,80 +1,72 @@
 filetype off
 
-set runtimepath+=~/.vim,$VIM/vimfiles,$VIMRUNTIME,/usr/local/Cellar/vim/8.0.0019/share/vim/vim80,~/.vim/bundle/neobundle.vim
-call neobundle#begin(expand('~/.vim/bundle'))
-NeoBundleFetch 'Shougo/neobundle.vim'
-
-
-NeoBundle   'github/copilot.vim'
-NeoBundle   'kaicataldo/material.vim'
-NeoBundle   'Shougo/neosnippet.vim'
-NeoBundle   'Shougo/neosnippet-snippets'
-" NeoBundle   'Shougo/vimproc.vim',  {'build' : { 'mac' : 'make' }  }
-
-if          has('nvim')
-  NeoBundle 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-else
-  NeoBundle 'Shougo/neocomplete.vim'
+" Auto-install vim-plug if not found
+if empty(glob('~/.vim/autoload/plug.vim'))
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 
-" NeoBundle     'SirVer/ultisnips'
-"NeoBundle     'honza/vim-snippets'
-NeoBundle     'junegunn/fzf'
-NeoBundle     'tpope/vim-fugitive'
+call plug#begin('~/.vim/plugged')
 
-" NeoBundle 'Valloric/MatchTagAlways', {'filetypes': ['html', 'xml', 'xhtml']}
+" Essential plugins
+Plug 'github/copilot.vim'
+Plug 'kaicataldo/material.vim'
+Plug 'Shougo/neosnippet.vim'
+Plug 'Shougo/neosnippet-snippets'
 
-NeoBundle     'moll/vim-bbye'
-NeoBundle     'tpope/vim-commentary'
+" Completion
+if has('nvim')
+  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+else
+  Plug 'Shougo/neocomplete.vim'
+endif
 
-" Coding
-NeoBundle     'editorconfig/editorconfig-vim'
-NeoBundleLazy 'mattn/emmet-vim', {'filetypes': ['html']}
-NeoBundleLazy 'simnalamburt/vim-mundo'
+" File navigation and search
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
+Plug 'tpope/vim-fugitive'
 
-" Nav
-" NeoBundle     'easymotion/vim-easymotion'
-NeoBundle     'jlanzarotta/bufexplorer'
-" NeoBundle     'numkil/ag.nvim'
+" Buffer management
+Plug 'moll/vim-bbye'
+Plug 'jlanzarotta/bufexplorer'
 
-" Themes
-NeoBundle     'vim-airline/vim-airline'
-NeoBundle     'vim-airline/vim-airline-themes'
+" Editing enhancements
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-repeat'
+Plug 'junegunn/vim-easy-align'
+Plug 'rhysd/conflict-marker.vim'
+Plug 'jiangmiao/auto-pairs'
 
-" Editing
-NeoBundle     'junegunn/vim-easy-align'
-NeoBundle     'tpope/vim-surround'
-NeoBundle     'tpope/vim-repeat'
-NeoBundle     'rhysd/conflict-marker.vim'
-NeoBundle     'jiangmiao/auto-pairs'
+" Development tools
+Plug 'editorconfig/editorconfig-vim'
+Plug 'mattn/emmet-vim', { 'for': 'html' }
+Plug 'simnalamburt/vim-mundo'
 
+" UI and themes
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 
-" NeoBundle     'godlygeek/tabular'
-NeoBundleLazy 'elzr/vim-json', {'filetypes': ['json']}
+" Git integration
+Plug 'airblade/vim-gitgutter'
 
-" NeoBundle 'terryma/vim-multiple-cursors'
+" Session management
+Plug 'xolox/vim-misc'
+Plug 'xolox/vim-session'
 
-" Others
-" NeoBundle 'gioele/vim-autoswap'
-NeoBundle     'xolox/vim-misc'
-NeoBundle     'xolox/vim-session'
-NeoBundle     'powerline/fonts'
-NeoBundle     'airblade/vim-gitgutter'
-NeoBundle     'osyo-manga/vim-over'
-" NeoBundle 'kana/vim-textobj-user'
-" NeoBundle 'kana/vim-textobj-indent'
+" Utility
+Plug 'osyo-manga/vim-over'
+Plug 'powerline/fonts'
 
-NeoBundleLazy 'groenewege/vim-less', {'filetypes': ['less']}
-" NeoBundle     'neomake/neomake'
+" Language-specific plugins
+Plug 'elzr/vim-json', { 'for': 'json' }
+Plug 'groenewege/vim-less', { 'for': 'less' }
+Plug 'pangloss/vim-javascript', { 'for': 'javascript' }
+Plug 'leafgarland/typescript-vim', { 'for': 'typescript' }
+Plug 'posva/vim-vue', { 'for': 'vue' }
+Plug 'mxw/vim-jsx', { 'for': 'javascript' }
 
-"  Javascript
-NeoBundleLazy 'pangloss/vim-javascript', {'filetypes': ['javascript']}
-NeoBundle      'leafgarland/typescript-vim', {'filetypes': ['typescript']}
-NeoBundleLazy 'posva/vim-vue', {'filetypes': ['vue']}
-NeoBundleLazy 'mxw/vim-jsx', {'filetypes': ['javascript']}
-" NeoBundleLazy 'kchmck/vim-coffee-script', {'filetypes': ['coffeescript']}
+call plug#end()
 
-call          neobundle#end()
-
-filetype      plugin indent on
-NeoBundleCheck
+filetype plugin indent on
