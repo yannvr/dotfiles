@@ -1,8 +1,10 @@
+" Neovim-specific terminal mappings (only loaded in neovim)
 if has('nvim')
     :tnoremap <Esc> <C-\><C-n>
     nnoremap <leader>o :below 10sp term://$SHELL<cr>
 endif
 
+" Essential mappings that work in both vim and neovim
 imap jj <Esc>
 
 imap <leader><leader> <C-y>,<CR>
@@ -30,7 +32,7 @@ nnoremap <leader>d "_d
 vnoremap <leader>d "_d
 vnoremap <leader>p "_dP
 
-" Buffers
+" Buffers - quick access
 nnoremap … :w<CR>
 nnoremap ¡ :buf1<CR>
 nnoremap € :buf2<CR>
@@ -42,6 +44,8 @@ nnoremap ¶ :buf7<CR>
 nnoremap • :buf8<CR>
 nnoremap ª :buf9<CR>
 nnoremap º :buf10<CR>
+
+" File operations
 nnoremap <Leader>fa :set autowriteall<CR>
 nnoremap <Leader>fA :set noautowriteall<CR>
 nnoremap <Leader>tu :!find . -type f -iregex ".*\.js$" -not -path "./node_modules/*" -exec jsctags {} -f \; <bar> sed '/^$/d' <bar> sort > tags<CR>
@@ -55,34 +59,28 @@ nnoremap <Leader>r :registers<CR>
 " Insert one character: http://vim.wikia.com/wiki/Insert_a_single_character
 nnoremap <Space> i_<Esc>r
 
-"Vim
+" Vim config reload
 nnoremap <leader>R :source ~/.vimrc<CR>
 nnoremap <Leader>e :Lexplore<CR>c
 
 " map :convertLineEnding<<CR>%s/\r/\r/g<CR>
 
-"Sessions
-"S-L
-if has('nvim')
-  nnoremap ¬ :lua require("persistence").load()<CR>
-  nnoremap <leader>sl :lua require("persistence").load()<CR>
-  nnoremap <leader>sd :lua require("persistence").stop()<CR>
-  nnoremap <leader>ss :lua require("persistence").save()<CR>
-  nnoremap <leader>sx :lua require("persistence").save()<CR>:qa<CR>
-  nnoremap <leader>sc :lua require("persistence").stop()<CR>:q<CR>
-  nnoremap <Leader>sx :lua require("persistence").save()<CR>:qa<CR>
-else
-  nnoremap ¬ :OpenSession<CR>
-  nnoremap <leader>sl :OpenSession<CR>
-  nnoremap <leader>sd :DeleteSession<CR>
-  nnoremap <leader>ss :SaveSession<CR>
-  nnoremap <leader>sx :SaveSession<CR>:CloseSession:q<CR>
-  nnoremap <leader>sc :CloseSession<CR>:q<CR>
-  nnoremap <Leader>sx :SaveSession<CR>:CloseSession<CR>:q<CR>
-endif
+" Sessions - vim-session plugin (works in both vim and neovim)
+nnoremap ¬ :OpenSession<CR>
+nnoremap <leader>sl :OpenSession<CR>
+nnoremap <leader>sd :DeleteSession<CR>
+nnoremap <leader>ss :SaveSession<CR>
+nnoremap <leader>sx :SaveSession<CR>:CloseSession:q<CR>
+nnoremap <leader>sc :CloseSession<CR>:q<CR>
+nnoremap <Leader>sx :SaveSession<CR>:CloseSession<CR>:q<CR>
 
+" Undo tree
 nnoremap <Leader>u :MundoToggle<CR>
+
+" Clear highlights and refresh
 nnoremap <leader>l :nohlsearch<cr>:diffupdate<cr>:syntax sync fromstart<cr><c-l>
+
+" Search mappings
 nnoremap <space>/ :Unite -no-empty -no-resize grep<cr>
 nnoremap <space>s :Unite -quick-match buffer<cr>
 
@@ -94,10 +92,10 @@ nnoremap ∆ :Ag --js
 
 " S-f
 nnoremap ƒ :Ag
-" S-o
+" S-o - FZF fuzzy finder
 nnoremap ø :FZF<CR>
 
-" Format
+" Format toggles
 nnoremap <Leader>fr :set relativenumber<CR>
 nnoremap <Leader>fR :set norelativenumber<CR>
 nnoremap <Leader>fn :set number<CR>

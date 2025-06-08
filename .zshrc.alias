@@ -1,78 +1,113 @@
+# Common aliases
 alias a="alias"
-a dateh="date +%d-%m-%y"
-a rm='rm -f'
-a wget='wget -c'
-a rm='rm -f'
-a wget='wget -c'
-a p='pnpm'
-a b='brew'
-a n='npm'
-a ka='killall'
-a k9='f() { killall -9 ${1}};f'
-a large-files="du -ah . | sort -nr | head"
-a tf='tail -f '
-a ag='ag -a'
-a jtags="ctags -R src && sed -i '' -E '/^(if|switch|function|module\.exports|it|describe).+language:js$/d' tags"
-a f='fuck'
-a sl='screen -list'
-a sr'screen -r'
-a sd'screen -d'
+alias dateh="date +%d-%m-%y"
+alias rm='rm -f'
+alias wget='wget -c'
+alias p='pnpm'
+alias b='brew'
+alias n='npm'
+alias ka='killall'
+alias k9='f() { killall -9 ${1}};f'
+alias large-files="du -ah . | sort -nr | head"
+alias tf='tail -f '
+alias ag='ag -a'
+alias jtags="ctags -R src && sed -i '' -E '/^(if|switch|function|module\.exports|it|describe).+language:js$/d' tags"
+alias f='fuck'
+alias sl='screen -list'
+alias sr='screen -r'
+alias sd='screen -d'
 
-# GPT
-a gpt='python /Users/yannvr/dev/cloned/Speak_with_ChatGPT/start_conversation.py'
-a gypton=gpt
+# Development aliases
+# alias gpt='python /path/to/your/gpt/script.py'  # Update path as needed
+alias gypton=gpt
 
-a myip="curl http://ipecho.net/plain; echo"
-a whatsmyip=myip
-a fix-gitignore='git rm -r --cached . && git add . && git commit -m "fixed untracked files"'
-a h="htop"
+alias myip="curl http://ipecho.net/plain; echo"
+alias whatsmyip=myip
+alias fix-gitignore='git rm -r --cached . && git add . && git commit -m "fixed untracked files"'
+alias h="htop"
 
+# Editor aliases
 HAS_NVIM=$(which nvim 2>/dev/null)
 
-if [ -z "$HAS_NVIM" ]; then
-    a v="nvim"
-    a nv="nvim -c OpenSession"
-    a vv="vim -c OpenSession"
-    a nvp="nvim --noplugin"
-    a vp="vim --noplugin"
-    a nvo="nvim -c OpenSession"
-    a v='nvim -c "set noautochdir" --cmd "set noautochdir"'
+if [ -n "$HAS_NVIM" ]; then
+    alias v="nvim"
+    alias nv="nvim -c OpenSession"
+    alias vv="nvim -c OpenSession"
+    alias nvp="nvim --noplugin"
+    alias vp="nvim --noplugin"
+    alias nvo="nvim -c OpenSession"
 else
-    a v="vim"
-    a nv="vim -c OpenSession"
-    a vv="vim -c OpenSession"
-    a nvp="vim --noplugin"
-    a vp="vim --noplugin"
-    a nvo="vim -c OpenSession"
-    a v='vim -c "set noautochdir" --cmd "set noautochdir"'
+    alias v="vim"
+    alias nv="vim -c OpenSession"
+    alias vv="vim -c OpenSession"
+    alias nvp="vim --noplugin"
+    alias vp="vim --noplugin"
+    alias nvo="vim -c OpenSession"
 fi
 
-# Yarn
-a ytu='yarn test -u'
+# Yarn/Node
+alias ytu='yarn test -u'
 
-# Git
-a quote="curl -s https://api.quotable.io/quotes/random | jq '.[].content,.[].author'"
-a hh='yarn hardhat'
-a gp='git push'
-a gs='git stash save'
-a gpr='git pull -r'
-a gpot='git push origin && git push origin --tags'
-a gca='git commit --amend --no-edit'
-a gcommit='f() { git add -v ${1} && git commit --message="${2}"  };f'
-a grf='f() { git reset ${1} };f'
-a gcommit-and-push='f() {git add -v ${1} && git commit --message="${2}" && git push};f'
-a gmod='git fetch && git merge origin/develop'
-# a npm='pnpm'
-# a yarn='pnpm'
-a c="cursor"
+# Git aliases
+alias quote="curl -s https://api.quotable.io/quotes/random | jq '.[].content,.[].author'"
+alias hh='yarn hardhat'
+alias gp='git push'
+alias gs='git stash save'
+alias gpr='git pull -r'
+alias gpot='git push origin && git push origin --tags'
+alias gca='git commit --amend --no-edit'
+alias gcommit='f() { git add -v ${1} && git commit --message="${2}"  };f'
+alias grf='f() { git reset ${1} };f'
+alias gcommit-and-push='f() {git add -v ${1} && git commit --message="${2}" && git push};f'
+alias gmod='git fetch && git merge origin/develop'
 
+# Additional git aliases
+alias ga='git add'
+alias gc='git commit'
+alias gl='git pull'
+alias gd='git diff'
+alias gco='git checkout'
+alias gb='git branch'
+
+# Common navigation
+# Use eza if available, otherwise fall back to ls
+if command -v eza &> /dev/null; then
+    alias ls='eza --color=always --group-directories-first'
+    alias ll='eza -alF --color=always --group-directories-first --icons'
+    alias la='eza -a --color=always --group-directories-first --icons'
+    alias l='eza -CF --color=always --group-directories-first --icons'
+    alias lt='eza --tree --color=always --group-directories-first --icons'
+else
+    alias ll='ls -alF'
+    alias la='ls -A'
+    alias l='ls -CF'
+    alias lt='tree'  # fallback to tree command if available
+fi
+
+# Use bat if available, otherwise fall back to cat
+if command -v bat &> /dev/null; then
+    alias cat='bat --paging=never'
+    alias bcat='bat'  # bat with paging
+    alias batl='bat --paging=always'  # bat with paging (explicit)
+else
+    alias bcat='cat'  # fallback
+    alias batl='less'  # fallback with paging
+fi
+
+alias ..='cd ..'
+alias ...='cd ../..'
+
+# Editor
+alias c="cursor"
+
+# Functions
 function fix-gitignore() {
-git rm -r --cached .
-git add .
-git commit -m "fixed untracked files"
-};
+    git rm -r --cached .
+    git add .
+    git commit -m "fixed untracked files"
+}
 
-# Github
+# Github helper functions
 function clone-rep() {
     cd ~/dev/cloned
     git clone ${1}
@@ -81,21 +116,54 @@ function clone-rep() {
 }
 
 function clone-rep-and-install() {
-    cd ~/dev/cloned && gcl ${1}
+    cd ~/dev/cloned && git clone ${1}
     repo=`echo ${1} | cut -d / -f 5`
     cd ${repo}
     npm install
 }
 
 function update-children-repos() {
-  for dir in `ls`
-    do cd $dir
-    rebase=`git pull -r`
-    if [ $? -ne 0 ]; then
-      echo "error pulling $dir"
-    else
-      echo "$dir: $rebase"
-    fi
-    cd ..
-  done
+    for dir in `ls`
+    do 
+        cd $dir
+        rebase=`git pull -r`
+        if [ $? -ne 0 ]; then
+            echo "error pulling $dir"
+        else
+            echo "$dir: $rebase"
+        fi
+        cd ..
+    done
 }
+
+# fd + ripgrep integration functions
+if command -v fd &> /dev/null && command -v rg &> /dev/null; then
+    # Find files by name, then search content
+    function fif() {
+        rg --files-with-matches --no-messages "$1" | fzf --preview "rg --ignore-case --pretty --context 10 '$1' {}"
+    }
+    
+    # Interactive ripgrep - search content then edit
+    function rgf() {
+        local file
+        file=$(rg --files-with-matches --no-messages "$1" | fzf --preview "rg --ignore-case --pretty --context 10 '$1' {}") && [ -n "$file" ] && ${EDITOR:-vim} "$file"
+    }
+    
+    # Find directory and cd into it
+    function fcd() {
+        local dir
+        dir=$(fd --type d | fzf) && cd "$dir"
+    }
+fi
+
+# Conditional fd aliases (like we did for eza and bat)
+if command -v fd &> /dev/null; then
+    alias find='fd'
+    alias findf='fd --type f'  # find files only
+    alias findd='fd --type d'  # find directories only
+else
+    alias findf='find . -type f -name'
+    alias findd='find . -type d -name'
+fi
+
+# Add your custom aliases here

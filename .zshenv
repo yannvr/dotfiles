@@ -1,2 +1,3 @@
+export PATH="$PATH:$HOME/.foundry/bin"
 
-export PATH="$PATH:/Users/yannvallery-radot/.foundry/bin"
+# Add other environment variables as needed
