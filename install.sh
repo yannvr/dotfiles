@@ -194,8 +194,6 @@ if [ ! -f "$HOME/.gitconfig" ]; then
     diffFilter = delta --color-only
 [includeIf "gitdir:~/work/"]
     path = ~/.gitconfig-work
-[includeIf "gitdir:~/personal/"]
-    path = ~/.gitconfig-personal
 EOF
     echo "✅ .gitconfig created with your user info and recommended settings."
 else
@@ -225,20 +223,7 @@ fi
 
 echo -e "\n✅ Dotfiles are linked!"
 
-# Git configuration
-echo "Do you want to configure git user and email? (y/n)"
-read -r gituser
-
-if [[ "$gituser" = "y" ]]; then
-    echo "What is your name?"
-    read -r gitname
-    echo "What is your email?"
-    read -r gitemail
-
-    git config --global user.name "${gitname}"
-    git config --global user.email "${gitemail}"
-    echo "✅ Git user configured"
-fi
+# Git configuration is handled above during dotfiles linking
 
 # Vim-plug installation
 echo "Do you wish to install vim-plug (modern Vim plugin manager)? (y/n)"
