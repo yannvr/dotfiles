@@ -265,7 +265,7 @@ if [[ "$OSTYPE" == darwin* ]]; then
         brew install fortune
 
         # Essential dev tools
-        brew install git nvm neovim fzf the_silver_searcher jq wget curl tree htop imagemagick gnupg pinentry-mac gh tmux
+        brew install git nvm neovim fzf the_silver_searcher jq wget curl tree htop imagemagick gnupg pinentry-mac gh tmux pnpm
 
         # Modern terminal tools (note: exa is now eza)
         echo "Installing modern terminal enhancements..."
