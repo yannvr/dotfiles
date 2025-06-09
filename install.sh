@@ -43,7 +43,7 @@ backup_if_exists() {
 create_symlink() {
     local source_file="$1"
     local target_file="$2"
-    
+
     if [ -f "$DOTFILES_DIR/$source_file" ]; then
         ln -sf "$DOTFILES_DIR/$source_file" "$HOME/$target_file"
         echo "Linked $source_file -> $target_file"
@@ -65,7 +65,7 @@ if [[ "$OSTYPE" == darwin* ]]; then
     if ! command -v brew &>/dev/null; then
         echo "Installing Homebrew (this may require your password)..."
         NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-        
+
         # Add Homebrew to PATH immediately
         if [[ -f "/opt/homebrew/bin/brew" ]]; then
             eval "$(/opt/homebrew/bin/brew shellenv)"
@@ -95,7 +95,7 @@ if [[ "$install_ohmyzsh" = "y" ]]; then
     else
         echo "✅ Oh My Zsh already installed"
     fi
-    
+
     # Install zsh-syntax-highlighting plugin
     if [ ! -d "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting" ]; then
         echo "Installing zsh-syntax-highlighting plugin..."
@@ -124,9 +124,82 @@ create_symlink ".zshrc.local" ".zshrc.local"
 
 # Git config (only if it doesn't exist to avoid overwriting user settings)
 if [ ! -f "$HOME/.gitconfig" ]; then
-    create_symlink ".gitconfig" ".gitconfig"
+    echo "No .gitconfig found. Let's set up your Git identity."
+    echo "What is your name?"
+    read -r gitname
+    echo "What is your email?"
+    read -r gitemail
+    cat > "$HOME/.gitconfig" <<EOF
+[user]
+    name = $gitname
+    email = $gitemail
+[core]
+    editor = nvim
+    excludesfile = ~/.gitignore_global
+    pager = delta
+    autocrlf = input
+    whitespace = fix,-indent-with-non-tab,trailing-space,cr-at-eol
+[color]
+    ui = auto
+    branch = auto
+    diff = auto
+    status = auto
+    interactive = auto
+[alias]
+    st = status
+    co = checkout
+    br = branch
+    ci = commit
+    ca = commit --amend
+    cm = commit -m
+    lg = log --oneline --graph --decorate --all
+    last = log -1 HEAD
+    unstage = reset HEAD --
+    hist = log --pretty=format:'%C(yellow)%h%Creset %ad | %s%C(red)%d%Creset %C(blue)[%an]%Creset' --graph --date=short
+    type = cat-file -t
+    dump = cat-file -p
+    fixup = commit --fixup
+    squash = commit --squash
+[push]
+    default = current
+    autoSetupRemote = true
+[fetch]
+    prune = true
+[merge]
+    tool = nvimdiff
+    conflictstyle = diff3
+[diff]
+    tool = nvimdiff
+    colorMoved = default
+[rerere]
+    enabled = true
+[rebase]
+    autoStash = true
+[status]
+    showUntrackedFiles = all
+[log]
+    date = short
+[init]
+    defaultBranch = main
+[credential]
+    helper = osxkeychain
+[delta]
+    features = side-by-side line-numbers decorations
+    whitespace-error-style = 22 reverse
+    navigate = true
+    light = false
+[pull]
+    rebase = false
+[interactive]
+    diffFilter = delta --color-only
+[includeIf "gitdir:~/work/"]
+    path = ~/.gitconfig-work
+[includeIf "gitdir:~/personal/"]
+    path = ~/.gitconfig-personal
+EOF
+    echo "✅ .gitconfig created with your user info and recommended settings."
 else
-    echo "Warning: .gitconfig already exists, skipping symlink creation"
+    echo "Warning: .gitconfig already exists, skipping creation."
 fi
 
 # Other configs
@@ -136,7 +209,7 @@ create_symlink ".tmux.conf" ".tmux.conf"
 if [ -d "$DOTFILES_DIR/.config" ]; then
     echo "Linking additional config directories..."
     mkdir -p ~/.config
-    
+
     # Link individual config subdirectories to avoid conflicts
     for config_dir in "$DOTFILES_DIR/.config"/*; do
         if [ -d "$config_dir" ]; then
@@ -161,7 +234,7 @@ if [[ "$gituser" = "y" ]]; then
     read -r gitname
     echo "What is your email?"
     read -r gitemail
-    
+
     git config --global user.name "${gitname}"
     git config --global user.email "${gitemail}"
     echo "✅ Git user configured"
@@ -186,42 +259,42 @@ if [[ "$OSTYPE" == darwin* ]]; then
     if [[ "$install_tools" = "y" ]]; then
         echo "Updating Homebrew..."
         brew update
-        
+
         echo "Installing essential development tools..."
         # Install fortune first (needed for Oh My Zsh hitchhiker plugin)
         brew install fortune
-        
+
         # Essential dev tools
-        brew install git nvm neovim fzf the_silver_searcher jq wget curl tree htop imagemagick gnupg pinentry-mac
-        
+        brew install git nvm neovim fzf the_silver_searcher jq wget curl tree htop imagemagick gnupg pinentry-mac gh tmux
+
         # Modern terminal tools (note: exa is now eza)
         echo "Installing modern terminal enhancements..."
         brew install starship eza bat ripgrep fd
-        
+
         # iTerm2 (handle case where it's already installed)
         echo "Installing iTerm2..."
         brew install --cask iterm2 2>/dev/null || echo "iTerm2 already installed or installation skipped"
-        
+
         # Set up NVM
         mkdir -p ~/.nvm
-        
+
         # Set up FZF shell integration
         echo "Setting up FZF shell integration..."
         /opt/homebrew/opt/fzf/install --all --no-update-rc
-        
+
         echo "✅ Development tools installed"
-        
+
         # Set up GPG for Git commit signing
         echo "Configure GPG for Git commit signing? (y/n)"
         read -r setup_gpg
-        
+
         if [[ "$setup_gpg" = "y" ]]; then
             echo "Setting up GPG configuration..."
-            
+
             # Create GPG directory with proper permissions
             mkdir -p ~/.gnupg
             chmod 700 ~/.gnupg
-            
+
             # Configure GPG with secure defaults
             cat > ~/.gnupg/gpg.conf << 'EOF'
 # GPG Configuration for enhanced security
@@ -246,7 +319,7 @@ require-cross-certification
 no-symkey-cache
 throw-keyids
 EOF
-            
+
             # Configure GPG agent
             cat > ~/.gnupg/gpg-agent.conf << 'EOF'
 # GPG Agent configuration
@@ -254,7 +327,7 @@ default-cache-ttl 28800
 max-cache-ttl 86400
 pinentry-program /opt/homebrew/bin/pinentry-mac
 EOF
-            
+
             echo "✅ GPG configuration created"
             echo "   📝 Next steps:"
             echo "   1. Generate a GPG key: gpg --full-generate-key"
@@ -262,122 +335,26 @@ EOF
             echo "   3. Configure Git: git config --global user.signingkey [KEY_ID]"
             echo "   4. Enable signing: git config --global commit.gpgsign true"
         fi
-        
-        # Set up Starship configuration
+
+                # Set up Starship configuration
         echo "Setting up Starship prompt configuration..."
         mkdir -p ~/.config
-        
+
         # Create a modern Starship config if it doesn't exist
         if [ ! -f ~/.config/starship.toml ]; then
-            cat > ~/.config/starship.toml << 'EOF'
-# Starship Configuration - Modern, Fast, and Beautiful
-# For full icons, use a Nerd Font like JetBrainsMonoNerdFont
-
-# Wait 10 milliseconds for starship to check files under the current directory
-scan_timeout = 10
-
-# Disable the blank line at the start of the prompt
-add_newline = false
-
-# Main prompt format
-format = """
-$username\
-$hostname\
-$directory\
-$git_branch\
-$git_state\
-$git_status\
-$git_metrics\
-$fill\
-$cmd_duration\
-$line_break\
-$character"""
-
-# Right prompt format
-right_format = """
-$nodejs\
-$python\
-$rust\
-$golang\
-$java\
-$lua\
-$ruby\
-$php"""
-
-[fill]
-symbol = " "
-
-[character]
-success_symbol = "[❯](bold green)"
-error_symbol = "[❯](bold red)"
-
-[directory]
-style = "blue"
-read_only = " 󰌾"
-truncation_length = 4
-truncate_to_repo = false
-
-[git_branch]
-symbol = " "
-format = "on [$symbol$branch]($style) "
-style = "bright-black"
-
-[git_status]
-format = '([\[$all_status$ahead_behind\]]($style) )'
-style = "cyan"
-
-[git_state]
-format = '\([$state( $progress_current/$progress_total)]($style)\) '
-style = "bright-black"
-
-[cmd_duration]
-format = "[$duration]($style)"
-style = "yellow"
-min_time = 2_000
-
-[nodejs]
-symbol = " "
-format = "via [$symbol($version )]($style)"
-
-[python]
-symbol = " "
-format = "via [$symbol($pyenv_prefix)($version )(\($virtualenv\) )]($style)"
-
-[rust]
-symbol = " "
-format = "via [$symbol($version )]($style)"
-
-[golang]
-symbol = " "
-format = "via [$symbol($version )]($style)"
-
-[java]
-symbol = " "
-format = "via [$symbol($version )]($style)"
-
-[lua]
-symbol = " "
-format = "via [$symbol($version )]($style)"
-
-[ruby]
-symbol = " "
-format = "via [$symbol($version )]($style)"
-
-[php]
-symbol = " "
-format = "via [$symbol($version )]($style)"
-EOF
-            echo "✅ Starship configuration created at ~/.config/starship.toml"
+            echo "Setting up Starship with Nerd Font Symbols preset..."
+            starship preset nerd-font-symbols -o ~/.config/starship.toml
+            echo "✅ Starship configuration created with Nerd Font Symbols preset"
         else
             echo "ℹ️  Starship config already exists, keeping your custom configuration"
         fi
     fi
-    
+
     # Optional: BetterTouchTool
     echo "Install BetterTouchTool for advanced macOS automation? (y/n)"
     echo "(Note: BetterTouchTool is a paid app but offers powerful gesture and automation features)"
     read -r btt
-    
+
     if [[ "$btt" = "y" ]]; then
         echo "Installing BetterTouchTool..."
         brew install --cask bettertouchtool
@@ -420,13 +397,13 @@ fi
 if command -v nvm &>/dev/null; then
     echo "Setup Node.js LTS via NVM? (y/n)"
     read -r node_setup
-    
+
     if [[ "$node_setup" = "y" ]]; then
         echo "Setting up Node.js environment..."
         # Source NVM first
         export NVM_DIR="$HOME/.nvm"
         [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"
-        
+
         nvm install --lts
         nvm use --lts
         nvm alias default lts/*
@@ -442,26 +419,26 @@ read -r neovim_setup
 if [[ "$neovim_setup" = "y" ]]; then
     echo "Setting up Neovim configuration..."
     mkdir -p ~/.config/nvim
-    
+
     # Remove any existing conflicting symlinks
     [ -L ~/.config/nvim/.vim ] && rm ~/.config/nvim/.vim
     [ -L ~/.config/nvim/init.vim ] && rm ~/.config/nvim/init.vim
     [ -L ~/.config/nvim/init.lua ] && rm ~/.config/nvim/init.lua
     [ -L ~/.config/nvim/lua ] && rm ~/.config/nvim/lua
-    
+
     if [ -f "$DOTFILES_DIR/.config/nvim/init.lua" ]; then
         # Link modern Neovim configuration
         ln -sf "$DOTFILES_DIR/.config/nvim/init.lua" ~/.config/nvim/init.lua 2>/dev/null || echo 'Warning: Could not link init.lua'
-        
+
         # Link lua directory if it exists
         if [ -d "$DOTFILES_DIR/.config/nvim/lua" ]; then
             ln -sf "$DOTFILES_DIR/.config/nvim/lua" ~/.config/nvim/lua 2>/dev/null || echo 'Warning: Could not link lua directory'
         fi
-        
+
         echo "✅ Modern Neovim configuration linked (init.lua + lazy.nvim)"
     else
         echo "❌ No modern Neovim configuration found in .config/nvim/"
-        # Fallback: link vim config to neovim  
+        # Fallback: link vim config to neovim
         ln -sf "$DOTFILES_DIR/.vimrc" ~/.config/nvim/init.vim 2>/dev/null || echo 'Warning: Could not link .vimrc as init.vim'
     fi
 fi
