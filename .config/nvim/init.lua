@@ -71,3 +71,40 @@ vim.opt.inccommand = "split"
 vim.opt.cursorline = true
 vim.opt.scrolloff = 8
 vim.opt.sidescrolloff = 8
+vim.opt.showtabline = 2         -- Always show tab line
+
+require("persisted").setup({
+  autosave = true,
+  autoload = true,
+  use_git_branch = false,
+  allowed_dirs = nil, -- set to a list of directories to restrict sessions
+})
+
+-- Load vim configuration files for compatibility (selectively to avoid conflicts)
+-- Only load mappings and base config, skip plugin-heavy .vimrc.conf to avoid conflicts
+vim.cmd('source ~/.vimrc.maps')
+vim.cmd('source ~/.vimrc.conf.base')
+
+-- Load specific settings from .vimrc.conf without plugin conflicts
+vim.opt.backupdir = { "./.backup", "~/.backup", ".", "/tmp" }
+vim.opt.showcmd = true
+vim.opt.autowrite = true
+vim.opt.autoindent = true
+vim.opt.tabstop = 4
+vim.opt.shiftwidth = 4
+vim.opt.softtabstop = 4
+vim.opt.expandtab = true
+vim.opt.joinspaces = false
+vim.opt.splitright = true
+vim.opt.splitbelow = true
+vim.opt.dictionary = "/usr/share/dict/words"
+vim.opt.complete:append("k")
+vim.opt.hlsearch = true
+vim.opt.background = "dark"
+vim.opt.ignorecase = true
+vim.opt.shell = "zsh"
+vim.opt.wildchar = 9  -- Tab
+vim.opt.wildmenu = true
+vim.opt.wildmode = "full"
+vim.opt.clipboard = "unnamed,unnamedplus"
+vim.opt.lazyredraw = true

@@ -66,7 +66,20 @@ return {
   { "tpope/vim-commentary", event = "VeryLazy" },
   { "tpope/vim-repeat", event = "VeryLazy" },
   { "junegunn/vim-easy-align", event = "VeryLazy" },
-  { "jiangmiao/auto-pairs", event = "InsertEnter" },
+  {
+    "windwp/nvim-autopairs",
+    event = "InsertEnter",
+    config = function()
+      require("nvim-autopairs").setup({})
+      -- Integration with nvim-cmp
+      local cmp_autopairs = require('nvim-autopairs.completion.cmp')
+      local cmp = require('cmp')
+      cmp.event:on(
+        'confirm_done',
+        cmp_autopairs.on_confirm_done()
+      )
+    end,
+  },
   { "rhysd/conflict-marker.vim", event = "VeryLazy" },
   { "osyo-manga/vim-over", event = "VeryLazy" },
 

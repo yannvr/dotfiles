@@ -1,250 +1,353 @@
-" Partly ripped off from: https://github.com/spf13/spf13-vim
+" =============================================================================
+" Modern Vim/Neovim Base Configuration (2025)
+" =============================================================================
+" Completely modernized with vim/nvim compatibility and current best practices
 
-" Allow to trigger background
-function! ToggleBG()
-    let s:tbg = &background
-    " Inversion
-    if s:tbg == "dark"
+" =============================================================================
+" Core Settings (Both Vim and Neovim)
+" =============================================================================
+
+" Enable syntax highlighting and file type detection
+if !exists('g:syntax_on')
+    syntax enable
+endif
+filetype plugin indent on
+
+" Basic editor behavior
+set encoding=utf-8              " Use UTF-8 encoding
+set mouse=a                     " Enable mouse in all modes
+set mousehide                   " Hide mouse when typing
+set hidden                      " Allow switching buffers without saving
+set confirm                     " Confirm before closing unsaved files
+set autoread                    " Auto-reload files changed outside vim
+set updatetime=300              " Faster completion and better experience
+set timeoutlen=500              " Faster key sequence completion
+
+" History and undo
+set history=10000               " Increase command history
+if has('persistent_undo')
+    set undofile                " Enable persistent undo
+    set undolevels=10000        " Maximum number of undos
+    set undoreload=100000       " Maximum lines to save for undo on buffer reload
+    " Create undo directory if it doesn't exist
+    if !isdirectory($HOME . '/.vim/undo')
+        call mkdir($HOME . '/.vim/undo', 'p', 0700)
+    endif
+    set undodir=~/.vim/undo//
+endif
+
+" Backup and swap files
+set backup
+set writebackup
+" Create directories if they don't exist
+if !isdirectory($HOME . '/.vim/backup')
+    call mkdir($HOME . '/.vim/backup', 'p', 0700)
+endif
+if !isdirectory($HOME . '/.vim/swap')
+    call mkdir($HOME . '/.vim/swap', 'p', 0700)
+endif
+set backupdir=~/.vim/backup//
+set directory=~/.vim/swap//
+
+" =============================================================================
+" Display and UI
+" =============================================================================
+
+set number                      " Show line numbers
+if exists('+relativenumber')
+    set relativenumber          " Show relative line numbers (vim 7.4+)
+endif
+set ruler                       " Show cursor position
+set showcmd                     " Show command in status line
+set showmode                    " Show current mode
+set laststatus=2                " Always show status line
+if &lines > 4
+    set showtabline=2           " Always show tab line (if enough room)
+else
+    set showtabline=1           " Show tab line only when needed
+endif
+set signcolumn=yes              " Always show sign column (prevents jumping)
+
+" Modern display settings
+if has('termguicolors') && $COLORTERM =~# 'truecolor\|24bit'
+    set termguicolors           " Enable true color support
+endif
+
+" Line display
+set wrap                        " Wrap long lines
+set linebreak                   " Break lines at word boundaries
+set breakindent                 " Indent wrapped lines
+if exists('+breakindentopt')
+    set breakindentopt=shift:2  " Extra indent for wrapped lines
+endif
+
+" Cursor and visual aids
+set cursorline                  " Highlight current line
+set showmatch                   " Highlight matching brackets
+set matchtime=2                 " Reduce match highlight time
+
+" =============================================================================
+" Search and Navigation
+" =============================================================================
+
+set incsearch                   " Incremental search
+set hlsearch                    " Highlight search results
+set ignorecase                  " Case insensitive search
+set smartcase                   " Case sensitive if uppercase used
+
+" Enhanced navigation
+set scrolloff=8                 " Keep 8 lines above/below cursor
+set sidescrolloff=8             " Keep 8 columns left/right of cursor
+set virtualedit=block           " Allow cursor beyond EOL in visual block mode
+
+" =============================================================================
+" Indentation and Formatting
+" =============================================================================
+
+set expandtab                   " Use spaces instead of tabs
+set tabstop=4                   " Tab width
+set softtabstop=4               " Soft tab width
+set shiftwidth=4                " Indent width
+set smartindent                 " Smart indentation
+set autoindent                  " Auto indentation
+
+" Modern whitespace handling
+set list                        " Show invisible characters
+if has('multi_byte')
+    set listchars=tab:→\ ,trail:·,extends:»,precedes:«,nbsp:⎵
+else
+    set listchars=tab:>\ ,trail:.,extends:>,precedes:<,nbsp:_
+endif
+
+" =============================================================================
+" Completion and Wildmenu
+" =============================================================================
+
+set wildmenu                    " Enhanced command completion
+set wildmode=longest:full,full  " Complete longest, then show all
+set wildignorecase              " Case insensitive completion
+
+" Ignore common files
+set wildignore+=*.o,*.obj,*.exe,*.dll,*.so,*.dylib
+set wildignore+=*.zip,*.tar.gz,*.tar.bz2,*.rar,*.tar.xz
+set wildignore+=*/.git/*,*/.hg/*,*/.svn/*
+set wildignore+=*/node_modules/*,*/vendor/*,*/.next/*,*/dist/*,*/build/*
+set wildignore+=*.pyc,*.pyo,*/__pycache__/*
+set wildignore+=*.jpg,*.png,*.gif,*.svg,*.ico,*.pdf
+
+" =============================================================================
+" Window and Buffer Management
+" =============================================================================
+
+set splitbelow                  " Open horizontal splits below
+set splitright                 " Open vertical splits to the right
+set winminheight=0              " Allow zero-height windows
+set equalalways                 " Resize splits when adding/removing windows
+
+" Buffer navigation improvements
+set switchbuf=useopen,usetab    " Use existing window/tab for buffers
+
+" =============================================================================
+" Key Mappings
+" =============================================================================
+
+" Better window navigation
+nnoremap <C-h> <C-w>h
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
+
+" Toggle search highlighting
+nnoremap <silent> <Leader>/ :nohlsearch<CR>
+
+" Quick buffer navigation
+nnoremap <silent> [b :bprevious<CR>
+nnoremap <silent> ]b :bnext<CR>
+nnoremap <silent> [B :bfirst<CR>
+nnoremap <silent> ]B :blast<CR>
+
+" Quick tab navigation
+nnoremap <silent> [t :tabprevious<CR>
+nnoremap <silent> ]t :tabnext<CR>
+nnoremap <silent> [T :tabfirst<CR>
+nnoremap <silent> ]T :tablast<CR>
+
+" Visual mode enhancements
+vnoremap < <gv                  " Maintain selection when indenting
+vnoremap > >gv                  " Maintain selection when indenting
+
+" Command mode helpers
+cnoremap %% <C-R>=fnameescape(expand('%:h')).'/'<CR>
+
+" Emergency sudo write
+if !has('nvim')
+    cnoremap w!! execute 'silent! write !sudo tee % >/dev/null' <bar> edit!
+endif
+
+" =============================================================================
+" Auto Commands
+" =============================================================================
+
+augroup ModernVimrc
+    autocmd!
+
+    " Restore cursor position
+    autocmd BufReadPost *
+        \ if line("'\"") >= 1 && line("'\"") <= line("$") && &ft !~# 'commit'
+        \ |   execute "normal! g`\""
+        \ | endif
+
+    " Auto-create directories when saving files
+    autocmd BufWritePre *
+        \ if !isdirectory(expand('<afile>:p:h'))
+        \ |   call mkdir(expand('<afile>:p:h'), 'p')
+        \ | endif
+
+    " Auto-resize splits when vim is resized
+    autocmd VimResized * wincmd =
+
+    " Set appropriate file types
+    autocmd BufNewFile,BufRead *.tsx,*.jsx set filetype=typescriptreact
+    autocmd BufNewFile,BufRead *.json set filetype=json
+    autocmd BufNewFile,BufRead *.md set filetype=markdown
+
+augroup END
+
+" =============================================================================
+" Functions
+" =============================================================================
+
+" Toggle background between light and dark
+function! ToggleBG() abort
+    if &background ==# 'dark'
         set background=light
     else
         set background=dark
     endif
 endfunction
+nnoremap <silent> <Leader>bg :call ToggleBG()<CR>
 
-syntax on                   " Syntax highlighting
-set mouse=a                 " Automatically enable mouse usage
-set mousehide               " Hide the mouse cursor while typing
-
-" Most prefer to automatically switch to the current file directory when
-" a new buffer is opened; to prevent this behavior, add the following to
-" your .vimrc.before.local file:
-"   let g:spf13_no_autochdir = 1
-"if !exists('g:spf13_no_autochdir')
-"autocmd BufEnter * if bufname("") !~ "^\[A-Za-z0-9\]*://" | lcd %:p:h | endif
-"" Always switch to the current file directory
-"endif
-
-"set autowrite                       " Automatically write a file when leaving a modified buffer
-set shortmess+=filmnrxoOtT          " Abbrev. of messages (avoids 'hit enter')
-set viewoptions=folds,options,cursor,unix,slash " Better Unix / Windows compatibility
-set virtualedit=onemore             " Allow for cursor beyond last character
-set history=1000                    " Store a ton of history (default is 20)
-set nospell                           " Spell checking on
-set hidden                          " Allow buffer switching without saving
-" set iskeyword-=.                    " '.' is an end of word designator
-" set iskeyword-=#                    " '#' is an end of word designator
-" set iskeyword-=-                    " '-' is an end of word designator
-
-" Instead of reverting the cursor to the last position in the buffer, we
-" set it to the first line when editing a git commit message
-" au FileType gitcommit au! BufEnter COMMIT_EDITMSG call setpos('.', [0, 1, 1, 0])
-
-" http://vim.wikia.com/wiki/Restore_cursor_to_file_position_in_previous_editing_session
-" Restore cursor to file position in previous editing session
-function! ResCur()
-    if line("'\"") <= line("$")
-        silent! normal! g`"
-        return 1
-    endif
+" Strip trailing whitespace
+function! StripTrailingWhitespace() abort
+    let l:save = winsaveview()
+    keeppatterns %s/\s\+$//e
+    call winrestview(l:save)
 endfunction
+command! StripWhitespace call StripTrailingWhitespace()
 
-augroup resCur
-    autocmd!
-    autocmd BufWinEnter * call ResCur()
-augroup END
+" Quick grep function
+if executable('rg')
+    set grepprg=rg\ --vimgrep\ --smart-case\ --follow
+    set grepformat=%f:%l:%c:%m
+elseif executable('ag')
+    set grepprg=ag\ --nogroup\ --nocolor\ --vimgrep
+    set grepformat=%f:%l:%c:%m
+endif
 
-" Setting up the directories
-set backup                  " Backups are nice ...
-set directory=~/.backup
-set undofile                " So is persistent undo ...
-set undolevels=1000         " Maximum number of changes that can be undone
-set undoreload=10000        " Maximum number lines to save for undo on a buffer reload
-set showmode                    " Display the current mode
+" =============================================================================
+" Vim vs Neovim Specific Settings
+" =============================================================================
 
-highlight clear SignColumn      " SignColumn should match background
-"highlight clear LineNr          " Current line number row will have same background color in relative mode
-"highlight clear CursorLineNr    " Remove highlight color from current line number
+if has('nvim')
+    " Neovim specific settings
+    set inccommand=split            " Live substitution preview
 
-set ruler                   " Show the ruler
-set rulerformat=%30(%=\:b%n%y%m%r%w\ %l,%c%V\ %P%) " A ruler on steroids
-set showcmd                 " Show partial commands in status line and
-" Selected characters/lines in visual mode
+    " Better terminal integration
+    if exists(':tnoremap')
+        tnoremap <Esc> <C-\><C-n>
+        tnoremap <C-h> <C-\><C-n><C-w>h
+        tnoremap <C-j> <C-\><C-n><C-w>j
+        tnoremap <C-k> <C-\><C-n><C-w>k
+        tnoremap <C-l> <C-\><C-n><C-w>l
+    endif
 
-set backspace=indent,eol,start  " Backspace for dummies
-set linespace=0                 " No extra spaces between rows
-set number                      " Line numbers on
-set showmatch                   " Show matching brackets/parenthesis
-set incsearch                   " Find as you type search
-set hlsearch                    " Highlight search terms
-set winminheight=0              " Windows can be 0 line high
-set smartcase                   " Case sensitive when uc present
-set whichwrap=b,s,h,l,<,>,[,]   " Backspace and cursor keys wrap too
-set nolist
-set listchars=tab:›\ ,trail:•,extends:#,nbsp:. " Highlight problematic whitespace
+    " Modern clipboard
+    set clipboard=unnamedplus
 
-" Easier moving in tabs and windows
-" The lines conflict with the default digraph mapping of <C-K>
-" If you prefer that functionality, add the following to your
-" .vimrc.before.local file:
-"   let g:spf13_no_easyWindows = 1
-map <C-J> <C-W>j<C-W>_
-map <C-K> <C-W>k<C-W>_
-map <C-L> <C-W>l<C-W>_
-map <C-H> <C-W>h<C-W>_
-
-" Code folding options
-nmap <leader>f0 :set foldlevel=0<CR>
-nmap <leader>f1 :set foldlevel=1<CR>
-nmap <leader>f2 :set foldlevel=2<CR>
-nmap <leader>f3 :set foldlevel=3<CR>
-nmap <leader>f4 :set foldlevel=4<CR>
-nmap <leader>f5 :set foldlevel=5<CR>
-nmap <leader>f6 :set foldlevel=6<CR>
-nmap <leader>f7 :set foldlevel=7<CR>
-nmap <leader>f8 :set foldlevel=8<CR>
-nmap <leader>f9 :set foldlevel=9<CR>
-
-" Most prefer to toggle search highlighting rather than clear the current
-" search results. To clear search highlighting rather than toggle it on
-" and off, add the following to your .vimrc.before.local file:
-"   let g:spf13_clear_search_highlight = 1
-if exists('g:spf13_clear_search_highlight')
-    nmap <silent> <leader>/ :nohlsearch<CR>
 else
-    nmap <silent> <leader>/ :set invhlsearch<CR>
+    " Vim specific settings
+    set ttyfast                     " Fast terminal connection
+    set lazyredraw                  " Don't redraw during macros
+
+    " Improve escape time
+    set ttimeout
+    set ttimeoutlen=50
+
+    " Better backspace behavior
+    set backspace=indent,eol,start
+
+    " Clipboard for different systems
+    if has('clipboard')
+        if has('unnamedplus')
+            set clipboard=unnamed,unnamedplus
+        else
+            set clipboard=unnamed
+        endif
+    endif
+
+    " Enable 256 colors if available
+    if &term =~# '256color'
+        set t_Co=256
+    endif
 endif
 
-" Find merge conflict markers
-map <leader>fc /\v^[<\|=>]( .*\|$)<CR>
+" =============================================================================
+" Plugin Compatibility
+" =============================================================================
 
-" Shortcuts
-" Change Working Directory to that of the current file
-cmap cwd lcd %:p:h
-cmap cd. lcd %:p:h
-
-" Visual shifting (does not exit Visual mode)
-"vnoremap < <gv
-"vnoremap > >gv
-
-" For when you forget to sudo.. Really Write the file.
-cmap w!! w !sudo tee % >/dev/null
-
-" Some helpers to command mode
-" http://vimcasts.org/e/14
-cnoremap %% <C-R>=fnameescape(expand('%:h')).'/'<cr>
-map <leader>ew :e %%
-" Map <Leader>ff to display all lines with keyword under cursor
-" and ask which one to jump to
-nmap <Leader>ff [I:let nr = input("Which one: ")<Bar>exe "normal " . nr ."[\t"<CR>
-
-" Plugins
-" Make tags placed in .git/tags file available in all levels of a repository
-let gitroot = substitute(system('git rev-parse --show-toplevel'), '[\n\r]', '', 'g')
-if gitroot != ''
-    let &tags = &tags . ',' . gitroot . '/.git/tags'
-endif
-"
-
-
-" PyMode
-" Disable if python support not present
-if !has('python') && !has('python3')
-    let g:pymode = 0
+" Git integration (if fugitive is available)
+if exists(':Git')
+    nnoremap <silent> <Leader>gs :Git<CR>
+    nnoremap <silent> <Leader>gd :Git diff<CR>
+    nnoremap <silent> <Leader>gc :Git commit<CR>
+    nnoremap <silent> <Leader>gp :Git push<CR>
+    nnoremap <silent> <Leader>gl :Git log --oneline<CR>
 endif
 
-if isdirectory(expand("~/.vim/bundle/python-mode"))
-    let g:pymode_lint_checkers = ['pyflakes']
-    let g:pymode_trim_whitespaces = 0
-    let g:pymode_options = 0
-    let g:pymode_rope = 0
-endif
-"
-" TagBar
-if isdirectory(expand("~/.vim/bundle/tagbar/"))
-    nnoremap <silent> <leader>tt :TagbarToggle<CR>
+" FZF integration (if available)
+if exists(':FZF')
+    nnoremap <silent> <C-p> :FZF<CR>
+    nnoremap <silent> <Leader>b :Buffers<CR>
+    nnoremap <silent> <Leader>h :History<CR>
 endif
 
-" Fugitive
-if isdirectory(expand("~/.vim/bundle/vim-fugitive/"))
-    nnoremap <silent> <leader>g :Git <CR>
-    nnoremap <silent> <leader>gs :Git status<CR>
-    nnoremap <silent> <leader>gd :Git diff<CR>
-    nnoremap <silent> <leader>gc :Git commit<CR>
-    nnoremap <silent> <leader>gb :Git blame<CR>
-    nnoremap <silent> <leader>gl :Git log<CR>
-    nnoremap <silent> <leader>gp :Git push<CR>
-    nnoremap <silent> <leader>gr :Git rebase<CR>
-    " Mnemonic _i_nteractive
-    nnoremap <silent> <leader>gi :Git add -p %<CR>
+" =============================================================================
+" Performance Optimizations
+" =============================================================================
+
+" Improve scrolling performance
+set ttyfast
+set lazyredraw
+
+" Reduce regex engine backtracking
+if exists('+regexpengine')
+    set regexpengine=1
 endif
 
+" Optimize for large files
+set synmaxcol=200               " Don't highlight long lines
 
-" GUI Settings
+" =============================================================================
+" Security
+" =============================================================================
 
-"" GVIM- (here instead of .gvimrc)
-"if has('gui_running')
-"    set guioptions-=T           " Remove the toolbar
-"    set lines=40                " 40 lines of text instead of 24
-"    "if !exists("g:spf13_no_big_font")
-"    "if LINUX() && has("gui_running")
-"    "set guifont=Andale\ Mono\ Regular\ 12,Menlo\ Regular\ 11,Consolas\ Regular\ 12,Courier\ New\ Regular\ 14
-"    "elseif OSX() && has("gui_running")
-"    "set guifont=Andale\ Mono\ Regular:h12,Menlo\ Regular:h11,Consolas\ Regular:h12,Courier\ New\ Regular:h14
-"    "elseif WINDOWS() && has("gui_running")
-"    "set guifont=Andale_Mono:h10,Menlo:h10,Consolas:h10,Courier_New:h10
-"    "endif
-"    "endif
-"else
-"    if &term == 'xterm' || &term == 'screen'
-"        set t_Co=256            " Enable 256 colors to stop the CSApprox warning and make xterm vim shine
-"    endif
-"    "set term=builtin_ansi       " Make arrow and other keys work
-"endif
+set nomodeline                  " Disable modelines for security
 
-""
+" =============================================================================
+" Legacy Compatibility
+" =============================================================================
 
-"" Functions
+" Ensure compatibility with older vim versions
+if v:version < 800
+    set nocompatible
 
-"" Initialize directories
+    " Fallback settings for older vim
+    if !exists('+relativenumber')
+        set number
+    endif
 
-"" Strip whitespace
-"function! StripTrailingWhitespace()
-"    " Preparation: save last search, and cursor position.
-"    let _s=@/
-"    let l = line(".")
-"    let c = col(".")
-"    " do the business:
-"    %s/\s\+$//e
-"    " clean up: restore previous search history, and cursor position
-"    let @/=_s
-"    call cursor(l, c)
-"endfunction
-""
-
-"" Shell command
-"function! s:RunShellCommand(cmdline)
-"    botright new
-
-"    setlocal buftype=nofile
-"    setlocal bufhidden=delete
-"    setlocal nobuflisted
-"    setlocal noswapfile
-"    setlocal nowrap
-"    setlocal filetype=shell
-"    setlocal syntax=shell
-
-"    call setline(1, a:cmdline)
-"    call setline(2, substitute(a:cmdline, '.', '=', 'g'))
-"    execute 'silent $read !' . escape(a:cmdline, '%#')
-"    setlocal nomodifiable
-"    1
-"endfunction
-
-"command! -complete=file -nargs=+ Shell call s:RunShellCommand(<q-args>)
-"" e.g. Grep current file for <search_term>: Shell grep -Hn <search_term> %
-""
-
-"function! s:ExpandFilenameAndExecute(command, file)
-"    execute a:command . " " . expand(a:file, ":p")
-"endfunction
+    if !has('patch-7.4.354')
+        set ttymouse=xterm2
+    endif
+endif
 

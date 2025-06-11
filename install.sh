@@ -1,5 +1,11 @@
 #!/usr/bin/env zsh
 
+# Parse command line arguments
+NONINTERACTIVE=false
+if [[ "$1" == "--non-interactive" || "$1" == "-n" ]]; then
+    NONINTERACTIVE=true
+fi
+
 # Get the directory where this script is located
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]:-$0}")" && pwd)"
 DOTFILES_DIR="$SCRIPT_DIR"
@@ -10,6 +16,11 @@ if [ -f "$DOTFILES_DIR/banner.txt" ]; then
 else
     echo "========== MODERN DOTFILES INSTALLER (2025) =========="
 fi
+
+if [[ "$NONINTERACTIVE" == "true" ]]; then
+    echo "🤖 RUNNING IN NON-INTERACTIVE MODE (all prompts will use default 'no')"
+fi
+
 echo -e '\n\n\n\n\n\n\n\n\n\n'
 
 # unalias date just in case
@@ -18,6 +29,22 @@ unalias date 2>/dev/null || true
 date=$(date +%d_%m_%Y)
 mkdir -p "$DOTFILES_DIR/bkp"
 bkpDir="$DOTFILES_DIR/bkp/dotfiles-${date}"
+
+# Helper function for prompts
+prompt_user() {
+    local question="$1"
+    local default="$2"
+
+    if [[ "$NONINTERACTIVE" == "true" ]]; then
+        echo "$question (non-interactive mode: using default '$default')"
+        echo "$default"
+        return
+    fi
+
+    echo "$question"
+    read -r response
+    echo "$response"
+}
 
 cd "$HOME" || { echo "Failed to change to home directory"; exit 1; }
 
@@ -83,8 +110,7 @@ if [[ "$OSTYPE" == darwin* ]]; then
 fi
 
 # Install Oh My Zsh CAREFULLY (without overriding our dotfiles)
-echo "Do you want to install Oh My Zsh? (y/n)"
-read -r install_ohmyzsh
+install_ohmyzsh=$(prompt_user "Do you want to install Oh My Zsh? (y/n)" "n")
 
 if [[ "$install_ohmyzsh" = "y" ]]; then
     if [ ! -d "$HOME/.oh-my-zsh" ]; then
@@ -116,20 +142,25 @@ create_symlink ".vimrc.plugin" ".vimrc.plugin"
 create_symlink ".vimrc.plugin.extended" ".vimrc.plugin.extended"
 
 # Zsh files (CRITICAL: Do this after Oh My Zsh install)
-create_symlink ".zshenv" ".zshenv"
 create_symlink ".zshrc" ".zshrc"
-create_symlink ".zshrc-e" ".zshrc-e"
 create_symlink ".zshrc.alias" ".zshrc.alias"
-create_symlink ".zshrc.local" ".zshrc.local"
+# Note: .zshenv and .zshrc.local are user-specific and not included in dotfiles
+# Note: .zshrc-e has been consolidated into .zshrc.local.template
+# See .zshenv.template and .zshrc.local.template for examples
 
 # Git config (only if it doesn't exist to avoid overwriting user settings)
 if [ ! -f "$HOME/.gitconfig" ]; then
-    echo "No .gitconfig found. Let's set up your Git identity."
-    echo "What is your name?"
-    read -r gitname
-    echo "What is your email?"
-    read -r gitemail
-    cat > "$HOME/.gitconfig" <<EOF
+    if [[ "$NONINTERACTIVE" == "true" ]]; then
+        echo "No .gitconfig found. Skipping Git identity setup in non-interactive mode."
+        echo "You can configure Git later with: git config --global user.name 'Your Name'"
+        echo "                                 git config --global user.email 'your.email@example.com'"
+    else
+        echo "No .gitconfig found. Let's set up your Git identity."
+        echo "What is your name?"
+        read -r gitname
+        echo "What is your email?"
+        read -r gitemail
+        cat > "$HOME/.gitconfig" <<EOF
 [user]
     name = $gitname
     email = $gitemail
@@ -195,7 +226,8 @@ if [ ! -f "$HOME/.gitconfig" ]; then
 [includeIf "gitdir:~/work/"]
     path = ~/.gitconfig-work
 EOF
-    echo "✅ .gitconfig created with your user info and recommended settings."
+        echo "✅ .gitconfig created with your user info and recommended settings."
+    fi
 else
     echo "Warning: .gitconfig already exists, skipping creation."
 fi
@@ -212,11 +244,8 @@ if [ -d "$DOTFILES_DIR/.config" ]; then
     for config_dir in "$DOTFILES_DIR/.config"/*; do
         if [ -d "$config_dir" ]; then
             dir_name=$(basename "$config_dir")
-            # Skip nvim as it's handled separately below
-            if [ "$dir_name" != "nvim" ]; then
-                ln -sf "$config_dir" ~/.config/ 2>/dev/null || echo "Warning: Could not link $dir_name config"
-                echo "Linked ~/.config/$dir_name"
-            fi
+            ln -sf "$config_dir" ~/.config/ 2>/dev/null || echo "Warning: Could not link $dir_name config"
+            echo "Linked ~/.config/$dir_name"
         fi
     done
 fi
@@ -226,8 +255,7 @@ echo -e "\n✅ Dotfiles are linked!"
 # Git configuration is handled above during dotfiles linking
 
 # Vim-plug installation
-echo "Do you wish to install vim-plug (modern Vim plugin manager)? (y/n)"
-read -r vimplug
+vimplug=$(prompt_user "Do you wish to install vim-plug (modern Vim plugin manager)? (y/n)" "n")
 
 if [[ "$vimplug" = "y" ]]; then
     echo "Installing vim-plug..."
@@ -238,8 +266,7 @@ fi
 
 # Development tools installation (macOS)
 if [[ "$OSTYPE" == darwin* ]]; then
-    echo "Install essential development tools via Homebrew? (y/n)"
-    read -r install_tools
+    install_tools=$(prompt_user "Install essential development tools via Homebrew? (y/n)" "n")
 
     if [[ "$install_tools" = "y" ]]; then
         echo "Updating Homebrew..."
@@ -270,8 +297,7 @@ if [[ "$OSTYPE" == darwin* ]]; then
         echo "✅ Development tools installed"
 
         # Set up GPG for Git commit signing
-        echo "Configure GPG for Git commit signing? (y/n)"
-        read -r setup_gpg
+        setup_gpg=$(prompt_user "Configure GPG for Git commit signing? (y/n)" "n")
 
         if [[ "$setup_gpg" = "y" ]]; then
             echo "Setting up GPG configuration..."
@@ -321,7 +347,7 @@ EOF
             echo "   4. Enable signing: git config --global commit.gpgsign true"
         fi
 
-                # Set up Starship configuration
+        # Set up Starship configuration
         echo "Setting up Starship prompt configuration..."
         mkdir -p ~/.config
 
@@ -336,9 +362,7 @@ EOF
     fi
 
     # Optional: BetterTouchTool
-    echo "Install BetterTouchTool for advanced macOS automation? (y/n)"
-    echo "(Note: BetterTouchTool is a paid app but offers powerful gesture and automation features)"
-    read -r btt
+    btt=$(prompt_user "Install BetterTouchTool for advanced macOS automation? (y/n) - Note: BetterTouchTool is a paid app but offers powerful gesture and automation features" "n")
 
     if [[ "$btt" = "y" ]]; then
         echo "Installing BetterTouchTool..."
@@ -348,19 +372,17 @@ EOF
 fi
 
 # Vim plugins installation
-echo "Install vim plugins now? (y/n)"
-read -r vimplugins
+vimplugins=$(prompt_user "Install vim plugins now? (y/n)" "n")
 
 if [[ "$vimplugins" = "y" ]] && command -v vim &>/dev/null; then
     echo "Installing vim plugins..."
     vim +PlugInstall +qall
     echo "✅ Vim plugins installed"
+    echo "   📝 Note: Tabs are configured to always show when opening multiple files"
 fi
 
 # Programming fonts
-echo "Install modern programming fonts? (y/n)"
-echo "(Includes JetBrains Mono Nerd Font, Cascadia Code, and other developer favorites)"
-read -r fonts
+fonts=$(prompt_user "Install modern programming fonts? (y/n) - Includes JetBrains Mono Nerd Font, Cascadia Code, and other developer favorites" "n")
 
 if [[ "$fonts" = "y" ]] && [[ "$OSTYPE" == darwin* ]]; then
     echo "Installing modern programming fonts via Homebrew..."
@@ -380,8 +402,7 @@ fi
 
 # Node.js setup
 if command -v nvm &>/dev/null; then
-    echo "Setup Node.js LTS via NVM? (y/n)"
-    read -r node_setup
+    node_setup=$(prompt_user "Setup Node.js LTS via NVM? (y/n)" "n")
 
     if [[ "$node_setup" = "y" ]]; then
         echo "Setting up Node.js environment..."
@@ -396,37 +417,7 @@ if command -v nvm &>/dev/null; then
     fi
 fi
 
-# Neovim configuration
-echo "Setup Neovim configuration? (y/n)"
-echo "(This will add modern Lua-based Neovim config alongside your Vim setup)"
-read -r neovim_setup
-
-if [[ "$neovim_setup" = "y" ]]; then
-    echo "Setting up Neovim configuration..."
-    mkdir -p ~/.config/nvim
-
-    # Remove any existing conflicting symlinks
-    [ -L ~/.config/nvim/.vim ] && rm ~/.config/nvim/.vim
-    [ -L ~/.config/nvim/init.vim ] && rm ~/.config/nvim/init.vim
-    [ -L ~/.config/nvim/init.lua ] && rm ~/.config/nvim/init.lua
-    [ -L ~/.config/nvim/lua ] && rm ~/.config/nvim/lua
-
-    if [ -f "$DOTFILES_DIR/.config/nvim/init.lua" ]; then
-        # Link modern Neovim configuration
-        ln -sf "$DOTFILES_DIR/.config/nvim/init.lua" ~/.config/nvim/init.lua 2>/dev/null || echo 'Warning: Could not link init.lua'
-
-        # Link lua directory if it exists
-        if [ -d "$DOTFILES_DIR/.config/nvim/lua" ]; then
-            ln -sf "$DOTFILES_DIR/.config/nvim/lua" ~/.config/nvim/lua 2>/dev/null || echo 'Warning: Could not link lua directory'
-        fi
-
-        echo "✅ Modern Neovim configuration linked (init.lua + lazy.nvim)"
-    else
-        echo "❌ No modern Neovim configuration found in .config/nvim/"
-        # Fallback: link vim config to neovim
-        ln -sf "$DOTFILES_DIR/.vimrc" ~/.config/nvim/init.vim 2>/dev/null || echo 'Warning: Could not link .vimrc as init.vim'
-    fi
-fi
+# Neovim configuration is now automatically linked with other .config directories above
 
 # Final verification and testing
 echo -e "\n🧪 TESTING INSTALLATION..."
@@ -471,7 +462,7 @@ fi
 echo ""
 echo "📋 SUMMARY OF WHAT WAS INSTALLED:"
 echo "   ✅ Dotfiles symlinked to custom configurations"
-echo "   ✅ Vim/Neovim with modern plugin management"
+echo "   ✅ Vim/Neovim with modern plugin management (tabs always visible)"
 if [[ "$install_ohmyzsh" = "y" ]]; then
     echo "   ✅ Oh My Zsh for enhanced terminal experience"
     echo "   ✅ zsh-syntax-highlighting plugin"
@@ -497,12 +488,14 @@ echo ""
 echo "🚀 NEXT STEPS:"
 echo "   1. **Restart your terminal** to apply all changes"
 echo "   2. **Set terminal font** to 'JetBrainsMonoNerdFont-Regular' for beautiful icons"
-echo "   3. Try Starship prompt: 'eval \"\$(starship init zsh)\"' (temporary test)"
-echo "   4. Try modern tools: 'eza -la', 'bat filename', 'rg search-term'"
-echo "   5. Use FZF: Ctrl+R (history), Ctrl+T (files), Alt+C (directories)"
-if [[ "$neovim_setup" = "y" ]]; then
-    echo "   6. Run 'nvim' to start Neovim with your modern configuration"
-fi
+echo "   3. **Create local config files** (optional):"
+echo "      • Copy .zshenv.template to .zshenv for environment variables"
+echo "      • Copy .zshrc.local.template to .zshrc.local for local configurations"
+echo "      • If upgrading: merge any .zshrc-e settings into .zshrc.local"
+echo "   4. Try Starship prompt: 'eval \"\$(starship init zsh)\"' (temporary test)"
+echo "   5. Try modern tools: 'eza -la', 'bat filename', 'rg search-term'"
+echo "   6. Use FZF: Ctrl+R (history), Ctrl+T (files), Alt+C (directories)"
+echo "   7. Run 'nvim' to start Neovim with your modern configuration"
 
 echo ""
 echo "💡 QUICK TEST COMMANDS:"
@@ -513,6 +506,13 @@ echo "   • rg --version                          # Test ripgrep"
 echo "   • eza --version                         # Test modern ls replacement"
 echo "   • nvim --version                        # Test Neovim"
 echo "   • gpg --version                         # Test GPG for security/signing"
+echo "   • vim file1 file2                       # Test vim with tabs (should show tab bar)"
+echo "   • nvim file1 file2                      # Test neovim with tabs (should show tab bar)"
 echo ""
 echo "🔧 Your development environment is ready! Happy coding! 🧑‍💻"
+echo ""
+echo "💡 SCRIPT USAGE:"
+echo "   ./install.sh                            # Interactive mode (asks questions)"
+echo "   ./install.sh --non-interactive          # Non-interactive mode (uses defaults)"
+echo "   ./install.sh -n                         # Short form for non-interactive"
 

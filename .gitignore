@@ -1,5 +1,7 @@
 .zshrc.local
 .zshrc.private
+.zshrc-e
+.zshenv
 .gitconfig
 # Created by https://www.gitignore.io/api/vim
 # Edit at https://www.gitignore.io/?templates=vim
@@ -81,6 +83,9 @@ Temporary Items
 *.bak
 .cache/
 .tmp/
+
+### Neovim ###
+lazy-lock.json
 
 ### Node.js ###
 node_modules/
