@@ -31,8 +31,10 @@ export LANG=en_US.UTF-8
 
 #eval $(docker-machine env default)
 
+# [ -f ~/.zshrc-e ] && source ~/.zshrc-e
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 [ -f ~/.zshrc.alias ] && source ~/.zshrc.alias
+[ -f ~/.zshrc-e ] && source ~/.zshrc-e
 [ -f ~/.zshenv ] && source ~/.zshenv
 # excluded from dotfiles.
 [ -f ~/.zshrc.local ] && source ~/.zshrc.local
@@ -122,4 +124,3 @@ esac
 export PATH="$HOME/.codeium/windsurf/bin:$PATH"
 
 # Add custom configurations here
-# Ruby PATH is now handled in .zshenv

@@ -31,11 +31,14 @@ HAS_NVIM=$(which nvim 2>/dev/null)
 
 if [ -n "$HAS_NVIM" ]; then
     alias v="nvim"
-    alias nv="nvim -c OpenSession"
-    alias vv="nvim -c OpenSession"
+    alias nv="nvim"                    # Persisted plugin auto-loads sessions
+    alias vv="nvim"                    # Persisted plugin auto-loads sessions
     alias nvp="nvim --noplugin"
     alias vp="nvim --noplugin"
-    alias nvo="nvim -c OpenSession"
+    alias nvo="nvim -c SessionLoad"    # Explicitly load session picker
+    alias nvs="nvim -c SessionSave"    # Quick session save
+    alias nvt="nvim -p"                # Open files in tabs
+    alias vt="nvim -p"                 # Open files in tabs
 else
     alias v="vim"
     alias nv="vim -c OpenSession"
@@ -43,6 +46,7 @@ else
     alias nvp="vim --noplugin"
     alias vp="vim --noplugin"
     alias nvo="vim -c OpenSession"
+    alias vt="vim -p"                  # Open files in tabs
 fi
 
 # Yarn/Node
@@ -124,7 +128,7 @@ function clone-rep-and-install() {
 
 function update-children-repos() {
     for dir in `ls`
-    do 
+    do
         cd $dir
         rebase=`git pull -r`
         if [ $? -ne 0 ]; then
@@ -142,13 +146,13 @@ if command -v fd &> /dev/null && command -v rg &> /dev/null; then
     function fif() {
         rg --files-with-matches --no-messages "$1" | fzf --preview "rg --ignore-case --pretty --context 10 '$1' {}"
     }
-    
+
     # Interactive ripgrep - search content then edit
     function rgf() {
         local file
         file=$(rg --files-with-matches --no-messages "$1" | fzf --preview "rg --ignore-case --pretty --context 10 '$1' {}") && [ -n "$file" ] && ${EDITOR:-vim} "$file"
     }
-    
+
     # Find directory and cd into it
     function fcd() {
         local dir

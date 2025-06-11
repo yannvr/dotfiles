@@ -1,0 +1,73 @@
+# .zshrc.local - Local zsh configuration (interactive shells only)
+# Copy this to .zshrc.local and customize for your setup
+
+# =============================================================================
+# FZF Configuration
+# =============================================================================
+export FZF_DEFAULT_OPTS='--reverse --height 40% --border'
+
+# Use fd for file finding (faster than ag/find)
+if command -v fd &> /dev/null; then
+    export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
+    export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+    export FZF_ALT_C_COMMAND='fd --type d --hidden --follow --exclude .git'
+else
+    # Fallback to ag if fd not available
+    export FZF_DEFAULT_COMMAND='ag -g ""'
+    export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+    export FZF_ALT_T_COMMAND="$FZF_DEFAULT_COMMAND"
+fi
+
+# Use ripgrep for content search in fzf
+if command -v rg &> /dev/null; then
+    export FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS --preview 'rg --color=always --line-number --no-heading --smart-case {q} {} || cat {}'"
+fi
+
+# =============================================================================
+# Development Tools
+# =============================================================================
+
+# Homebrew initialization (macOS)
+if [ -f "/opt/homebrew/bin/brew" ]; then
+    eval "$(/opt/homebrew/bin/brew shellenv)"
+fi
+
+# NVM initialization
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+[ -s "/usr/local/opt/nvm/nvm.sh" ] && . "/usr/local/opt/nvm/nvm.sh"  # Legacy path
+[ -s "/usr/local/opt/nvm/etc/bash_completion" ] && . "/usr/local/opt/nvm/etc/bash_completion"
+
+# Pyenv initialization (if you use Python version management)
+# if command -v pyenv &> /dev/null; then
+#     export PYENV_ROOT="$HOME/.pyenv"
+#     export PATH="$PYENV_ROOT/bin:$PATH"
+#     eval "$(pyenv init -)"
+#     eval "$(pyenv virtualenv-init -)"
+# fi
+
+# =============================================================================
+# Custom PATH additions
+# =============================================================================
+# export PATH=$PATH:~/.bun/bin:~/bin
+# export PATH=$YARN_GLOBAL_BIN:$PATH
+
+# =============================================================================
+# Custom aliases
+# =============================================================================
+# alias p=pnpm
+
+# =============================================================================
+# Custom functions
+# =============================================================================
+# my_function() {
+#     echo "Hello from custom function"
+# }
+
+# =============================================================================
+# Tool-specific configurations
+# =============================================================================
+# Example: direnv hook
+# eval "$(direnv hook zsh)"
+
+# Add your local configurations here

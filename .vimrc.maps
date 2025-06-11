@@ -65,14 +65,26 @@ nnoremap <Leader>e :Lexplore<CR>c
 
 " map :convertLineEnding<<CR>%s/\r/\r/g<CR>
 
-" Sessions - vim-session plugin (works in both vim and neovim)
-nnoremap ¬ :OpenSession<CR>
-nnoremap <leader>sl :OpenSession<CR>
-nnoremap <leader>sd :DeleteSession<CR>
-nnoremap <leader>ss :SaveSession<CR>
-nnoremap <leader>sx :SaveSession<CR>:CloseSession:q<CR>
-nnoremap <leader>sc :CloseSession<CR>:q<CR>
-nnoremap <Leader>sx :SaveSession<CR>:CloseSession<CR>:q<CR>
+" Sessions - different plugins for vim vs neovim
+if has('nvim')
+    " Neovim: Use Persisted plugin
+    nnoremap ¬ :SessionLoad<CR>
+    nnoremap <leader>sl :SessionLoad<CR>
+    nnoremap <leader>sd :SessionDelete<CR>
+    nnoremap <leader>ss :SessionSave<CR>
+    nnoremap <leader>sx :SessionSave<CR>:SessionStop<CR>:q<CR>
+    nnoremap <leader>sc :SessionStop<CR>:q<CR>
+    nnoremap <Leader>st :SessionToggle<CR>
+else
+    " Vim: Use vim-session plugin
+    nnoremap ¬ :OpenSession<CR>
+    nnoremap <leader>sl :OpenSession<CR>
+    nnoremap <leader>sd :DeleteSession<CR>
+    nnoremap <leader>ss :SaveSession<CR>
+    nnoremap <leader>sx :SaveSession<CR>:CloseSession:q<CR>
+    nnoremap <leader>sc :CloseSession<CR>:q<CR>
+    nnoremap <Leader>sx :SaveSession<CR>:CloseSession<CR>:q<CR>
+endif
 
 " Undo tree
 nnoremap <Leader>u :MundoToggle<CR>
@@ -117,6 +129,19 @@ nnoremap † :tabnew<CR><C-W>w<CR>
 nnoremap " :tabprevious<CR>
 nnoremap ' :tabnext<CR>
 nnoremap Ê :tabclose<CR>
+
+" Convert buffers to tabs
+nnoremap <leader>bt :tab sball<CR>
+
+" Modern tab navigation with OPT+[ and OPT+] (Alt+[ and Alt+])
+" On Mac, OPT+[ produces " (left double quote) and OPT+] produces ' (right single quote)
+nnoremap " :tabprevious<CR>
+nnoremap ' :tabnext<CR>
+
+" Alternative mappings using escape sequences for better compatibility
+" These work when the above characters don't map correctly
+nnoremap <A-[> :tabprevious<CR>
+nnoremap <A-]> :tabnext<CR>
 
 nnoremap ∂ :t.<CR>
 nnoremap <leader>B  :call ToggleBG()<CR>
