@@ -37,6 +37,7 @@ The installer will guide you through setting up:
 - **Zsh**: Enhanced shell with Oh My Zsh and Starship prompt  
 - **Git**: Optimized version control configuration
 - **tmux**: Terminal multiplexer for efficient workflows
+- **Custom Scripts**: Useful shell scripts in `~/bin` directory (e.g., `killport.sh`)
 
 ### **Modern CLI Tools** 
 - `starship` - Beautiful, fast shell prompt
@@ -87,6 +88,26 @@ The installer is interactive and allows you to:
 - Choose between basic and extended tool sets
 - Configure Git user information during setup
 - Set up Node.js version management with nvm
+
+### Personal Configuration Files
+
+After installation, create your personal configuration files from the provided examples:
+
+```bash
+# Environment variables (loaded for all shells)
+cp .zshenv.example .zshenv
+
+# Local shell customizations
+cp .zshrc.local.example .zshrc.local
+
+# Private/sensitive settings (API keys, etc.)
+cp .zshrc.private.example .zshrc.private
+
+# Git configuration with your personal details
+cp .gitconfig.example .gitconfig
+```
+
+**Important**: These personal files are gitignored and won't be tracked in version control.
 
 ## 💡 Post-Installation Tips
 

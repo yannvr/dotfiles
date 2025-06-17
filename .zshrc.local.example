@@ -1,0 +1,28 @@
+# .zshrc.local - Local zsh configuration for interactive shells only
+# Copy this file to .zshrc.local and customize for your setup
+# This file is sourced by .zshrc and should contain your personal customizations
+
+# =============================================================================
+# Personal Aliases
+# =============================================================================
+# alias ll='ls -la'
+# alias grep='grep --color=auto'
+
+# =============================================================================
+# Personal Functions
+# =============================================================================
+# my_function() {
+#     echo "Hello from my custom function"
+# }
+
+# =============================================================================
+# Tool-specific Configuration
+# =============================================================================
+# Node.js Version Manager (nvm)
+# export NVM_DIR="$HOME/.nvm"
+# [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+
+# Starship Prompt (uncomment to enable)
+# eval "$(starship init zsh)"
+
+# Add your personal configurations here

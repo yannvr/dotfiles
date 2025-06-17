@@ -146,7 +146,15 @@ create_symlink ".zshrc" ".zshrc"
 create_symlink ".zshrc.alias" ".zshrc.alias"
 # Note: .zshenv and .zshrc.local are user-specific and not included in dotfiles
 # Note: .zshrc-e has been consolidated into .zshrc.local.template
-# See .zshenv.template and .zshrc.local.template for examples
+# See .zshenv.example, .zshrc.local.example, .zshrc.private.example, and .gitconfig.example for templates
+
+# Link bin directory for custom scripts
+if [ -d "$DOTFILES_DIR/bin" ]; then
+    echo "Linking bin directory..."
+    mkdir -p "$HOME/bin"
+    ln -sf "$DOTFILES_DIR/bin"/* "$HOME/bin/" 2>/dev/null || echo "Warning: Could not link some bin scripts"
+    echo "Linked ~/bin directory with custom scripts"
+fi
 
 # Git config (only if it doesn't exist to avoid overwriting user settings)
 if [ ! -f "$HOME/.gitconfig" ]; then
@@ -489,9 +497,10 @@ echo "🚀 NEXT STEPS:"
 echo "   1. **Restart your terminal** to apply all changes"
 echo "   2. **Set terminal font** to 'JetBrainsMonoNerdFont-Regular' for beautiful icons"
 echo "   3. **Create local config files** (optional):"
-echo "      • Copy .zshenv.template to .zshenv for environment variables"
-echo "      • Copy .zshrc.local.template to .zshrc.local for local configurations"
-echo "      • If upgrading: merge any .zshrc-e settings into .zshrc.local"
+echo "      • Copy .zshenv.example to .zshenv for environment variables"
+echo "      • Copy .zshrc.local.example to .zshrc.local for local configurations"
+echo "      • Copy .zshrc.private.example to .zshrc.private for sensitive settings"
+echo "      • Copy .gitconfig.example to .gitconfig and customize with your details"
 echo "   4. Try Starship prompt: 'eval \"\$(starship init zsh)\"' (temporary test)"
 echo "   5. Try modern tools: 'eza -la', 'bat filename', 'rg search-term'"
 echo "   6. Use FZF: Ctrl+R (history), Ctrl+T (files), Alt+C (directories)"

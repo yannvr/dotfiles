@@ -1,0 +1,23 @@
+# .zshrc.private - Private/sensitive zsh configuration
+# Copy this file to .zshrc.private and add your sensitive configurations
+# This file is sourced by .zshrc and should contain private settings
+
+# =============================================================================
+# API Keys and Tokens
+# =============================================================================
+# export GITHUB_TOKEN="your_github_token_here"
+# export OPENAI_API_KEY="your_openai_key_here"
+
+# =============================================================================
+# Private Aliases and Functions
+# =============================================================================
+# alias work-vpn='sudo openvpn /path/to/config.ovpn'
+
+# =============================================================================
+# Work-specific Configuration
+# =============================================================================
+# export WORK_SERVER="your.work.server.com"
+# export WORK_USER="your_username"
+
+# Add your private/sensitive configurations here
+# This file should NEVER be committed to version control
