@@ -223,10 +223,45 @@ if [ ! -f "$HOME/.gitconfig" ]; then
 [credential]
     helper = osxkeychain
 [delta]
-    features = side-by-side line-numbers decorations
-    whitespace-error-style = 22 reverse
+    # Use n and N to move between diff sections
     navigate = true
+    # Set to true if you're in a terminal with a light background color
     light = false
+    # Use side-by-side view for better readability
+    side-by-side = true
+    # Show line numbers
+    line-numbers = true
+    # Enhanced decorations
+    decorations = true
+    # Syntax highlighting theme (try: Dracula, GitHub, Monokai Extended, etc.)
+    syntax-theme = Dracula
+    # Better file headers
+    file-style = bold yellow ul
+    file-decoration-style = none
+    file-added-label = [+]
+    file-copied-label = [==]
+    file-modified-label = [*]
+    file-removed-label = [-]
+    file-renamed-label = [->]
+    # Hunk headers
+    hunk-header-decoration-style = blue box
+    hunk-header-file-style = red
+    hunk-header-line-number-style = "#067a00"
+    hunk-header-style = file line-number syntax
+    # Line numbers
+    line-numbers-left-style = cyan
+    line-numbers-right-style = cyan
+    line-numbers-minus-style = 124
+    line-numbers-plus-style = 28
+    # Changes
+    minus-style = syntax "#450a15"
+    minus-emph-style = syntax "#600818"
+    plus-style = syntax "#0e2f0e"
+    plus-emph-style = syntax "#174517"
+    # Whitespace
+    whitespace-error-style = 22 reverse
+    # Zero line mode for better performance on large diffs
+    max-line-length = 512
 [pull]
     rebase = false
 [interactive]
@@ -285,7 +320,7 @@ if [[ "$OSTYPE" == darwin* ]]; then
         brew install fortune
 
         # Essential dev tools
-        brew install git nvm neovim fzf the_silver_searcher jq wget curl tree htop imagemagick gnupg pinentry-mac gh tmux pnpm
+        brew install git git-delta nvm neovim fzf the_silver_searcher jq wget curl tree htop imagemagick gnupg pinentry-mac gh tmux pnpm
 
         # Modern terminal tools (note: exa is now eza)
         echo "Installing modern terminal enhancements..."
@@ -361,11 +396,14 @@ EOF
 
         # Create a modern Starship config if it doesn't exist
         if [ ! -f ~/.config/starship.toml ]; then
-            echo "Setting up Starship with Nerd Font Symbols preset..."
-            starship preset nerd-font-symbols -o ~/.config/starship.toml
-            echo "✅ Starship configuration created with Nerd Font Symbols preset"
+            echo "Setting up Starship with Tokyo Night theme..."
+            starship preset tokyo-night -o ~/.config/starship.toml
+            echo "✅ Starship configuration created with Tokyo Night theme"
+            echo "   🎨 Theme: Tokyo Night with beautiful colors and icons"
+            echo "   💡 Tip: Make sure you have a Nerd Font installed for best experience"
         else
             echo "ℹ️  Starship config already exists, keeping your custom configuration"
+            echo "   💡 To switch to Tokyo Night theme: starship preset tokyo-night -o ~/.config/starship.toml"
         fi
     fi
 
