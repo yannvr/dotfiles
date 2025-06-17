@@ -107,19 +107,5 @@ set rtp+=/usr/local/opt/fzf
 # bun completions
 [ -s "$HOME/.oh-my-zsh/completions/_bun" ] && source "$HOME/.oh-my-zsh/completions/_bun"
 
-# bun
-export BUN_INSTALL="$HOME/.bun"
-export qATH="$BUN_INSTALL/bin:$PATH"
-# pnpm
-export PNPM_HOME="$HOME/Library/pnpm"
-case ":$PATH:" in
-  *":$PNPM_HOME:"*) ;;
-  *) export PATH="$PNPM_HOME:$PATH" ;;
-esac
-# pnpm end
-
-# Windsurf path (if exists)
-export PATH="$HOME/.codeium/windsurf/bin:$PATH"
-
-# Add custom configurations here
-# Ruby PATH is now handled in .zshenv
+# Environment variables moved to .zshenv for all shells
+# See .zshenv for: BUN_INSTALL, PNPM_HOME, Windsurf path, PostgreSQL path
