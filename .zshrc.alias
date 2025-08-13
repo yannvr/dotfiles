@@ -16,6 +16,7 @@ alias f='fuck'
 alias sl='screen -list'
 alias sr='screen -r'
 alias sd='screen -d'
+alias claude="/Users/yann/.claude/local/claude"
 
 # Development aliases
 # alias gpt='python /path/to/your/gpt/script.py'  # Update path as needed
