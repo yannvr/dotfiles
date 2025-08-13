@@ -1,9 +1,44 @@
 #!/usr/bin/env zsh
 
+# Function to show usage information
+show_usage() {
+    echo "MODERN DOTFILES INSTALLER"
+    echo ""
+    echo "USAGE:"
+    echo "   ./install.sh                     # Interactive mode (asks questions)"
+    echo "   ./install.sh --non-interactive   # Non-interactive mode (defaults to 'no')"
+    echo "   ./install.sh -n                  # Short form for non-interactive"
+    echo "   ./install.sh --yes               # Auto-yes mode (defaults to 'yes')"
+    echo "   ./install.sh -y                  # Short form for auto-yes"
+    echo "   ./install.sh --dry-run           # Show what would be done (safe preview)"
+    echo "   ./install.sh --help              # Show this help message"
+    echo "   ./install.sh -h                  # Short form for help"
+    echo ""
+    echo "MODES:"
+    echo "   Interactive      - Prompts for each installation option"
+    echo "   Non-interactive  - Uses 'no' as default, minimal installation"
+    echo "   Auto-yes         - Uses 'yes' as default, full installation"
+    echo "   Dry-run          - Shows what would be done, makes no changes (SAFE)"
+    echo ""
+    exit 0
+}
+
 # Parse command line arguments
 NONINTERACTIVE=false
-if [[ "$1" == "--non-interactive" || "$1" == "-n" ]]; then
+AUTO_YES=false
+DRY_RUN=false
+if [[ "$1" == "--help" || "$1" == "-h" ]]; then
+    show_usage
+elif [[ "$1" == "--non-interactive" || "$1" == "-n" ]]; then
     NONINTERACTIVE=true
+elif [[ "$1" == "--yes" || "$1" == "-y" ]]; then
+    AUTO_YES=true
+elif [[ "$1" == "--dry-run" ]]; then
+    DRY_RUN=true
+elif [[ -n "$1" ]]; then
+    echo "❌ Unknown argument: $1"
+    echo ""
+    show_usage
 fi
 
 # Get the directory where this script is located
@@ -19,9 +54,18 @@ fi
 
 if [[ "$NONINTERACTIVE" == "true" ]]; then
     echo "🤖 RUNNING IN NON-INTERACTIVE MODE (all prompts will use default 'no')"
+elif [[ "$AUTO_YES" == "true" ]]; then
+    echo "🚀 RUNNING IN AUTO-YES MODE (all prompts will use default 'yes')"
+elif [[ "$DRY_RUN" == "true" ]]; then
+    echo "🔍 RUNNING IN DRY-RUN MODE (showing what would be done, no changes made)"
 fi
 
 echo -e '\n\n\n\n\n\n\n\n\n\n'
+
+echo "🛡️  SAFETY FEATURES: This installer now includes safety checks to prevent data loss"
+echo "   💡 Use --dry-run to preview changes before installing"
+echo "   📦 Only files that will be replaced are backed up"
+echo ""
 
 # unalias date just in case
 unalias date 2>/dev/null || true
@@ -39,6 +83,10 @@ prompt_user() {
         echo "$question (non-interactive mode: using default '$default')"
         echo "$default"
         return
+    elif [[ "$AUTO_YES" == "true" ]]; then
+        echo "$question (auto-yes mode: using default 'y')"
+        echo "y"
+        return
     fi
 
     echo "$question"
@@ -51,17 +99,28 @@ cd "$HOME" || { echo "Failed to change to home directory"; exit 1; }
 mkdir -p "${bkpDir}"
 echo "Backing up overridden dotfiles in ${bkpDir}"
 
+# Verify all dotfiles exist before backing up anything
+verify_dotfiles_exist
+
 # Function to backup existing files or symlinks
 backup_if_exists() {
     local file="$1"
     if [ -e "$HOME/$file" ] || [ -L "$HOME/$file" ]; then
-        echo "Backing up $file"
-        if [ -L "$HOME/$file" ]; then
-            # It's a symlink, remove it instead of moving
-            rm "$HOME/$file"
+        if [[ "$DRY_RUN" == "true" ]]; then
+            if [ -L "$HOME/$file" ]; then
+                echo "🔍 Would remove symlink: $file"
+            else
+                echo "🔍 Would backup file: $file -> ${bkpDir}/"
+            fi
         else
-            # It's a regular file, move it to backup
-            mv "$HOME/$file" "${bkpDir}/" 2>/dev/null || true
+            echo "📦 Backing up $file"
+            if [ -L "$HOME/$file" ]; then
+                # It's a symlink, remove it instead of moving
+                rm "$HOME/$file"
+            else
+                # It's a regular file, move it to backup
+                mv "$HOME/$file" "${bkpDir}/" 2>/dev/null || true
+            fi
         fi
     fi
 }
@@ -72,17 +131,62 @@ create_symlink() {
     local target_file="$2"
 
     if [ -f "$DOTFILES_DIR/$source_file" ]; then
-        ln -sf "$DOTFILES_DIR/$source_file" "$HOME/$target_file"
-        echo "Linked $source_file -> $target_file"
+        if [[ "$DRY_RUN" == "true" ]]; then
+            echo "🔍 Would link: $source_file -> $target_file"
+        else
+            ln -sf "$DOTFILES_DIR/$source_file" "$HOME/$target_file"
+            echo "✅ Linked $source_file -> $target_file"
+        fi
     else
-        echo "Warning: Source file $source_file not found in dotfiles directory"
+        echo "❌ Warning: Source file $source_file not found in dotfiles directory"
+        echo "   → Skipping symlink for $target_file"
     fi
 }
 
-# Backup existing dotfiles first
+# Function to verify all symlinks will work before backing up anything
+verify_dotfiles_exist() {
+    local missing_files=()
+    
+    if [[ "$DRY_RUN" == "true" ]]; then
+        echo "🔍 Verifying dotfiles exist for dry-run preview..."
+    else
+        echo "🔍 Verifying dotfiles exist before backing up your current files..."
+    fi
+    
+    for file in "${dotfiles_to_backup[@]}"; do
+        if [ ! -f "$DOTFILES_DIR/$file" ]; then
+            missing_files+=("$file")
+        fi
+    done
+    
+    if [ ${#missing_files[@]} -gt 0 ]; then
+        echo "❌ ERROR: The following dotfiles are missing from $DOTFILES_DIR:"
+        printf '   - %s\n' "${missing_files[@]}"
+        echo ""
+        echo "This would result in backing up your files without replacing them!"
+        echo "Please fix the dotfiles repository before running the installer."
+        exit 1
+    fi
+    
+    echo "✅ All dotfiles verified. Safe to proceed with backup and linking."
+}
+
+# Backup existing dotfiles first (ONLY files that will actually be symlinked)
 echo "Finding files to backup..."
-dotfiles=(.zshrc .vimrc .bashrc .bash_profile .gitconfig .tmux.conf .zshenv .zshrc-e .zshrc.alias .zshrc.local)
-for file in "${dotfiles[@]}"; do
+dotfiles_to_backup=(
+    .zshrc 
+    .zshrc.alias 
+    .vimrc 
+    .vimrc.completion 
+    .vimrc.conf 
+    .vimrc.conf.base 
+    .vimrc.filetypes 
+    .vimrc.maps 
+    .vimrc.plugin 
+    .vimrc.plugin.extended 
+    .tmux.conf
+)
+for file in "${dotfiles_to_backup[@]}"; do
     backup_if_exists "$file"
 done
 
@@ -150,10 +254,20 @@ create_symlink ".zshrc.alias" ".zshrc.alias"
 
 # Link bin directory for custom scripts
 if [ -d "$DOTFILES_DIR/bin" ]; then
-    echo "Linking bin directory..."
-    mkdir -p "$HOME/bin"
-    ln -sf "$DOTFILES_DIR/bin"/* "$HOME/bin/" 2>/dev/null || echo "Warning: Could not link some bin scripts"
-    echo "Linked ~/bin directory with custom scripts"
+    if [[ "$DRY_RUN" == "true" ]]; then
+        echo "🔍 Would link bin directory scripts to ~/bin/"
+        for script in "$DOTFILES_DIR/bin"/*; do
+            if [ -f "$script" ]; then
+                script_name=$(basename "$script")
+                echo "🔍   Would link: bin/$script_name -> ~/bin/$script_name"
+            fi
+        done
+    else
+        echo "Linking bin directory..."
+        mkdir -p "$HOME/bin"
+        ln -sf "$DOTFILES_DIR/bin"/* "$HOME/bin/" 2>/dev/null || echo "Warning: Could not link some bin scripts"
+        echo "✅ Linked ~/bin directory with custom scripts"
+    fi
 fi
 
 # Git config (only if it doesn't exist to avoid overwriting user settings)
@@ -280,20 +394,44 @@ create_symlink ".tmux.conf" ".tmux.conf"
 
 # Link other config directories if they exist
 if [ -d "$DOTFILES_DIR/.config" ]; then
-    echo "Linking additional config directories..."
-    mkdir -p ~/.config
+    if [[ "$DRY_RUN" == "true" ]]; then
+        echo "🔍 Would link additional config directories..."
+        for config_dir in "$DOTFILES_DIR/.config"/*; do
+            if [ -d "$config_dir" ]; then
+                dir_name=$(basename "$config_dir")
+                echo "🔍   Would link: .config/$dir_name -> ~/.config/$dir_name"
+            fi
+        done
+    else
+        echo "Linking additional config directories..."
+        mkdir -p ~/.config
 
-    # Link individual config subdirectories to avoid conflicts
-    for config_dir in "$DOTFILES_DIR/.config"/*; do
-        if [ -d "$config_dir" ]; then
-            dir_name=$(basename "$config_dir")
-            ln -sf "$config_dir" ~/.config/ 2>/dev/null || echo "Warning: Could not link $dir_name config"
-            echo "Linked ~/.config/$dir_name"
-        fi
-    done
+        # Link individual config subdirectories to avoid conflicts
+        for config_dir in "$DOTFILES_DIR/.config"/*; do
+            if [ -d "$config_dir" ]; then
+                dir_name=$(basename "$config_dir")
+                ln -sf "$config_dir" ~/.config/ 2>/dev/null || echo "Warning: Could not link $dir_name config"
+                echo "✅ Linked ~/.config/$dir_name"
+            fi
+        done
+    fi
 fi
 
 echo -e "\n✅ Dotfiles are linked!"
+
+# Exit early for dry-run mode (just show what would be done for dotfiles)
+if [[ "$DRY_RUN" == "true" ]]; then
+    echo ""
+    echo "🔍 DRY-RUN COMPLETE!"
+    echo "   The above shows what would be backed up and symlinked."
+    echo "   No actual changes were made to your system."
+    echo ""
+    echo "💡 To actually run the installation:"
+    echo "   ./install.sh        # Interactive mode"
+    echo "   ./install.sh -y     # Auto-yes mode (full installation)"
+    echo "   ./install.sh -n     # Non-interactive mode (minimal)"
+    exit 0
+fi
 
 # Git configuration is handled above during dotfiles linking
 
@@ -560,6 +698,9 @@ echo "🔧 Your development environment is ready! Happy coding! 🧑‍💻"
 echo ""
 echo "💡 SCRIPT USAGE:"
 echo "   ./install.sh                            # Interactive mode (asks questions)"
-echo "   ./install.sh --non-interactive          # Non-interactive mode (uses defaults)"
+echo "   ./install.sh --non-interactive          # Non-interactive mode (defaults to 'no')"
 echo "   ./install.sh -n                         # Short form for non-interactive"
+echo "   ./install.sh --yes                      # Auto-yes mode (defaults to 'yes')"
+echo "   ./install.sh -y                         # Short form for auto-yes"
+echo "   ./install.sh --dry-run                  # Safe preview mode (no changes made)"
 

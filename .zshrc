@@ -1,3 +1,5 @@
+# Amazon Q pre block. Keep at the top of this file.
+[[ -f "${HOME}/Library/Application Support/amazon-q/shell/zshrc.pre.zsh" ]] && builtin source "${HOME}/Library/Application Support/amazon-q/shell/zshrc.pre.zsh"
 # zmodllad zsh/zprof
 export ZSH="$HOME/.oh-my-zsh"
 ZSH_THEME="agnoster"
@@ -37,6 +39,7 @@ export LANG=en_US.UTF-8
 # excluded from dotfiles.
 [ -f ~/.zshrc.local ] && source ~/.zshrc.local
 [ -f ~/.zshrc.private ] && source ~/.zshrc.private
+[ -f ~/.zprofile ] && source ~/.zprofile
 
 # eval "`npm completion`"
 
@@ -68,44 +71,18 @@ bindkey "^T" znt-cd-widget
 # bindkey '^T' fzf-completion
 # bindkey '^I' expand-or-complete
 
-
 # eval $(thefuck --alias)
 
-# place this after nvm initialization!
 autoload -U add-zsh-hook
-# load-nvmrc() {
-#   local node_version="$(nvm version)"
-#   local nvmrc_path="$(nvm_find_nvmrc)"
 set rtp+=/usr/local/opt/fzf
-
-#   if [ -n "$nvmrc_path" ]; then
-#     local nvmrc_node_version=$(nvm version "$(cat "${nvmrc_path}")")
-
-#     if [ "$nvmrc_node_version" = "N/A" ]; then
-#       nvm install
-#     elif [ "$nvmrc_node_version" != "$node_version" ]; then
-#       nvm use
-#     fi
-#   elif [ "$node_version" != "$(nvm version default)" ]; then
-#     echo "Reverting to nvm default version"
-#     nvm use default
-#   fi
-# }
-# add-zsh-hook chpwd load-nvmrc
-# load-nvmrc
-
-# if [[ -z `which pyenv` ]]
-# then
-    # eval "$(pyenv init -)"
-    # eval "$(pyenv virtualenv-init -)"
-# fi
-
-# zprof
-#
-# quote
 
 # bun completions
 [ -s "$HOME/.oh-my-zsh/completions/_bun" ] && source "$HOME/.oh-my-zsh/completions/_bun"
 
 # Environment variables moved to .zshenv for all shells
 # See .zshenv for: BUN_INSTALL, PNPM_HOME, Windsurf path, PostgreSQL path
+
+# Amazon Q post block. Keep at the bottom of this file.
+[[ -f "${HOME}/Library/Application Support/amazon-q/shell/zshrc.post.zsh" ]] && builtin source "${HOME}/Library/Application Support/amazon-q/shell/zshrc.post.zsh"
+
+eval "$(fnm env --use-on-cd)"

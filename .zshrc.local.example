@@ -18,9 +18,8 @@
 # =============================================================================
 # Tool-specific Configuration
 # =============================================================================
-# Node.js Version Manager (nvm)
-# export NVM_DIR="$HOME/.nvm"
-# [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+# Node.js Version Manager (nvm) - configured in .zshenv
+# If you need custom NVM configuration, add it here
 
 # Starship Prompt (uncomment to enable)
 # eval "$(starship init zsh)"
