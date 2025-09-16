@@ -43,9 +43,45 @@ That's it. Your terminal is now a productivity powerhouse.
 
 | Mode | Use Case | Tools |
 |------|----------|-------|
-| **Full** | Local workstations, full development | Starship, eza, bat, ripgrep, fd, nvm, gpg, tmux, neovim, jq, curl, htop, gh, pnpm |
+| **Full** | Local workstations, full development | Starship, eza, bat, ripgrep, fd, nvm, gpg, tmux, neovim, jq, curl, htop, gh, pnpm, Warp/iTerm2 |
 | **Light** | Laptops, constrained environments | git, nvim, fzf, ripgrep, tmux, starship, eza, bat |
 | **Remote** | Servers, bastion hosts | git, vim, tmux, htop, curl, jq |
+
+### **Terminal Setup** (Full Mode)
+
+#### **🔥 BOTH TERMINALS INSTALLED BY DEFAULT!**
+
+Your setup installs **both terminals** for maximum productivity:
+
+```bash
+# Install script automatically installs both:
+brew install --cask iterm2  # Fast & customizable
+brew install --cask warp    # AI-powered & modern
+```
+
+#### **⚡ iTerm2: FAST & CUSTOMIZABLE (Daily Driver)**
+- ✅ **Lightning fast** - No bloat, pure speed
+- ✅ **Highly customizable** - Themes, shortcuts, plugins
+- ✅ **Power user features** - Advanced configuration
+- ✅ **Natural Text Editing** preset for Alt+arrow keys
+
+**Use iTerm2 daily for maximum productivity!**
+
+#### **🤖 Warp: AI-POWERED (For Beginners & AI Help)**
+- ✅ **AI assistance** - Get help with commands and explanations
+- ✅ **Modern UI** - Beautiful design with command blocks
+- ✅ **Built-in features** - No configuration needed
+- ✅ **Alt+arrow keys** - Work out-of-the-box!
+- ✅ **Warp Drive** - Share terminal sessions
+
+**Use Warp when you need AI help or modern UI!**
+
+> **Note:** If you don't know how to use a shell, you'll go to hell. Learn it! 🚀
+
+**For iTerm2 Alt+arrow navigation:**
+1. **Preferences** → **Profiles** → **Keys**
+2. Click **"Presets..."** → Select **"Natural Text Editing"**
+3. **Save** - Done! Alt+Left/Right skip words perfectly ✨
 
 ### **Remote Work Perfected**
 - **SSH optimization** for fast, reliable connections

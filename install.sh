@@ -698,8 +698,65 @@ if [[ "$DRY_RUN" == "true" ]]; then
             brew install git git-delta nvm neovim fzf jq curl htop gnupg gh tmux pnpm
         brew install starship eza bat ripgrep fd
 
-            # iTerm2 (only for full mode)
-            brew install --cask iterm2 2>/dev/null || print_info "iTerm2 already installed or installation skipped"
+            # Terminal setup (only for full mode) - Install both by default!
+            echo ""
+            print_info "🔥 INSTALLING BOTH TERMINALS (Recommended for power users!)"
+            echo ""
+            echo "⚡ iTerm2: FAST & CUSTOMIZABLE for daily commands"
+            echo "🤖 Warp: AI-POWERED for beginners (if you don't know shell, you'll go to hell)"
+            echo "💡 Use iTerm2 daily, Warp for AI help & modern UI"
+            echo ""
+
+            if [ "$NONINTERACTIVE" = "true" ]; then
+                # Non-interactive: Install both terminals
+                print_info "Installing iTerm2 (power user terminal)..."
+                brew install --cask iterm2 2>/dev/null || print_info "iTerm2 already installed"
+
+                print_info "Installing Warp (AI-powered terminal)..."
+                brew install --cask warp 2>/dev/null || print_info "Warp already installed"
+
+                print_success "Both terminals installed! iTerm2 for speed, Warp for AI assistance!"
+            else
+                # Interactive: Ask if user wants both or choose
+                echo "Terminal Installation Options:"
+                echo "1) Both terminals (recommended) - iTerm2 + Warp"
+                echo "2) iTerm2 only (fast & customizable)"
+                echo "3) Warp only (AI-powered for beginners)"
+                echo "4) Skip terminal installation"
+                read -p "Enter choice (1-4) [1]: " terminal_choice
+                terminal_choice=${terminal_choice:-1}
+
+                case $terminal_choice in
+                    1)
+                        print_info "Installing both terminals..."
+                        print_info "Installing iTerm2 (power user terminal)..."
+                        brew install --cask iterm2 2>/dev/null || print_info "iTerm2 already installed"
+                        print_info "Installing Warp (AI-powered terminal)..."
+                        brew install --cask warp 2>/dev/null || print_info "Warp already installed"
+                        print_success "Both terminals installed! Use iTerm2 daily, Warp for AI help!"
+                        ;;
+                    2)
+                        print_info "Installing iTerm2 (fast & customizable)..."
+                        brew install --cask iterm2 2>/dev/null || print_info "iTerm2 already installed"
+                        print_info "For Alt+arrow word navigation, set: iTerm2 → Preferences → Profiles → Keys → Presets → Natural Text Editing"
+                        print_success "iTerm2 installed - the fastest terminal for power users!"
+                        ;;
+                    3)
+                        print_info "Installing Warp (AI-powered for beginners)..."
+                        brew install --cask warp 2>/dev/null || print_info "Warp already installed"
+                        print_success "Warp installed - AI assistance for when you need help!"
+                        ;;
+                    4)
+                        print_info "Skipping terminal installation"
+                        ;;
+                    *)
+                        print_info "Invalid choice, installing both terminals..."
+                        brew install --cask iterm2 2>/dev/null || print_info "iTerm2 already installed"
+                        brew install --cask warp 2>/dev/null || print_info "Warp already installed"
+                        print_success "Both terminals installed by default!"
+                        ;;
+                esac
+            fi
 
             # Setup NVM (only for full mode)
         mkdir -p ~/.nvm
