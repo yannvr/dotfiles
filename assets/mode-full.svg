@@ -1,8 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="520" height="320" viewBox="0 0 520 320">
-  <rect width="520" height="320" fill="#1f2937"/>
-  <text x="24" y="60" fill="#e5e7eb" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="28" font-weight="800">Full Mode</text>
-  <text x="24" y="100" fill="#93c5fd" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="16">Starship • eza • bat • ripgrep • fd</text>
-  <text x="24" y="126" fill="#a7f3d0" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="14">nvm • gpg • tmux • neovim</text>
-  <rect x="24" y="160" width="472" height="120" rx="10" fill="#111827" stroke="#22d3ee" stroke-opacity="0.5"/>
-</svg>
-
