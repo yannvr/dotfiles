@@ -1,3 +1,209 @@
-bower_components/
+# Directories
 node_modules/
-.git/
+dist/
+build/
+.out/
+.next/
+.nuxt/
+.coverage/
+public/assets/
+vendor/
+target/
+*.egg-info/
+__pycache__/
+.pytest_cache/
+.cache/
+.parcel-cache/
+.vite/
+.coverage/
+.nyc_output/
+.turbo/
+.svelte-kit/
+.output/
+.nuxt/
+.parcel-cache/
+.vite/
+.next/
+.cache/
+.temp/
+.tmp/
+
+# Bundles / concatenated / generated
+*.min.*
+*.bundle.*
+*.chunk.*
+*.pack.*
+*.concat.*
+*.combined.*
+*.compiled.*
+*.generated.*
+*.built.*
+*.prod.*
+*.vendor.*
+*.all.*
+*.app.*
+*.main.*
+*.index.*
+*.map
+*.gz
+*.br
+*.woff
+*.woff2
+*.ttf
+*.eot
+
+# Additional build output directories
+.parcel-cache/
+.vite/
+.next/
+.nuxt/
+.svelte-kit/
+.turbo/
+.output/
+.generated/
+.built/
+.prod/
+*.tsbuildinfo
+
+# More bundle patterns
+*.rollup.*
+*.webpack.*
+*.esbuild.*
+*.swc.*
+*.babel.*
+*.terser.*
+*.uglify.*
+*.closure.*
+*.optimize.*
+*.compress.*
+
+# Library and framework bundles
+vendor.js
+vendor.min.js
+app.js
+app.min.js
+bundle.js
+bundle.min.js
+main.js
+main.min.js
+index.js
+index.min.js
+
+# Build artifacts
+*.log
+*.lock
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+Cargo.lock
+Pipfile.lock
+
+# IDE / editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+
+# Archives
+*.zip
+*.tar
+*.tar.gz
+*.rar
+*.7z
+
+# Specific minified JS files (common patterns)
+**/dist/**/*.js
+**/build/**/*.js
+**/lib/**/*.js
+**/out/**/*.js
+**/target/**/*.js
+**/bin/**/*.js
+
+# Framework-specific bundle locations
+**/public/build/**/*.js
+**/static/js/**/*.js
+**/assets/js/**/*.js
+**/js/dist/**/*.js
+**/js/build/**/*.js
+
+# Node.js compiled output
+**/*.tsbuildinfo
+**/dist/**/*.d.ts
+**/build/**/*.d.ts
+
+# Single-line concatenated/minified files
+**/dist/**/*.min.js
+**/build/**/*.min.js
+**/public/**/*.min.js
+**/static/**/*.min.js
+**/assets/**/*.min.js
+**/*.min.js
+
+# Extension bundles and compiled files
+**/*.vsix
+**/extensions/**/*.js
+**/.vscode/extensions/**/*.js
+**/node_modules/**/*.js
+**/cache/**/*.js
+**/.bun/install/cache/**/*.js
+**/.npm/**/*.js
+
+# VS Code extension dist/build files (these are often single-line concatenated)
+**/.vscode/extensions/github.copilot*/dist/**/*.js
+**/.vscode/extensions/github.copilot*/out/**/*.js
+**/.vscode/extensions/ms-vscode-remote*/dist/**/*.js
+**/.vscode/extensions/ms-vscode-remote*/out/**/*.js
+**/.vscode/extensions/**/*.min.js
+**/.vscode/extensions/**/dist/**/*.js
+**/.vscode/extensions/**/out/**/*.js
+**/.vscode/extensions/**/build/**/*.js
+
+# Specific problematic extension files
+**/.vscode/extensions/github.copilot*/dist/extension.js
+**/.vscode/extensions/github.copilot*/dist/main.js
+**/.vscode/extensions/github.copilot-*/dist/extension.js
+**/.vscode/extensions/github.copilot-*/dist/main.js
+**/.vscode/extensions/ms-vscode-remote.remote-containers*/dist/spec-node/devContainersSpecCLI.js
+**/.vscode/extensions/ms-vscode-remote.remote-containers*/dev-containers-user-cli/dist/spec-node/devContainersSpecCLI.js
+**/.vscode/extensions/ms-vscode-remote.remote-containers-*/dist/spec-node/devContainersSpecCLI.js
+**/.vscode/extensions/ms-vscode-remote.remote-containers-*/dev-containers-user-cli/dist/spec-node/devContainersSpecCLI.js
+
+# Try broader patterns for VS Code extensions
+**/.vscode/extensions/github.copilot*/**/*.js
+**/.vscode/extensions/ms-vscode-remote*/**/*.js
+**/.vscode/extensions/**/*.js
+
+# Single-line file detection (these are often minified/concatenated)
+# Note: This requires additional filtering logic
+
+# Framework build outputs
+**/.next/static/**/*.js
+**/.nuxt/dist/**/*.js
+**/dist/_nuxt/**/*.js
+**/build/static/**/*.js
+**/.svelte-kit/output/**/*.js
+**/.output/**/*.js
+**/.vercel/**/*.js
+
+# More minification patterns
+*.min.css
+*.min.html
+*.compressed.*
+*.optimized.*
+*.packed.*
+
+# Webpack/Vite/Rollup outputs
+**/.vite/**/*.js
+**/rollup.config.js
+**/webpack.config.js
+**/vite.config.js
