@@ -11,6 +11,95 @@ alias k9='f() { killall -9 ${1}};f'
 alias large-files="du -ah . | sort -nr | head"
 alias tf='tail -f '
 alias ag='ag -a'
+alias rg='rg --smart-case --follow --hidden'
+
+# Clean search using ripgrep with proper exclusions
+clean-search() {
+    local pattern="$1"
+    local path="${2:-.}"
+
+    echo "🔍 Clean search for: '$pattern' in: $path"
+    echo "📏 Excluding node_modules, extensions, minified files, etc."
+    echo ""
+
+    # Use ripgrep with comprehensive exclusions
+    /opt/homebrew/bin/rg -n "$pattern" "$path" \
+        --glob '!**/node_modules/**' \
+        --glob '!**/.vscode/extensions/**' \
+        --glob '!**/*.min.js' \
+        --glob '!**/*.bundle.js' \
+        --glob '!**/dist/**' \
+        --glob '!**/build/**' \
+        --glob '!**/.cache/**' \
+        --glob '!**/.npm/**' \
+        --glob '!**/.bun/**' \
+        --glob '!**/.next/**' \
+        --glob '!**/.nuxt/**' \
+        --glob '!**/target/**' \
+        --glob '!**/__pycache__/**' \
+        2>/dev/null
+}
+
+# Simple home search function
+search-home() {
+    local pattern="$1"
+    echo "🏠 Searching home directory for: '$pattern'"
+    clean-search "$pattern" "$HOME"
+}
+
+# Alternative: Use ripgrep with type filtering for cleaner results
+search-code() {
+    local pattern="$1"
+    local type="${2:-js}"
+
+    echo "🔍 Searching for '$pattern' in $type files:"
+    rg --type="$type" -n "$pattern" 2>/dev/null | head -15
+}
+
+# Quick aliases for common searches
+alias rjs='rg --type=js'
+alias rts='rg --type=ts'
+alias rpy='rg --type=py'
+alias rmd='rg --type=md'
+
+# Smart search with minified file filtering
+smart-grep() {
+    local pattern="$1"
+    local path="${2:-.}"
+    echo "🔍 Smart grep for: '$pattern' in: $path"
+    echo "📏 Filtering out minified/single-line files"
+    echo ""
+
+    ag "$pattern" "$path" 2>/dev/null | /usr/bin/awk -F: '
+    {
+        file = $1
+        line = $2
+        content = $3
+        for(i=4; i<=NF; i++) content = content ":" $i
+
+        # Skip excluded directories
+        if(file ~ /\.vscode\/extensions\//) next
+        if(file ~ /node_modules\//) next
+        if(file ~ /\.npm\//) next
+        if(file ~ /\.bun\//) next
+        if(file ~ /\.cache\//) next
+        if(file ~ /\.Trash\//) next
+
+        # Check file properties
+        cmd = "/usr/bin/wc -l < \"" file "\" 2>/dev/null"
+        cmd | getline line_count
+        close(cmd)
+
+        cmd = "/usr/bin/awk '\''length > 2000 {count++} END {print count+0}'\'' \"" file "\" 2>/dev/null"
+        cmd | getline long_lines
+        close(cmd)
+
+        # Skip problematic files
+        if(line_count <= 1 || long_lines > 0) next
+
+        print file ":" line ":" content
+    }'
+}
 alias jtags="ctags -R src && sed -i '' -E '/^(if|switch|function|module\.exports|it|describe).+language:js$/d' tags"
 alias f='fuck'
 alias sl='screen -list'
@@ -172,3 +261,31 @@ else
 fi
 
 # Add your custom aliases here
+# Smart ag function with automatic minified file filtering
+smart-ag() {
+    local pattern="$1"
+    shift
+
+    # Handle the case where ~/.* expands to many files
+    if [[ $# -gt 1 && "$*" == *"/Users/"*"/."* ]]; then
+        # If we have many dotfiles, search the home directory instead
+        local search_path="$HOME"
+        echo "🔍 Smart ag search for: '$pattern' in: $HOME (optimized from glob expansion)"
+    else
+        # Normal case: join arguments back or use current directory
+        local search_path="${*:-.}"
+        echo "🔍 Smart ag search for: '$pattern' in: $search_path"
+    fi
+
+    echo "📏 Automatically filtering out build/cache directories"
+    echo ""
+
+    # Use the original ag binary directly to avoid recursion
+    # First do the basic filtering with ag's built-in ignore options
+    /opt/homebrew/bin/ag --ignore-dir=.vscode/extensions --ignore-dir=.npm --ignore-dir=.bun --ignore-dir=.cache --ignore-dir=.Trash --ignore-dir=node_modules --ignore-dir=dist --ignore-dir=build --ignore-dir=.local --ignore-dir=.next --ignore-dir=.nuxt "$pattern" "$search_path" 2>/dev/null
+}
+
+# Keep original ag available as 'ag-raw'
+alias ag-raw='/opt/homebrew/bin/ag --ignore-dir=dist --ignore-dir=build --ignore-dir=node_modules --ignore="*.min.js" --ignore="*.bundle.js" --ignore="*.chunk.js"'
+# Override default ag with smart filtering
+alias ag='smart-ag'

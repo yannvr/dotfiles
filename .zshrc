@@ -82,7 +82,15 @@ set rtp+=/usr/local/opt/fzf
 # Environment variables moved to .zshenv for all shells
 # See .zshenv for: BUN_INSTALL, PNPM_HOME, Windsurf path, PostgreSQL path
 
+eval "$(fnm env --use-on-cd)"
+
+# pnpm
+export PNPM_HOME="/Users/yann/Library/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end
+
 # Amazon Q post block. Keep at the bottom of this file.
 [[ -f "${HOME}/Library/Application Support/amazon-q/shell/zshrc.post.zsh" ]] && builtin source "${HOME}/Library/Application Support/amazon-q/shell/zshrc.post.zsh"
-
-eval "$(fnm env --use-on-cd)"

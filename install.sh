@@ -174,17 +174,18 @@ verify_dotfiles_exist() {
 # Backup existing dotfiles first (ONLY files that will actually be symlinked)
 echo "Finding files to backup..."
 dotfiles_to_backup=(
-    .zshrc 
-    .zshrc.alias 
-    .vimrc 
-    .vimrc.completion 
-    .vimrc.conf 
-    .vimrc.conf.base 
-    .vimrc.filetypes 
-    .vimrc.maps 
-    .vimrc.plugin 
-    .vimrc.plugin.extended 
+    .zshrc
+    .zshrc.alias
+    .vimrc
+    .vimrc.completion
+    .vimrc.conf
+    .vimrc.conf.base
+    .vimrc.filetypes
+    .vimrc.maps
+    .vimrc.plugin
+    .vimrc.plugin.extended
     .tmux.conf
+    .agignore
 )
 for file in "${dotfiles_to_backup[@]}"; do
     backup_if_exists "$file"
@@ -251,6 +252,9 @@ create_symlink ".zshrc.alias" ".zshrc.alias"
 # Note: .zshenv and .zshrc.local are user-specific and not included in dotfiles
 # Note: .zshrc-e has been consolidated into .zshrc.local.template
 # See .zshenv.example, .zshrc.local.example, .zshrc.private.example, and .gitconfig.example for templates
+
+# Development tool configurations
+create_symlink ".agignore" ".agignore"
 
 # Link bin directory for custom scripts
 if [ -d "$DOTFILES_DIR/bin" ]; then
@@ -646,6 +650,7 @@ fi
 echo ""
 echo "📋 SUMMARY OF WHAT WAS INSTALLED:"
 echo "   ✅ Dotfiles symlinked to custom configurations"
+echo "   ✅ .agignore configured for The Silver Searcher (ag)"
 echo "   ✅ Vim/Neovim with modern plugin management (tabs always visible)"
 if [[ "$install_ohmyzsh" = "y" ]]; then
     echo "   ✅ Oh My Zsh for enhanced terminal experience"
