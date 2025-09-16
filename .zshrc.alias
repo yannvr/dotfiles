@@ -463,6 +463,43 @@ lolcat-install-info() {
     echo "Usage: ls | lolcat"
 }
 
+# Inspirational quotes (works offline and online)
+inspire() {
+    # Local quotes as fallback
+    local_quotes=(
+        "\"The only way to do great work is to love what you do.\" - Steve Jobs"
+        "\"Innovation distinguishes between a leader and a follower.\" - Steve Jobs"
+        "\"The future belongs to those who believe in the beauty of their dreams.\" - Eleanor Roosevelt"
+        "\"The best error message is the one that never shows up.\" - Thomas Fuchs"
+        "\"Code is poetry written in logic.\" - Unknown"
+        "\"First, solve the problem. Then, write the code.\" - John Johnson"
+        "\"Simplicity is the ultimate sophistication.\" - Leonardo da Vinci"
+        "\"The best way to predict the future is to implement it.\" - David Heinemeier Hansson"
+        "\"Good code is its own best documentation.\" - Steve McConnell"
+        "\"Programming isn't about what you know; it's about what you can figure out.\" - Chris Pine"
+    )
+
+    # Try to fetch from API if online
+    if command -v curl >/dev/null 2>&1 && ping -c 1 8.8.8.8 >/dev/null 2>&1; then
+        quote=$(curl -s "https://api.quotable.io/random" | grep -o '"content":"[^"]*"' | cut -d'"' -f4 2>/dev/null)
+        author=$(curl -s "https://api.quotable.io/random" | grep -o '"author":"[^"]*"' | cut -d'"' -f4 2>/dev/null)
+
+        if [[ -n "$quote" && -n "$author" ]]; then
+            echo "\"$quote\" - $author"
+            return
+        fi
+    fi
+
+    # Fallback to local quotes
+    echo "${local_quotes[$((RANDOM % ${#local_quotes[@]}))]}"
+}
+
+# Quick motivation boost
+motivate() {
+    echo "💪 $(inspire)"
+    echo "   Keep shipping! 🚀"
+}
+
 # Development workflow
 git-ignore-install-info() {
     echo "git-ignore not installed. Install with: brew install git-ignore"
