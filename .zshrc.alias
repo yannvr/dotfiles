@@ -617,24 +617,73 @@ install-productivity-tools() {
     echo "4. Try: tldr tar, fd pattern, exa -la, bat file.txt"
 }
 
-# Smart aliases that work when tools are installed
+# Smart aliases that work when tools are installed, or show install info
 # ================================================
 
-# These aliases will use the actual tools when available, or show install info
-alias tldr='command tldr "$@" 2>/dev/null || tldr-install-info'
-alias fd='command fd "$@" 2>/dev/null || fd-install-info'
-alias exa='command exa "$@" 2>/dev/null || exa-install-info'
-alias bat='command bat "$@" 2>/dev/null || echo "Install: brew install bat"'
-alias lazygit='command lazygit "$@" 2>/dev/null || lazygit-install-info'
-alias howdoi='command howdoi "$@" 2>/dev/null || howdoi-install-info'
-alias cheat='command cheat "$@" 2>/dev/null || cheat-install-info'
-alias fzf='command fzf "$@" 2>/dev/null || fzf-install-info'
-alias fortune='command fortune "$@" 2>/dev/null || fortune-install-info'
-alias cowsay='command cowsay "$@" 2>/dev/null || cowsay-install-info'
-alias lolcat='command lolcat "$@" 2>/dev/null || lolcat-install-info'
+# Remove conflicting aliases first
+unalias tldr 2>/dev/null || true
+unalias fd 2>/dev/null || true
+unalias exa 2>/dev/null || true
+
+# tldr - simplified man pages
+tldr() {
+    if /opt/homebrew/bin/tldr "$@" 2>/dev/null; then
+        return 0
+    else
+        tldr-install-info
+    fi
+}
+
+# fd - modern find
+fd() {
+    if /opt/homebrew/bin/fd "$@" 2>/dev/null; then
+        return 0
+    else
+        fd-install-info
+    fi
+}
+
+# exa - modern ls
+exa() {
+    if command exa "$@" 2>/dev/null; then
+        return 0
+    else
+        exa-install-info
+    fi
+}
+
+# bat - syntax-highlighted cat
+alias bat='command bat 2>/dev/null || (echo "Install: brew install bat"; echo "Usage: bat file.txt")'
+
+# lazygit - terminal git UI
+alias lazygit='command lazygit 2>/dev/null || lazygit-install-info'
+
+# howdoi - stack overflow search
+alias howdoi='command howdoi 2>/dev/null || howdoi-install-info'
+
+# cheat - community cheatsheets
+alias cheat='command cheat 2>/dev/null || cheat-install-info'
+
+# fzf - fuzzy finder
+alias fzf='command fzf 2>/dev/null || fzf-install-info'
+
+# fortune - random quotes
+alias fortune='command fortune 2>/dev/null || fortune-install-info'
+
+# cowsay - ASCII art cow
+alias cowsay='command cowsay 2>/dev/null || cowsay-install-info'
+
+# lolcat - rainbow colors
+alias lolcat='command lolcat 2>/dev/null || lolcat-install-info'
+
+# weather - weather info
 alias weather='curl wttr.in 2>/dev/null || weather-install-info'
-alias http='command http "$@" 2>/dev/null || http-install-info'
-alias cloc='command cloc "$@" 2>/dev/null || cloc-install-info'
+
+# http - HTTP client
+alias http='command http 2>/dev/null || http-install-info'
+
+# cloc - count lines of code
+alias cloc='command cloc 2>/dev/null || cloc-install-info'
 
 # Quick productivity check
 productivity-check() {
