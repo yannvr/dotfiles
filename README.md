@@ -1,6 +1,6 @@
 # Modern Dotfiles (2025)
 
-A comprehensive, modern development environment setup for Vim, Neovim, Zsh, Git, and essential development tools. Optimized for 2024/2025 development workflows.
+An unapologetically modern environment for power devs and remote ops. Fast shell, sharp tools, beautiful UX. One installer. Three modes. Zsh is auto-installed when missing.
 
 ## ✨ What's New in 2025
 
@@ -11,7 +11,7 @@ A comprehensive, modern development environment setup for Vim, Neovim, Zsh, Git,
 - **BetterTouchTool integration**: Advanced macOS automation and gesture support
 - **Improved productivity**: Maccy clipboard manager, Shottr screenshots, ImageOptim
 
-## 🚀 Quick Installation
+## 🚀 Quick Start
 
 1. Clone this repository:
    ```bash
@@ -19,22 +19,44 @@ A comprehensive, modern development environment setup for Vim, Neovim, Zsh, Git,
    cd ~/dotfiles
    ```
 
-2. Run the installation script:
+2. Pick your mode and run:
    ```bash
-   ./install.sh
+   # Full workstation (everything)
+   ./install.sh --yes
+
+   # Light dev (essentials only)
+   ./install.sh --light --yes
+
+   # Remote/Bastion (server-optimized)
+   ./install.sh --remote --yes
    ```
 
-The installer will guide you through setting up:
+The installer will:
 - Core dotfiles and configurations  
-- Modern development tools via Homebrew
-- Programming fonts and terminal enhancements
-- Optional tools for enhanced productivity
+- Auto-install zsh if missing (Linux/macOS)
+- Install the right tools for your mode (full/light/remote)
+- Set up Starship, aliases, and optimized shell startup
+
+## 🧠 Modes at a Glance
+
+<div align="center">
+
+<img src="assets/hero-full.svg" alt="Modern Dotfiles - Full Mode" width="47%" />
+<img src="assets/hero-remote.svg" alt="Modern Dotfiles - Remote Mode" width="47%" />
+
+</div>
+
+- **Full**: All modern terminal tools, GUI helpers, fonts, NVM, GPG
+- **Light**: git, nvim, fzf, ripgrep, tmux, starship, eza, bat
+- **Remote/Bastion**: git, vim, tmux, htop, curl, wget, tree, jq
+
+Each mode ships with a tuned shell experience and faster startup.
 
 ## 📦 What's Included
 
 ### **Core Development Tools**
 - **Vim/Neovim**: Modern editor configuration with vim-plug
-- **Zsh**: Enhanced shell with Oh My Zsh and Starship prompt  
+- **Zsh**: Enhanced shell with Oh My Zsh and Starship prompt (auto-installed)
 - **Git**: Optimized version control configuration
 - **tmux**: Terminal multiplexer for efficient workflows
 - **Custom Scripts**: Useful shell scripts in `~/bin` directory (e.g., `killport.sh`)
@@ -149,4 +171,20 @@ This project is open source and available under the [MIT License](LICENSE).
 
 ---
 
-**Happy coding with modern tools!** 🧑‍💻✨
+**Ship faster. Feel faster. Be faster.** 🧑‍💻⚡
+
+---
+
+## 🎨 Image Generation Prompts (for README assets)
+
+- `assets/hero-full.png` (wide):
+  - Prompt: "futuristic neon command center, dark theme terminal screens with glowing starship prompt, code graphs, git branches, sleek keyboard, cyberpunk lighting, high detail, 4k, cinematic, sharp, vibrant"
+
+- `assets/hero-remote.png` (wide):
+  - Prompt: "secure bastion host in a datacenter, minimal terminal UI, tmux panes, network graphs, SSH locks, cool blue palette, moody lighting, high detail, 4k"
+
+- `assets/mode-full.png` (small, left):
+  - Prompt: "sleek dev workstation, starship prompt, exa, bat, ripgrep icons, neon accents, minimal, high contrast"
+
+- `assets/mode-remote.png` (small, right):
+  - Prompt: "remote server terminal with tmux, htop, ssh lock, minimal, cool tones, crisp"

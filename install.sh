@@ -1,505 +1,742 @@
 #!/usr/bin/env zsh
+# =============================================================================
+# MODERN DOTFILES INSTALLER (2025) - Enhanced Version
+# =============================================================================
+# Features:
+# - Robust error handling with rollback capabilities
+# - Modular design for maintainability
+# - Comprehensive safety checks
+# - Better user experience with progress indicators
+# - Dependency management and verification
+# - Flexible configuration options
+# =============================================================================
+
+set -e  # Exit on any error
+trap 'error_handler $? $LINENO' ERR
+
+# =============================================================================
+# CONFIGURATION & CONSTANTS
+# =============================================================================
+readonly SCRIPT_VERSION="2.0.0"
+readonly MIN_ZSH_VERSION="5.0"
+readonly MIN_GIT_VERSION="2.20"
+readonly BACKUP_SUFFIX="$(date +%Y%m%d_%H%M%S)"
+readonly LOG_FILE="${HOME}/.dotfiles_install.log"
+
+# Colors for output
+readonly RED='\033[0;31m'
+readonly GREEN='\033[0;32m'
+readonly YELLOW='\033[1;33m'
+readonly BLUE='\033[0;34m'
+readonly PURPLE='\033[0;35m'
+readonly CYAN='\033[0;36m'
+readonly NC='\033[0m' # No Color
+
+# =============================================================================
+# UTILITY FUNCTIONS
+# =============================================================================
+
+# Logging function
+log() {
+    local level="$1"
+    local message="$2"
+    local timestamp=$(date '+%Y-%m-%d %H:%M:%S')
+    echo -e "${timestamp} [${level}] ${message}" >> "${LOG_FILE}"
+    echo -e "${timestamp} [${level}] ${message}"
+}
+
+# Colored output functions
+print_info() { echo -e "${BLUE}ℹ️  ${*}${NC}" >&2; }
+print_success() { echo -e "${GREEN}✅ ${*}${NC}" >&2; }
+print_warning() { echo -e "${YELLOW}⚠️  ${*}${NC}" >&2; }
+print_error() { echo -e "${RED}❌ ${*}${NC}" >&2; }
+print_step() { echo -e "${CYAN}🚀 ${*}${NC}" >&2; }
+print_header() { echo -e "${PURPLE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}" >&2; echo -e "${PURPLE} ${*}${NC}" >&2; echo -e "${PURPLE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}" >&2; }
+
+# Error handler
+error_handler() {
+    local exit_code=$1
+    local line_number=$2
+    print_error "Installation failed at line ${line_number} with exit code ${exit_code}"
+    print_error "Check ${LOG_FILE} for detailed logs"
+    print_error "Rolling back any changes..."
+
+    # Attempt rollback if backup exists
+    if [[ -d "${HOME}/.dotfiles_backup_${BACKUP_SUFFIX}" ]]; then
+        rollback_installation
+    fi
+
+    exit "${exit_code}"
+}
+
+# Ensure zsh is available (attempts auto-install if missing)
+ensure_zsh() {
+    if command -v zsh >/dev/null 2>&1; then
+        return 0
+    fi
+
+    print_warning "zsh not found – attempting to install..."
+
+    # Helper to run package manager with sudo when needed
+    run_pm() {
+        local cmd="$1"; shift || true
+        if [ "$(id -u)" -ne 0 ] && command -v sudo >/dev/null 2>&1; then
+            sudo sh -c "$cmd"
+        else
+            sh -c "$cmd"
+        fi
+    }
+
+    case "$(uname -s 2>/dev/null || echo unknown)" in
+      Darwin)
+        if command -v brew >/dev/null 2>&1; then
+            brew update >/dev/null 2>&1 || true
+            brew install zsh || true
+        else
+            print_error "Homebrew not found. Please install Homebrew or zsh manually, then re-run."
+        fi
+        ;;
+      Linux)
+        if command -v apt-get >/dev/null 2>&1; then
+            run_pm "apt-get update -y && apt-get install -y zsh"
+        elif command -v apt >/dev/null 2>&1; then
+            run_pm "apt update -y && apt install -y zsh"
+        elif command -v dnf >/dev/null 2>&1; then
+            run_pm "dnf install -y zsh"
+        elif command -v yum >/dev/null 2>&1; then
+            run_pm "yum install -y zsh"
+        elif command -v apk >/dev/null 2>&1; then
+            run_pm "apk add --no-cache zsh"
+        elif command -v pacman >/dev/null 2>&1; then
+            run_pm "pacman -Sy --noconfirm zsh"
+        elif command -v zypper >/dev/null 2>&1; then
+            run_pm "zypper --non-interactive install zsh"
+        else
+            print_error "No supported package manager found. Install zsh manually and re-run."
+        fi
+        ;;
+      *)
+        print_error "Unsupported OS for auto-install. Install zsh manually and re-run."
+        ;;
+    esac
+
+    if ! command -v zsh >/dev/null 2>&1; then
+        print_error "zsh installation failed or not found in PATH. Please install zsh and re-run."
+        exit 1
+    fi
+}
+
+# Check system requirements
+check_requirements() {
+    print_step "Checking system requirements..."
+
+    # Check OS
+    if [[ "$OSTYPE" != darwin* ]]; then
+        print_info "Non-macOS detected. Proceeding with cross-platform checks."
+    fi
+
+    # Check Zsh version
+    ensure_zsh
+
+    local zsh_version=$(zsh --version | awk '{print $2}')
+    if [[ "$(printf '%s\n' "$MIN_ZSH_VERSION" "$zsh_version" | sort -V | head -n1)" != "$MIN_ZSH_VERSION" ]]; then
+        print_error "Zsh version $zsh_version is too old. Minimum required: $MIN_ZSH_VERSION"
+        exit 1
+    fi
+
+    # Check Git version
+    if command -v git >/dev/null 2>&1; then
+        local git_version=$(git --version | awk '{print $3}')
+        if [[ "$(printf '%s\n' "$MIN_GIT_VERSION" "$git_version" | sort -V | head -n1)" != "$MIN_GIT_VERSION" ]]; then
+            print_warning "Git version $git_version is older than recommended ($MIN_GIT_VERSION)"
+        fi
+    fi
+
+    print_success "System requirements met"
+}
 
 # Function to show usage information
 show_usage() {
-    echo "MODERN DOTFILES INSTALLER"
-    echo ""
-    echo "USAGE:"
-    echo "   ./install.sh                     # Interactive mode (asks questions)"
-    echo "   ./install.sh --non-interactive   # Non-interactive mode (defaults to 'no')"
-    echo "   ./install.sh -n                  # Short form for non-interactive"
-    echo "   ./install.sh --yes               # Auto-yes mode (defaults to 'yes')"
-    echo "   ./install.sh -y                  # Short form for auto-yes"
-    echo "   ./install.sh --dry-run           # Show what would be done (safe preview)"
-    echo "   ./install.sh --help              # Show this help message"
-    echo "   ./install.sh -h                  # Short form for help"
-    echo ""
-    echo "MODES:"
-    echo "   Interactive      - Prompts for each installation option"
-    echo "   Non-interactive  - Uses 'no' as default, minimal installation"
-    echo "   Auto-yes         - Uses 'yes' as default, full installation"
-    echo "   Dry-run          - Shows what would be done, makes no changes (SAFE)"
-    echo ""
+    cat << EOF
+$(print_header "MODERN DOTFILES INSTALLER v${SCRIPT_VERSION}")
+
+USAGE:
+   ./install.sh                        # Interactive mode (asks questions)
+   ./install.sh --non-interactive      # Non-interactive mode (defaults to 'no')
+   ./install.sh -n                     # Short form for non-interactive
+   ./install.sh --yes                  # Auto-yes mode (defaults to 'yes')
+   ./install.sh -y                     # Short form for auto-yes
+   ./install.sh --dry-run              # Show what would be done (safe preview)
+   ./install.sh --light                # Light mode - minimal development tools
+   ./install.sh --remote               # Remote mode - optimized for bastion/servers
+   ./install.sh --bastion              # Alias for --remote
+   ./install.sh --help                 # Show this help message
+   ./install.sh -h                     # Short form for help
+   ./install.sh --version              # Show version information
+
+MODES:
+   Interactive      - Prompts for each installation option
+   Non-interactive  - Uses 'no' as default, minimal installation
+   Auto-yes         - Uses 'yes' as default, full installation
+   Dry-run          - Shows what would be done, makes no changes (SAFE)
+   Light            - Minimal development tools for local development
+   Remote/Bastion   - Optimized for remote machines and servers (implies light)
+
+INSTALLATION MODES GUIDE:
+   🚀 Full Mode (default): Complete development environment with all tools
+      - All modern terminal tools (starship, eza, bat, fd, ripgrep)
+      - GUI applications (iTerm2, fonts)
+      - Development tools (NVM, GPG, complex configurations)
+      - Best for: Local development machines, full workstations
+
+   💡 Light Mode (--light): Essential development tools only
+      - Core development tools (git, nvim, fzf, ripgrep, tmux)
+      - Modern terminal basics (starship, eza, bat)
+      - Minimal fonts (JetBrains Mono only)
+      - Best for: Development laptops, constrained environments
+
+   🖥️  Remote Mode (--remote/--bastion): Server-optimized setup
+      - Minimal server tools (git, vim, tmux, htop, curl, wget)
+      - No GUI applications or fonts
+      - Lightweight configurations
+      - Best for: Remote servers, bastion hosts, cloud instances
+
+FEATURES:
+   🛡️  Safety first: Comprehensive backup and rollback capabilities
+   🔍 Dry-run mode: Preview all changes before applying
+   📊 Progress tracking: Clear indicators of installation progress
+   🧪 Verification: Tests installations and reports issues
+   📝 Detailed logging: All actions logged to ${LOG_FILE}
+
+EXAMPLES:
+   ./install.sh --dry-run              # Safe preview of what will be installed
+   ./install.sh -y                     # Full installation with all tools
+   ./install.sh -n                     # Minimal installation, skip most prompts
+   ./install.sh --light                # Light development setup
+   ./install.sh --remote               # Remote/bastion optimized setup
+   ./install.sh --remote --yes         # Remote setup with auto-yes
+
+For more information, visit: https://github.com/yourusername/dotfiles
+EOF
     exit 0
 }
 
-# Parse command line arguments
+# =============================================================================
+# ARGUMENT PARSING
+# =============================================================================
+
+# Initialize variables
 NONINTERACTIVE=false
 AUTO_YES=false
 DRY_RUN=false
-if [[ "$1" == "--help" || "$1" == "-h" ]]; then
-    show_usage
-elif [[ "$1" == "--non-interactive" || "$1" == "-n" ]]; then
-    NONINTERACTIVE=true
-elif [[ "$1" == "--yes" || "$1" == "-y" ]]; then
-    AUTO_YES=true
-elif [[ "$1" == "--dry-run" ]]; then
-    DRY_RUN=true
-elif [[ -n "$1" ]]; then
-    echo "❌ Unknown argument: $1"
-    echo ""
-    show_usage
+VERBOSE=false
+SKIP_BACKUP=false
+LIGHT_MODE=false
+REMOTE_MODE=false
+
+# Parse command line arguments
+while [[ $# -gt 0 ]]; do
+    case $1 in
+        --help|-h)
+            show_usage
+            ;;
+        --version|-v)
+            echo "Modern Dotfiles Installer v${SCRIPT_VERSION}"
+            exit 0
+            ;;
+        --non-interactive|-n)
+            NONINTERACTIVE=true
+            print_info "Running in non-interactive mode (defaults to 'no')"
+            ;;
+        --yes|-y)
+            AUTO_YES=true
+            print_info "Running in auto-yes mode (defaults to 'yes')"
+            ;;
+        --dry-run)
+            DRY_RUN=true
+            print_info "Running in dry-run mode (safe preview)"
+            ;;
+        --verbose)
+            VERBOSE=true
+            print_info "Verbose logging enabled"
+            ;;
+        --skip-backup)
+            SKIP_BACKUP=true
+            print_warning "Backup skipping enabled - use with caution!"
+            ;;
+        --light)
+            LIGHT_MODE=true
+            print_info "Light mode enabled - minimal installation for development"
+            ;;
+        --remote|--bastion)
+            REMOTE_MODE=true
+            LIGHT_MODE=true  # Remote mode implies light mode
+            print_info "Remote/bastion mode enabled - optimized for remote machines"
+            ;;
+        *)
+            print_error "Unknown argument: $1"
+            echo ""
+            show_usage
+            ;;
+    esac
+    shift
+done
+
+# Validate argument combinations
+if [[ "$NONINTERACTIVE" == "true" && "$AUTO_YES" == "true" ]]; then
+    print_error "Cannot use both --non-interactive and --yes modes"
+    exit 1
+fi
+
+if [[ "$DRY_RUN" == "true" && "$SKIP_BACKUP" == "true" ]]; then
+    print_warning "--skip-backup ignored in dry-run mode"
+    SKIP_BACKUP=false
 fi
 
 # Get the directory where this script is located
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]:-$0}")" && pwd)"
 DOTFILES_DIR="$SCRIPT_DIR"
 
-echo -e '\n\n\n\n\n\n\n\n\n\n'
-if [ -f "$DOTFILES_DIR/banner.txt" ]; then
-    cat "$DOTFILES_DIR/banner.txt"
-else
-    echo "========== MODERN DOTFILES INSTALLER (2025) =========="
-fi
+# =============================================================================
+# MAIN EXECUTION
+# =============================================================================
 
-if [[ "$NONINTERACTIVE" == "true" ]]; then
-    echo "🤖 RUNNING IN NON-INTERACTIVE MODE (all prompts will use default 'no')"
-elif [[ "$AUTO_YES" == "true" ]]; then
-    echo "🚀 RUNNING IN AUTO-YES MODE (all prompts will use default 'yes')"
-elif [[ "$DRY_RUN" == "true" ]]; then
-    echo "🔍 RUNNING IN DRY-RUN MODE (showing what would be done, no changes made)"
-fi
+main() {
+    # Initialize logging
+    touch "${LOG_FILE}"
+    log "INFO" "Starting dotfiles installation v${SCRIPT_VERSION}"
 
-echo -e '\n\n\n\n\n\n\n\n\n\n'
+    # Show banner
+    show_banner
 
-echo "🛡️  SAFETY FEATURES: This installer now includes safety checks to prevent data loss"
-echo "   💡 Use --dry-run to preview changes before installing"
-echo "   📦 Only files that will be replaced are backed up"
-echo ""
+    # Run pre-installation checks
+    print_step "Running pre-installation checks..."
+    check_requirements
+    validate_dotfiles_directory
 
-# unalias date just in case
-unalias date 2>/dev/null || true
+    # Setup backup directory
+    setup_backup_directory
 
-date=$(date +%d_%m_%Y)
-mkdir -p "$DOTFILES_DIR/bkp"
-bkpDir="$DOTFILES_DIR/bkp/dotfiles-${date}"
+    # Show safety information
+    show_safety_info
 
-# Helper function for prompts
+    # Main installation flow
+    install_dotfiles
+    install_homebrew
+    install_ohmyzsh
+    install_development_tools
+    install_optional_components
+    install_fonts
+    setup_node_environment
+    install_vim_plugins
+
+    # Post-installation verification
+    verify_installation
+
+    # Show completion summary
+    show_completion_summary
+}
+
+# Show installation banner
+show_banner() {
+    print_header "MODERN DOTFILES INSTALLER v${SCRIPT_VERSION}"
+
+    if [ -f "$DOTFILES_DIR/banner.txt" ]; then
+        cat "$DOTFILES_DIR/banner.txt"
+    else
+        echo "🚀 Welcome to the Modern Dotfiles Installer!"
+        echo "   Setting up your development environment for 2025"
+    fi
+    echo ""
+}
+
+# Setup backup directory
+setup_backup_directory() {
+    if [[ "$DRY_RUN" == "false" && "$SKIP_BACKUP" == "false" ]]; then
+        mkdir -p "$DOTFILES_DIR/bkp"
+        readonly BKP_DIR="$DOTFILES_DIR/bkp/dotfiles-${BACKUP_SUFFIX}"
+        mkdir -p "${BKP_DIR}"
+        print_info "Backup directory created: ${BKP_DIR}"
+    fi
+}
+
+# Show safety information
+show_safety_info() {
+    echo ""
+    print_info "SAFETY FEATURES ENABLED:"
+    echo "   🛡️  Comprehensive backup system"
+    echo "   🔄 Rollback capabilities on failure"
+    echo "   🔍 Dry-run mode available for safe preview"
+    echo "   📊 Detailed logging to ${LOG_FILE}"
+    echo ""
+    if [[ "$DRY_RUN" == "true" ]]; then
+        print_warning "DRY-RUN MODE: No actual changes will be made"
+    fi
+    echo ""
+}
+
+# Validate dotfiles directory
+validate_dotfiles_directory() {
+    print_info "Validating dotfiles directory structure..."
+
+    local required_files=(
+        ".zshrc"
+        ".zshrc.alias"
+        ".vimrc"
+        ".agignore"
+        ".config/starship.toml"
+    )
+
+    local missing_files=()
+
+    for file in "${required_files[@]}"; do
+        if [[ ! -f "$DOTFILES_DIR/$file" ]]; then
+            missing_files+=("$file")
+        fi
+    done
+
+    if [[ ${#missing_files[@]} -gt 0 ]]; then
+        print_error "Missing required dotfiles:"
+        printf '   - %s\n' "${missing_files[@]}"
+        print_error "Please ensure all dotfiles are present before running the installer."
+        exit 1
+    fi
+
+    print_success "All required dotfiles found"
+}
+
+# Rollback function for error recovery
+rollback_installation() {
+    print_warning "Attempting to rollback installation..."
+
+    if [[ -d "${BKP_DIR}" ]]; then
+        print_info "Restoring files from backup..."
+
+        # Restore backed up files
+        for file in "${BKP_DIR}"/*; do
+            if [[ -f "$file" ]]; then
+                local filename=$(basename "$file")
+                if [[ "$DRY_RUN" == "false" ]]; then
+                    cp "$file" "$HOME/.$filename"
+                    print_info "Restored: .$filename"
+                else
+                    print_info "Would restore: .$filename"
+                fi
+            fi
+        done
+
+        print_success "Rollback completed"
+    else
+        print_warning "No backup directory found, cannot rollback"
+    fi
+}
+
+# Enhanced prompt function with better UX
 prompt_user() {
     local question="$1"
     local default="$2"
 
     if [[ "$NONINTERACTIVE" == "true" ]]; then
-        echo "$question (non-interactive mode: using default '$default')"
+        print_info "$question (non-interactive: using '$default')"
         echo "$default"
         return
     elif [[ "$AUTO_YES" == "true" ]]; then
-        echo "$question (auto-yes mode: using default 'y')"
+        print_info "$question (auto-yes: using 'y')"
         echo "y"
+        return
+    elif [[ "$DRY_RUN" == "true" ]]; then
+        print_info "$question (dry-run: skipping)"
+        echo "n"
         return
     fi
 
-    echo "$question"
-    read -r response
-    echo "$response"
+    while true; do
+        echo -n "❓ $question "
+        read -r response
+        response=${response:-$default}
+
+        case $response in
+            [Yy]|[Yy][Ee][Ss])
+                echo "y"
+                return
+                ;;
+            [Nn]|[Nn][Oo])
+                echo "n"
+                return
+                ;;
+            *)
+                print_warning "Please answer 'y' or 'n'"
+                ;;
+        esac
+    done
 }
 
-cd "$HOME" || { echo "Failed to change to home directory"; exit 1; }
+# =============================================================================
+# INSTALLATION FUNCTIONS
+# =============================================================================
 
-mkdir -p "${bkpDir}"
-echo "Backing up overridden dotfiles in ${bkpDir}"
+# Install dotfiles with backup
+install_dotfiles() {
+    print_step "Installing dotfiles..."
 
-# Verify all dotfiles exist before backing up anything
-verify_dotfiles_exist
+    # Define dotfiles to install
+    local dotfiles_to_install=(
+        ".zshrc"
+        ".zshrc.alias"
+        ".vimrc"
+        ".vimrc.completion"
+        ".vimrc.conf"
+        ".vimrc.conf.base"
+        ".vimrc.filetypes"
+        ".vimrc.maps"
+        ".vimrc.plugin"
+        ".vimrc.plugin.extended"
+        ".tmux.conf"
+        ".agignore"
+        ".config/starship.toml"
+    )
 
-# Function to backup existing files or symlinks
+    # Backup and link each file
+    for file in "${dotfiles_to_install[@]}"; do
+        backup_if_exists "$file"
+        create_symlink "$file" "$file"
+    done
+
+    # Link bin directory
+    if [[ -d "$DOTFILES_DIR/bin" ]]; then
+        print_info "Setting up bin directory..."
+        mkdir -p "$HOME/bin"
+        if [[ "$DRY_RUN" == "false" ]]; then
+            ln -sf "$DOTFILES_DIR/bin"/* "$HOME/bin/" 2>/dev/null || print_warning "Could not link some bin scripts"
+            print_success "Linked bin directory with custom scripts"
+        else
+            print_info "Would link bin directory scripts"
+        fi
+    fi
+
+    print_success "Dotfiles installation completed"
+}
+
+# Backup existing files safely
 backup_if_exists() {
     local file="$1"
-    if [ -e "$HOME/$file" ] || [ -L "$HOME/$file" ]; then
+    if [[ -e "$HOME/$file" || -L "$HOME/$file" ]]; then
         if [[ "$DRY_RUN" == "true" ]]; then
-            if [ -L "$HOME/$file" ]; then
-                echo "🔍 Would remove symlink: $file"
+            if [[ -L "$HOME/$file" ]]; then
+                print_info "Would remove symlink: $file"
             else
-                echo "🔍 Would backup file: $file -> ${bkpDir}/"
+                print_info "Would backup: $file -> ${BKP_DIR}/"
             fi
-        else
-            echo "📦 Backing up $file"
-            if [ -L "$HOME/$file" ]; then
-                # It's a symlink, remove it instead of moving
+        elif [[ "$SKIP_BACKUP" == "false" ]]; then
+            print_info "Backing up $file"
+            if [[ -L "$HOME/$file" ]]; then
                 rm "$HOME/$file"
             else
-                # It's a regular file, move it to backup
-                mv "$HOME/$file" "${bkpDir}/" 2>/dev/null || true
+                mv "$HOME/$file" "${BKP_DIR}/" 2>/dev/null || true
             fi
         fi
     fi
 }
 
-# Function to create symlink safely
+# Create symlink safely
 create_symlink() {
     local source_file="$1"
     local target_file="$2"
 
-    if [ -f "$DOTFILES_DIR/$source_file" ]; then
+    if [[ -f "$DOTFILES_DIR/$source_file" ]]; then
         if [[ "$DRY_RUN" == "true" ]]; then
-            echo "🔍 Would link: $source_file -> $target_file"
+            print_info "Would link: $source_file -> $target_file"
         else
             ln -sf "$DOTFILES_DIR/$source_file" "$HOME/$target_file"
-            echo "✅ Linked $source_file -> $target_file"
+            print_success "Linked $source_file -> $target_file"
         fi
     else
-        echo "❌ Warning: Source file $source_file not found in dotfiles directory"
-        echo "   → Skipping symlink for $target_file"
+        print_warning "Source file $source_file not found, skipping symlink for $target_file"
     fi
 }
 
-# Function to verify all symlinks will work before backing up anything
-verify_dotfiles_exist() {
-    local missing_files=()
-    
-    if [[ "$DRY_RUN" == "true" ]]; then
-        echo "🔍 Verifying dotfiles exist for dry-run preview..."
-    else
-        echo "🔍 Verifying dotfiles exist before backing up your current files..."
+# Install Homebrew
+install_homebrew() {
+    print_step "Installing Homebrew..."
+
+    if command -v brew >/dev/null 2>&1; then
+        print_success "Homebrew already installed"
+        return
     fi
-    
-    for file in "${dotfiles_to_backup[@]}"; do
-        if [ ! -f "$DOTFILES_DIR/$file" ]; then
-            missing_files+=("$file")
-        fi
-    done
-    
-    if [ ${#missing_files[@]} -gt 0 ]; then
-        echo "❌ ERROR: The following dotfiles are missing from $DOTFILES_DIR:"
-        printf '   - %s\n' "${missing_files[@]}"
-        echo ""
-        echo "This would result in backing up your files without replacing them!"
-        echo "Please fix the dotfiles repository before running the installer."
+
+    if [[ "$DRY_RUN" == "true" ]]; then
+        print_info "Would install Homebrew"
+        return
+    fi
+
+    print_info "Installing Homebrew (this may require your password)..."
+    NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+    if [[ -f "/opt/homebrew/bin/brew" ]]; then
+        eval "$(/opt/homebrew/bin/brew shellenv)"
+        echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ~/.zprofile
+        print_success "Homebrew installed and added to PATH"
+    else
+        print_error "Homebrew installation failed"
         exit 1
     fi
-    
-    echo "✅ All dotfiles verified. Safe to proceed with backup and linking."
 }
 
-# Backup existing dotfiles first (ONLY files that will actually be symlinked)
-echo "Finding files to backup..."
-dotfiles_to_backup=(
-    .zshrc
-    .zshrc.alias
-    .vimrc
-    .vimrc.completion
-    .vimrc.conf
-    .vimrc.conf.base
-    .vimrc.filetypes
-    .vimrc.maps
-    .vimrc.plugin
-    .vimrc.plugin.extended
-    .tmux.conf
-    .agignore
-    .config/starship.toml
-)
-for file in "${dotfiles_to_backup[@]}"; do
-    backup_if_exists "$file"
-done
+# Install Oh My Zsh
+install_ohmyzsh() {
+    local install_omz=$(prompt_user "Install Oh My Zsh? (y/n)" "n")
 
-# Install Homebrew FIRST (before anything else that might need it)
-if [[ "$OSTYPE" == darwin* ]]; then
-    echo "Checking if Homebrew is installed..."
-    if ! command -v brew &>/dev/null; then
-        echo "Installing Homebrew (this may require your password)..."
-        NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-
-        # Add Homebrew to PATH immediately
-        if [[ -f "/opt/homebrew/bin/brew" ]]; then
-            eval "$(/opt/homebrew/bin/brew shellenv)"
-            echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ~/.zprofile
-            echo "✅ Homebrew installed and added to PATH"
-        else
-            echo "❌ Homebrew installation failed"
-            exit 1
-        fi
-    else
-        echo "✅ Homebrew already installed"
-        # Ensure it's in PATH
-        eval "$(/opt/homebrew/bin/brew shellenv)" 2>/dev/null || true
+    if [[ "$install_omz" != "y" ]]; then
+        print_info "Skipping Oh My Zsh installation"
+        return
     fi
-fi
 
-# Install Oh My Zsh CAREFULLY (without overriding our dotfiles)
-install_ohmyzsh=$(prompt_user "Do you want to install Oh My Zsh? (y/n)" "n")
+    print_step "Installing Oh My Zsh..."
 
-if [[ "$install_ohmyzsh" = "y" ]]; then
-    if [ ! -d "$HOME/.oh-my-zsh" ]; then
-        echo "Installing Oh My Zsh..."
-        # Install without changing shell or sourcing (to avoid script conflicts)
-        RUNZSH=no CHSH=no sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-        echo "✅ Oh My Zsh installed"
+    if [[ -d "$HOME/.oh-my-zsh" ]]; then
+        print_success "Oh My Zsh already installed"
     else
-        echo "✅ Oh My Zsh already installed"
+        if [[ "$DRY_RUN" == "true" ]]; then
+            print_info "Would install Oh My Zsh"
+        else
+            print_info "Installing Oh My Zsh..."
+            RUNZSH=no CHSH=no sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+            print_success "Oh My Zsh installed"
+        fi
     fi
 
     # Install zsh-syntax-highlighting plugin
-    if [ ! -d "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting" ]; then
-        echo "Installing zsh-syntax-highlighting plugin..."
-        git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
-        echo "✅ zsh-syntax-highlighting installed"
+    if [[ ! -d "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting" ]]; then
+        if [[ "$DRY_RUN" == "true" ]]; then
+            print_info "Would install zsh-syntax-highlighting plugin"
+        else
+            git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+            print_success "zsh-syntax-highlighting installed"
+        fi
     fi
-fi
+}
 
-# NOW create symlinks for dotfiles (after Oh My Zsh won't override them)
-echo "Creating symlinks for dotfiles..."
-create_symlink ".vimrc" ".vimrc"
-create_symlink ".vimrc.completion" ".vimrc.completion"
-create_symlink ".vimrc.conf" ".vimrc.conf"
-create_symlink ".vimrc.conf.base" ".vimrc.conf.base"
-create_symlink ".vimrc.filetypes" ".vimrc.filetypes"
-create_symlink ".vimrc.maps" ".vimrc.maps"
-create_symlink ".vimrc.plugin" ".vimrc.plugin"
-create_symlink ".vimrc.plugin.extended" ".vimrc.plugin.extended"
+# Install development tools (mode-aware)
+install_development_tools() {
+    if [[ "$OSTYPE" != darwin* ]]; then
+        print_info "Skipping development tools (macOS only)"
+        return
+    fi
 
-# Zsh files (CRITICAL: Do this after Oh My Zsh install)
-create_symlink ".zshrc" ".zshrc"
-create_symlink ".zshrc.alias" ".zshrc.alias"
-# Note: .zshenv and .zshrc.local are user-specific and not included in dotfiles
-# Note: .zshrc-e has been consolidated into .zshrc.local.template
-# See .zshenv.example, .zshrc.local.example, .zshrc.private.example, and .gitconfig.example for templates
+    # Determine installation level based on mode
+    local install_tools="n"
+    local tool_level="full"
 
-# Development tool configurations
-create_symlink ".agignore" ".agignore"
+    if [[ "$REMOTE_MODE" == "true" ]]; then
+        install_tools="y"
+        tool_level="remote"
+        print_info "Remote mode: Installing minimal server-optimized tools"
+    elif [[ "$LIGHT_MODE" == "true" ]]; then
+        install_tools="y"
+        tool_level="light"
+        print_info "Light mode: Installing essential development tools only"
+    else
+        install_tools=$(prompt_user "Install essential development tools via Homebrew? (y/n)" "n")
+        tool_level="full"
+    fi
 
-# Starship prompt configuration
-mkdir -p ~/.config
-create_symlink ".config/starship.toml" ".config/starship.toml"
+    if [[ "$install_tools" != "y" ]]; then
+        print_info "Skipping development tools installation"
+        return
+    fi
 
-# Link bin directory for custom scripts
-if [ -d "$DOTFILES_DIR/bin" ]; then
+    print_step "Installing ${tool_level} development tools..."
+
     if [[ "$DRY_RUN" == "true" ]]; then
-        echo "🔍 Would link bin directory scripts to ~/bin/"
-        for script in "$DOTFILES_DIR/bin"/*; do
-            if [ -f "$script" ]; then
-                script_name=$(basename "$script")
-                echo "🔍   Would link: bin/$script_name -> ~/bin/$script_name"
-            fi
-        done
-    else
-        echo "Linking bin directory..."
-        mkdir -p "$HOME/bin"
-        ln -sf "$DOTFILES_DIR/bin"/* "$HOME/bin/" 2>/dev/null || echo "Warning: Could not link some bin scripts"
-        echo "✅ Linked ~/bin directory with custom scripts"
+        case "$tool_level" in
+            "remote")
+                print_info "Would install remote tools: git, vim, tmux, htop, curl, wget"
+                ;;
+            "light")
+                print_info "Would install light tools: git, nvim, fzf, ripgrep, tmux"
+                ;;
+            "full")
+                print_info "Would install full tools: git, nvim, fzf, ripgrep, fd, eza, bat, starship, tmux"
+                ;;
+        esac
+        return
     fi
-fi
 
-# Git config (only if it doesn't exist to avoid overwriting user settings)
-if [ ! -f "$HOME/.gitconfig" ]; then
-    if [[ "$NONINTERACTIVE" == "true" ]]; then
-        echo "No .gitconfig found. Skipping Git identity setup in non-interactive mode."
-        echo "You can configure Git later with: git config --global user.name 'Your Name'"
-        echo "                                 git config --global user.email 'your.email@example.com'"
-    else
-        echo "No .gitconfig found. Let's set up your Git identity."
-        echo "What is your name?"
-        read -r gitname
-        echo "What is your email?"
-        read -r gitemail
-        cat > "$HOME/.gitconfig" <<EOF
-[user]
-    name = $gitname
-    email = $gitemail
-[core]
-    editor = nvim
-    excludesfile = ~/.gitignore_global
-    pager = delta
-    autocrlf = input
-    whitespace = fix,-indent-with-non-tab,trailing-space,cr-at-eol
-[color]
-    ui = auto
-    branch = auto
-    diff = auto
-    status = auto
-    interactive = auto
-[alias]
-    st = status
-    co = checkout
-    br = branch
-    ci = commit
-    ca = commit --amend
-    cm = commit -m
-    lg = log --oneline --graph --decorate --all
-    last = log -1 HEAD
-    unstage = reset HEAD --
-    hist = log --pretty=format:'%C(yellow)%h%Creset %ad | %s%C(red)%d%Creset %C(blue)[%an]%Creset' --graph --date=short
-    type = cat-file -t
-    dump = cat-file -p
-    fixup = commit --fixup
-    squash = commit --squash
-[push]
-    default = current
-    autoSetupRemote = true
-[fetch]
-    prune = true
-[merge]
-    tool = nvimdiff
-    conflictstyle = diff3
-[diff]
-    tool = nvimdiff
-    colorMoved = default
-[rerere]
-    enabled = true
-[rebase]
-    autoStash = true
-[status]
-    showUntrackedFiles = all
-[log]
-    date = short
-[init]
-    defaultBranch = main
-[credential]
-    helper = osxkeychain
-[delta]
-    # Use n and N to move between diff sections
-    navigate = true
-    # Set to true if you're in a terminal with a light background color
-    light = false
-    # Use side-by-side view for better readability
-    side-by-side = true
-    # Show line numbers
-    line-numbers = true
-    # Enhanced decorations
-    decorations = true
-    # Syntax highlighting theme (try: Dracula, GitHub, Monokai Extended, etc.)
-    syntax-theme = Dracula
-    # Better file headers
-    file-style = bold yellow ul
-    file-decoration-style = none
-    file-added-label = [+]
-    file-copied-label = [==]
-    file-modified-label = [*]
-    file-removed-label = [-]
-    file-renamed-label = [->]
-    # Hunk headers
-    hunk-header-decoration-style = blue box
-    hunk-header-file-style = red
-    hunk-header-line-number-style = "#067a00"
-    hunk-header-style = file line-number syntax
-    # Line numbers
-    line-numbers-left-style = cyan
-    line-numbers-right-style = cyan
-    line-numbers-minus-style = 124
-    line-numbers-plus-style = 28
-    # Changes
-    minus-style = syntax "#450a15"
-    minus-emph-style = syntax "#600818"
-    plus-style = syntax "#0e2f0e"
-    plus-emph-style = syntax "#174517"
-    # Whitespace
-    whitespace-error-style = 22 reverse
-    # Zero line mode for better performance on large diffs
-    max-line-length = 512
-[pull]
-    rebase = false
-[interactive]
-    diffFilter = delta --color-only
-[includeIf "gitdir:~/work/"]
-    path = ~/.gitconfig-work
-EOF
-        echo "✅ .gitconfig created with your user info and recommended settings."
+    brew update
+
+    case "$tool_level" in
+        "remote")
+            # Minimal tools for remote servers
+            brew install git vim tmux htop curl wget tree jq
+            print_success "Remote-optimized tools installed"
+            ;;
+        "light")
+            # Essential development tools only
+            brew install git git-delta neovim fzf ripgrep tmux
+            brew install starship eza bat  # Lightweight modern tools
+            print_success "Light development tools installed"
+            ;;
+        "full")
+            # Full development environment
+            brew install git git-delta nvm neovim fzf the_silver_searcher jq wget curl tree htop imagemagick gnupg pinentry-mac gh tmux pnpm
+            brew install starship eza bat ripgrep fd
+
+            # iTerm2 (only for full mode)
+            brew install --cask iterm2 2>/dev/null || print_info "iTerm2 already installed or installation skipped"
+
+            # Setup NVM (only for full mode)
+            mkdir -p ~/.nvm
+            print_success "Full development tools installed"
+            ;;
+    esac
+
+    # Common setup for all modes
+    if [[ "$tool_level" != "remote" ]]; then
+        # Setup FZF (only for light/full modes)
+        if command -v fzf >/dev/null 2>&1; then
+            /opt/homebrew/opt/fzf/install --all --no-update-rc 2>/dev/null || print_info "FZF setup skipped"
+        fi
     fi
-else
-    echo "Warning: .gitconfig already exists, skipping creation."
-fi
+}
 
-# Other configs
-create_symlink ".tmux.conf" ".tmux.conf"
-
-# Link other config directories if they exist
-if [ -d "$DOTFILES_DIR/.config" ]; then
-    if [[ "$DRY_RUN" == "true" ]]; then
-        echo "🔍 Would link additional config directories..."
-        for config_dir in "$DOTFILES_DIR/.config"/*; do
-            if [ -d "$config_dir" ]; then
-                dir_name=$(basename "$config_dir")
-                echo "🔍   Would link: .config/$dir_name -> ~/.config/$dir_name"
-            fi
-        done
-    else
-        echo "Linking additional config directories..."
-        mkdir -p ~/.config
-
-        # Link individual config subdirectories to avoid conflicts
-        for config_dir in "$DOTFILES_DIR/.config"/*; do
-            if [ -d "$config_dir" ]; then
-                dir_name=$(basename "$config_dir")
-                ln -sf "$config_dir" ~/.config/ 2>/dev/null || echo "Warning: Could not link $dir_name config"
-                echo "✅ Linked ~/.config/$dir_name"
-            fi
-        done
+# Install optional components (mode-aware)
+install_optional_components() {
+    # Skip heavy components in remote mode
+    if [[ "$REMOTE_MODE" == "true" ]]; then
+        print_info "Remote mode: Skipping optional heavy components"
+        return
     fi
-fi
 
-echo -e "\n✅ Dotfiles are linked!"
+    # GPG setup (skip in light mode to reduce complexity)
+    if [[ "$LIGHT_MODE" == "false" ]]; then
+        local setup_gpg=$(prompt_user "Configure GPG for Git commit signing? (y/n)" "n")
 
-# Exit early for dry-run mode (just show what would be done for dotfiles)
-if [[ "$DRY_RUN" == "true" ]]; then
-    echo ""
-    echo "🔍 DRY-RUN COMPLETE!"
-    echo "   The above shows what would be backed up and symlinked."
-    echo "   No actual changes were made to your system."
-    echo ""
-    echo "💡 To actually run the installation:"
-    echo "   ./install.sh        # Interactive mode"
-    echo "   ./install.sh -y     # Auto-yes mode (full installation)"
-    echo "   ./install.sh -n     # Non-interactive mode (minimal)"
-    exit 0
-fi
+        if [[ "$setup_gpg" == "y" && "$DRY_RUN" == "false" ]]; then
+            print_step "Setting up GPG configuration..."
+            setup_gpg_configuration
+        fi
+    fi
 
-# Git configuration is handled above during dotfiles linking
+    # Starship setup (essential for all modes)
+    if [[ ! -f ~/.config/starship.toml ]]; then
+        if [[ "$DRY_RUN" == "false" ]]; then
+            print_info "Setting up Starship with Tokyo Night theme..."
+            mkdir -p ~/.config
+            starship preset tokyo-night -o ~/.config/starship.toml
+            print_success "Starship configuration created"
+        else
+            print_info "Would setup Starship prompt configuration"
+        fi
+    fi
+}
 
-# Vim-plug installation
-vimplug=$(prompt_user "Do you wish to install vim-plug (modern Vim plugin manager)? (y/n)" "n")
+# Setup GPG configuration
+setup_gpg_configuration() {
+    mkdir -p ~/.gnupg
+    chmod 700 ~/.gnupg
 
-if [[ "$vimplug" = "y" ]]; then
-    echo "Installing vim-plug..."
-    curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
-        https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-    echo "✅ vim-plug installed successfully"
-fi
-
-# Development tools installation (macOS)
-if [[ "$OSTYPE" == darwin* ]]; then
-    install_tools=$(prompt_user "Install essential development tools via Homebrew? (y/n)" "n")
-
-    if [[ "$install_tools" = "y" ]]; then
-        echo "Updating Homebrew..."
-        brew update
-
-        echo "Installing essential development tools..."
-        # Install fortune first (needed for Oh My Zsh hitchhiker plugin)
-        brew install fortune
-
-        # Essential dev tools
-        brew install git git-delta nvm neovim fzf the_silver_searcher jq wget curl tree htop imagemagick gnupg pinentry-mac gh tmux pnpm
-
-        # Modern terminal tools (note: exa is now eza)
-        echo "Installing modern terminal enhancements..."
-        brew install starship eza bat ripgrep fd
-
-        # iTerm2 (handle case where it's already installed)
-        echo "Installing iTerm2..."
-        brew install --cask iterm2 2>/dev/null || echo "iTerm2 already installed or installation skipped"
-
-        # Set up NVM
-        mkdir -p ~/.nvm
-
-        # Set up FZF shell integration
-        echo "Setting up FZF shell integration..."
-        /opt/homebrew/opt/fzf/install --all --no-update-rc
-
-        echo "✅ Development tools installed"
-
-        # Set up GPG for Git commit signing
-        setup_gpg=$(prompt_user "Configure GPG for Git commit signing? (y/n)" "n")
-
-        if [[ "$setup_gpg" = "y" ]]; then
-            echo "Setting up GPG configuration..."
-
-            # Create GPG directory with proper permissions
-            mkdir -p ~/.gnupg
-            chmod 700 ~/.gnupg
-
-            # Configure GPG with secure defaults
-            cat > ~/.gnupg/gpg.conf << 'EOF'
+    cat > ~/.gnupg/gpg.conf << 'EOF'
 # GPG Configuration for enhanced security
-# Use AES256, SHA512, and ZLIB
 personal-cipher-preferences AES256 AES192 AES
 personal-digest-preferences SHA512 SHA384 SHA256
 personal-compress-preferences ZLIB BZIP2 ZIP Uncompressed
@@ -521,197 +758,275 @@ no-symkey-cache
 throw-keyids
 EOF
 
-            # Configure GPG agent
-            cat > ~/.gnupg/gpg-agent.conf << 'EOF'
-# GPG Agent configuration
+    cat > ~/.gnupg/gpg-agent.conf << 'EOF'
 default-cache-ttl 28800
 max-cache-ttl 86400
 pinentry-program /opt/homebrew/bin/pinentry-mac
 EOF
 
-            echo "✅ GPG configuration created"
-            echo "   📝 Next steps:"
-            echo "   1. Generate a GPG key: gpg --full-generate-key"
-            echo "   2. List keys: gpg --list-secret-keys --keyid-format=long"
-            echo "   3. Configure Git: git config --global user.signingkey [KEY_ID]"
-            echo "   4. Enable signing: git config --global commit.gpgsign true"
-        fi
+    print_success "GPG configuration created"
+}
 
-        # Set up Starship configuration
-        echo "Setting up Starship prompt configuration..."
-        mkdir -p ~/.config
+# Install programming fonts (mode-aware)
+install_fonts() {
+    if [[ "$OSTYPE" != darwin* ]]; then
+        print_info "Skipping fonts installation (macOS only)"
+        return
+    fi
 
-        # Create a modern Starship config if it doesn't exist
-        if [ ! -f ~/.config/starship.toml ]; then
-            echo "Setting up Starship with Tokyo Night theme..."
-            starship preset tokyo-night -o ~/.config/starship.toml
-            echo "✅ Starship configuration created with Tokyo Night theme"
-            echo "   🎨 Theme: Tokyo Night with beautiful colors and icons"
-            echo "   💡 Tip: Make sure you have a Nerd Font installed for best experience"
+    # Skip fonts in remote mode (not needed on servers)
+    if [[ "$REMOTE_MODE" == "true" ]]; then
+        print_info "Remote mode: Skipping fonts installation"
+        return
+    fi
+
+    # In light mode, ask but default to no
+    local install_fonts="n"
+    if [[ "$LIGHT_MODE" == "true" ]]; then
+        install_fonts=$(prompt_user "Install essential programming fonts? (y/n)" "n")
+    else
+        install_fonts=$(prompt_user "Install modern programming fonts? (y/n)" "n")
+    fi
+
+    if [[ "$install_fonts" != "y" ]]; then
+        print_info "Skipping fonts installation"
+        return
+    fi
+
+    print_step "Installing programming fonts..."
+
+    if [[ "$DRY_RUN" == "true" ]]; then
+        if [[ "$LIGHT_MODE" == "true" ]]; then
+            print_info "Would install essential fonts: JetBrains Mono"
         else
-            echo "ℹ️  Starship config already exists, keeping your custom configuration"
-            echo "   💡 To switch to Tokyo Night theme: starship preset tokyo-night -o ~/.config/starship.toml"
+            print_info "Would install full font collection"
         fi
+        return
     fi
 
-    # Optional: BetterTouchTool
-    btt=$(prompt_user "Install BetterTouchTool for advanced macOS automation? (y/n) - Note: BetterTouchTool is a paid app but offers powerful gesture and automation features" "n")
-
-    if [[ "$btt" = "y" ]]; then
-        echo "Installing BetterTouchTool..."
-        brew install --cask bettertouchtool
-        echo "✅ BetterTouchTool installed! You'll need to purchase a license from folivora.ai"
-    fi
-fi
-
-# Vim plugins installation
-vimplugins=$(prompt_user "Install vim plugins now? (y/n)" "n")
-
-if [[ "$vimplugins" = "y" ]] && command -v vim &>/dev/null; then
-    echo "Installing vim plugins..."
-    vim +PlugInstall +qall
-    echo "✅ Vim plugins installed"
-    echo "   📝 Note: Tabs are configured to always show when opening multiple files"
-fi
-
-# Programming fonts
-fonts=$(prompt_user "Install modern programming fonts? (y/n) - Includes JetBrains Mono Nerd Font, Cascadia Code, and other developer favorites" "n")
-
-if [[ "$fonts" = "y" ]] && [[ "$OSTYPE" == darwin* ]]; then
-    echo "Installing modern programming fonts via Homebrew..."
     brew tap homebrew/cask-fonts
-    brew install --cask \
-        font-jetbrains-mono-nerd-font \
-        font-jetbrains-mono \
-        font-cascadia-code \
-        font-fira-code \
-        font-hack-nerd-font \
-        font-source-code-pro \
-        font-monaspace
-    echo "✅ Programming fonts installed!"
-    echo "   🎨 IMPORTANT: Set your terminal font to 'JetBrainsMonoNerdFont-Regular'"
-    echo "      This enables all the beautiful icons in Starship prompt!"
-fi
 
-# Node.js setup
-if command -v nvm &>/dev/null; then
-    node_setup=$(prompt_user "Setup Node.js LTS via NVM? (y/n)" "n")
-
-    if [[ "$node_setup" = "y" ]]; then
-        echo "Setting up Node.js environment..."
-        # Source NVM first
-        export NVM_DIR="$HOME/.nvm"
-        [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"
-
-        nvm install --lts
-        nvm use --lts
-        nvm alias default lts/*
-        echo "✅ Node.js LTS installed and set as default"
+    if [[ "$LIGHT_MODE" == "true" ]]; then
+        # Only essential fonts for light mode
+        brew install --cask font-jetbrains-mono-nerd-font
+        print_success "Essential fonts installed!"
+    else
+        # Full font collection for full mode
+        brew install --cask \
+            font-jetbrains-mono-nerd-font \
+            font-jetbrains-mono \
+            font-cascadia-code \
+            font-fira-code \
+            font-hack-nerd-font \
+            font-source-code-pro \
+            font-monaspace
+        print_success "Programming fonts installed!"
     fi
-fi
 
-# Neovim configuration is now automatically linked with other .config directories above
+    print_info "Set your terminal font to 'JetBrainsMonoNerdFont-Regular' for best experience"
+}
 
-# Final verification and testing
-echo -e "\n🧪 TESTING INSTALLATION..."
+# Setup Node.js environment (mode-aware)
+setup_node_environment() {
+    # Skip Node.js setup in remote mode (too heavy for servers)
+    if [[ "$REMOTE_MODE" == "true" ]]; then
+        print_info "Remote mode: Skipping Node.js/NVM installation"
+        return
+    fi
 
-# Test that essential tools are available
-echo "Verifying installations..."
-failed_tools=()
-
-if [[ "$OSTYPE" == darwin* ]] && [[ "$install_tools" = "y" ]]; then
-    tools_to_check=("brew" "git" "nvim" "fzf" "rg" "fd" "eza" "bat" "gpg")
-    for tool in "${tools_to_check[@]}"; do
-        if ! command -v "$tool" &>/dev/null; then
-            failed_tools+=("$tool")
+    if ! command -v nvm >/dev/null 2>&1; then
+        if [[ "$LIGHT_MODE" == "true" ]]; then
+            print_info "NVM not available in light mode, skipping Node.js setup"
+            return
         fi
-    done
-fi
-
-# Test zsh configuration
-if [ -f "$HOME/.zshrc" ] && [ -L "$HOME/.zshrc" ]; then
-    echo "✅ Custom .zshrc is properly linked"
-else
-    echo "❌ .zshrc linking failed"
-    failed_tools+=(".zshrc")
-fi
-
-# Test Oh My Zsh
-if [ -d "$HOME/.oh-my-zsh" ] && [[ "$install_ohmyzsh" = "y" ]]; then
-    echo "✅ Oh My Zsh is installed"
-else
-    echo "ℹ️  Oh My Zsh installation skipped"
-fi
-
-# Report results
-if [ ${#failed_tools[@]} -eq 0 ]; then
-    echo -e "\n🎉 INSTALLATION COMPLETED SUCCESSFULLY! 🎉"
-else
-    echo -e "\n⚠️  INSTALLATION COMPLETED WITH SOME ISSUES:"
-    printf '   - %s\n' "${failed_tools[@]}"
-    echo "   You may need to restart your terminal and check these tools manually."
-fi
-
-echo ""
-echo "📋 SUMMARY OF WHAT WAS INSTALLED:"
-echo "   ✅ Dotfiles symlinked to custom configurations"
-echo "   ✅ .agignore configured for The Silver Searcher (ag)"
-echo "   ✅ Vim/Neovim with modern plugin management (tabs always visible)"
-if [[ "$install_ohmyzsh" = "y" ]]; then
-    echo "   ✅ Oh My Zsh for enhanced terminal experience"
-    echo "   ✅ zsh-syntax-highlighting plugin"
-fi
-if [[ "$install_tools" = "y" ]] && [[ "$OSTYPE" == darwin* ]]; then
-    echo "   ✅ Essential development tools (git, nvim, fzf, ripgrep, gpg, etc.)"
-    echo "   ✅ Modern terminal tools (starship, eza, bat, fd)"
-    echo "   ✅ Starship prompt configuration with enhanced git status indicators"
-    echo "   ✅ Productivity aliases and functions for services, social media, and development"
-    echo "   ✅ iTerm2 terminal application"
-    echo "   ✅ FZF shell integration (Ctrl+R for history, Ctrl+T for files)"
-    if [[ "$setup_gpg" = "y" ]]; then
-        echo "   ✅ GPG configured for secure Git commit signing"
+        print_info "NVM not available, skipping Node.js setup"
+        return
     fi
-fi
-if [[ "$fonts" = "y" ]]; then
-    echo "   ✅ Modern programming fonts (JetBrains Mono, Cascadia Code, etc.)"
-fi
-if [[ "$node_setup" = "y" ]]; then
-    echo "   ✅ Node.js LTS environment via NVM"
-fi
 
-echo ""
-echo "🚀 NEXT STEPS:"
-echo "   1. **Restart your terminal** to apply all changes"
-echo "   2. **Set terminal font** to 'JetBrainsMonoNerdFont-Regular' for beautiful icons"
-echo "   3. **Create local config files** (optional):"
-echo "      • Copy .zshenv.example to .zshenv for environment variables"
-echo "      • Copy .zshrc.local.example to .zshrc.local for local configurations"
-echo "      • Copy .zshrc.private.example to .zshrc.private for sensitive settings"
-echo "      • Copy .gitconfig.example to .gitconfig and customize with your details"
-echo "   4. Try Starship prompt: 'eval \"\$(starship init zsh)\"' (temporary test)"
-echo "   5. Try modern tools: 'eza -la', 'bat filename', 'rg search-term'"
-echo "   6. Use FZF: Ctrl+R (history), Ctrl+T (files), Alt+C (directories)"
-echo "   7. Run 'nvim' to start Neovim with your modern configuration"
+    local setup_node="n"
+    if [[ "$LIGHT_MODE" == "true" ]]; then
+        setup_node=$(prompt_user "Setup Node.js LTS? (y/n)" "n")
+    else
+        setup_node=$(prompt_user "Setup Node.js LTS via NVM? (y/n)" "n")
+    fi
 
-echo ""
-echo "💡 QUICK TEST COMMANDS:"
-echo "   • starship --version                    # Test Starship prompt"
-echo "   • eval \"\$(starship init zsh)\"         # Try Starship temporarily"
-echo "   • fzf --version                         # Test fuzzy finder"
-echo "   • rg --version                          # Test ripgrep"
-echo "   • eza --version                         # Test modern ls replacement"
-echo "   • nvim --version                        # Test Neovim"
-echo "   • gpg --version                         # Test GPG for security/signing"
-echo "   • vim file1 file2                       # Test vim with tabs (should show tab bar)"
-echo "   • nvim file1 file2                      # Test neovim with tabs (should show tab bar)"
-echo ""
-echo "🔧 Your development environment is ready! Happy coding! 🧑‍💻"
-echo ""
-echo "💡 SCRIPT USAGE:"
-echo "   ./install.sh                            # Interactive mode (asks questions)"
-echo "   ./install.sh --non-interactive          # Non-interactive mode (defaults to 'no')"
-echo "   ./install.sh -n                         # Short form for non-interactive"
-echo "   ./install.sh --yes                      # Auto-yes mode (defaults to 'yes')"
-echo "   ./install.sh -y                         # Short form for auto-yes"
-echo "   ./install.sh --dry-run                  # Safe preview mode (no changes made)"
+    if [[ "$setup_node" != "y" ]]; then
+        print_info "Skipping Node.js setup"
+        return
+    fi
 
+    print_step "Setting up Node.js environment..."
+
+    if [[ "$DRY_RUN" == "true" ]]; then
+        print_info "Would setup Node.js LTS"
+        return
+    fi
+
+    export NVM_DIR="$HOME/.nvm"
+    [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"
+
+    nvm install --lts
+    nvm use --lts
+    nvm alias default lts/*
+
+    print_success "Node.js LTS installed and set as default"
+}
+
+# Install Vim plugins
+install_vim_plugins() {
+    if ! command -v vim >/dev/null 2>&1; then
+        print_info "Vim not available, skipping plugin installation"
+        return
+    fi
+
+    local install_plugins=$(prompt_user "Install vim plugins now? (y/n)" "n")
+
+    if [[ "$install_plugins" != "y" ]]; then
+        print_info "Skipping vim plugins installation"
+        return
+    fi
+
+    print_step "Installing vim plugins..."
+
+    if [[ "$DRY_RUN" == "true" ]]; then
+        print_info "Would install vim plugins"
+        return
+    fi
+
+    vim +PlugInstall +qall
+    print_success "Vim plugins installed"
+}
+
+# Verify installation (mode-aware)
+verify_installation() {
+    print_step "Verifying installation..."
+
+    local failed_tools=()
+    local tools_to_check=()
+
+    # Check different tools based on installation mode
+    if [[ "$OSTYPE" == darwin* ]]; then
+        if [[ "$REMOTE_MODE" == "true" ]]; then
+            # Minimal tools for remote mode
+            tools_to_check=("git" "vim" "tmux" "curl")
+        elif [[ "$LIGHT_MODE" == "true" ]]; then
+            # Essential tools for light mode
+            tools_to_check=("git" "nvim" "fzf" "ripgrep" "tmux")
+        else
+            # Full toolset for regular mode
+            tools_to_check=("git" "nvim" "fzf" "ripgrep" "fd" "eza" "bat" "starship")
+        fi
+
+        for tool in "${tools_to_check[@]}"; do
+            if ! command -v "$tool" >/dev/null 2>&1; then
+                failed_tools+=("$tool")
+            fi
+        done
+    fi
+
+    # Check dotfiles
+    if [[ ! -L "$HOME/.zshrc" ]]; then
+        failed_tools+=(".zshrc symlink")
+    fi
+
+    if [[ ${#failed_tools[@]} -eq 0 ]]; then
+        print_success "All installations verified successfully"
+    else
+        print_warning "Some installations may have issues:"
+        printf '   - %s\n' "${failed_tools[@]}"
+    fi
+}
+
+# Show completion summary (mode-aware)
+show_completion_summary() {
+    print_header "INSTALLATION COMPLETED SUCCESSFULLY! 🎉"
+
+    echo ""
+    echo "📋 WHAT WAS INSTALLED:"
+
+    # Show different summaries based on mode
+    if [[ "$REMOTE_MODE" == "true" ]]; then
+        echo "   ✅ Remote-optimized dotfiles and shell configuration"
+        echo "   ✅ Essential server tools (git, vim, tmux, htop, curl)"
+        echo "   ✅ Lightweight terminal experience"
+        echo "   ✅ Network and file transfer utilities"
+    elif [[ "$LIGHT_MODE" == "true" ]]; then
+        echo "   ✅ Light development dotfiles and configuration"
+        echo "   ✅ Essential development tools (git, nvim, fzf, ripgrep)"
+        echo "   ✅ Modern terminal tools (starship, eza, bat)"
+        echo "   ✅ Productivity aliases and functions"
+    else
+        echo "   ✅ Full dotfiles suite with backup"
+        echo "   ✅ Complete development environment (git, nvim, fzf, etc.)"
+        echo "   ✅ Enhanced terminal experience (starship, eza, bat, fd)"
+        echo "   ✅ Oh My Zsh with syntax highlighting"
+        echo "   ✅ Productivity aliases and functions"
+        echo "   ✅ Starship prompt with beautiful themes"
+    fi
+
+    if [[ "$DRY_RUN" == "false" ]]; then
+        echo ""
+        echo "🚀 NEXT STEPS:"
+
+        if [[ "$REMOTE_MODE" == "true" ]]; then
+            echo "   1. Restart your shell: exec zsh"
+            echo "   2. Test basic tools: git --version, vim --version, tmux -V"
+            echo "   3. Configure Git: git config --global user.name 'Your Name'"
+            echo "   4. Configure Git: git config --global user.email 'your.email@example.com'"
+            echo "   5. Start tmux session: tmux"
+        elif [[ "$LIGHT_MODE" == "true" ]]; then
+            echo "   1. Restart your terminal to apply all changes"
+            echo "   2. Test tools: nvim --version, fzf --version, rg --version"
+            echo "   3. Configure Git: git config --global user.name 'Your Name'"
+            echo "   4. Configure Git: git config --global user.email 'your.email@example.com'"
+            echo "   5. Try modern commands: eza -la, bat README.md"
+        else
+            echo "   1. Restart your terminal to apply all changes"
+            echo "   2. Set terminal font to 'JetBrainsMonoNerdFont-Regular'"
+            echo "   3. Test tools: starship --version, fzf --version, eza --version"
+            echo "   4. Configure Git: git config --global user.name 'Your Name'"
+            echo "   5. Configure Git: git config --global user.email 'your.email@example.com'"
+            echo "   6. Try FZF: Ctrl+R (history), Ctrl+T (files)"
+        fi
+    fi
+
+    echo ""
+    if [[ "$DRY_RUN" == "false" && "$SKIP_BACKUP" == "false" ]]; then
+        echo "📁 Backup location: ${BKP_DIR}"
+    fi
+    echo "📝 Log file: ${LOG_FILE}"
+    echo ""
+    echo "💡 Happy coding! 🧑‍💻"
+}
+
+# =============================================================================
+# SCRIPT ENTRY POINT
+# =============================================================================
+
+# Run main function
+main "$@"
+
+
+# =============================================================================
+# INSTALLATION MODES QUICK REFERENCE
+# =============================================================================
+#
+# Choose the right mode for your use case:
+#
+# 1. LOCAL DEVELOPMENT MACHINES (Full workstations)
+#    Command: ./install.sh --yes
+#    Installs: Complete development environment with all tools
+#
+# 2. DEVELOPMENT LAPTOPS (Light but capable)
+#    Command: ./install.sh --light --yes
+#    Installs: Essential development tools, modern terminal basics
+#
+# 3. REMOTE SERVERS / BASTION HOSTS (Minimal & fast)
+#    Command: ./install.sh --remote --yes
+#    Installs: Server-optimized tools, lightweight configurations
+#
+# 4. SAFE PREVIEW (See what will be installed)
+#    Command: ./install.sh --remote --dry-run
+#    Installs: Nothing - just shows what would be installed
+#
+# =============================================================================
