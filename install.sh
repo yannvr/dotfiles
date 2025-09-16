@@ -9,6 +9,20 @@
 # - Better user experience with progress indicators
 # - Dependency management and verification
 # - Flexible configuration options
+# - Mode-aware installation (Full/Light/Remote)
+#
+# OUTDATED TOOLS REMOVED (2025):
+# - Amphetamine (use built-in macOS Shortcuts/Power settings)
+# - Caffeine (built into macOS now)
+# - Alfred (replaced by Raycast - but Raycast also removed for simplicity)
+# - Spectacle (Rectangle is better maintained)
+# - BetterTouchTool (macOS gestures are now native)
+# - Maccy (built into macOS Sonoma+)
+# - Shottr (macOS built-in screenshot tools are excellent)
+# - ImageOptim (built into macOS Preview)
+# - Slack (Teams/Discord/WhatsApp are more integrated)
+# - UTM (OrbStack is faster and better)
+# - TablePlus (DataGrip/DBngin are more powerful)
 # =============================================================================
 
 set -e  # Exit on any error
@@ -238,22 +252,22 @@ REMOTE_MODE=false
 while [[ $# -gt 0 ]]; do
     case $1 in
         --help|-h)
-            show_usage
+    show_usage
             ;;
         --version|-v)
             echo "Modern Dotfiles Installer v${SCRIPT_VERSION}"
             exit 0
             ;;
         --non-interactive|-n)
-            NONINTERACTIVE=true
+    NONINTERACTIVE=true
             print_info "Running in non-interactive mode (defaults to 'no')"
             ;;
         --yes|-y)
-            AUTO_YES=true
+    AUTO_YES=true
             print_info "Running in auto-yes mode (defaults to 'yes')"
             ;;
         --dry-run)
-            DRY_RUN=true
+    DRY_RUN=true
             print_info "Running in dry-run mode (safe preview)"
             ;;
         --verbose)
@@ -275,8 +289,8 @@ while [[ $# -gt 0 ]]; do
             ;;
         *)
             print_error "Unknown argument: $1"
-            echo ""
-            show_usage
+    echo ""
+    show_usage
             ;;
     esac
     shift
@@ -335,15 +349,18 @@ main() {
 
     # Show completion summary
     show_completion_summary
+
+    # Offer power tools setup
+    offer_power_tools_setup
 }
 
 # Show installation banner
 show_banner() {
     print_header "MODERN DOTFILES INSTALLER v${SCRIPT_VERSION}"
 
-    if [ -f "$DOTFILES_DIR/banner.txt" ]; then
-        cat "$DOTFILES_DIR/banner.txt"
-    else
+if [ -f "$DOTFILES_DIR/banner.txt" ]; then
+    cat "$DOTFILES_DIR/banner.txt"
+else
         echo "🚀 Welcome to the Modern Dotfiles Installer!"
         echo "   Setting up your development environment for 2025"
     fi
@@ -362,7 +379,7 @@ setup_backup_directory() {
 
 # Show safety information
 show_safety_info() {
-    echo ""
+echo ""
     print_info "SAFETY FEATURES ENABLED:"
     echo "   🛡️  Comprehensive backup system"
     echo "   🔄 Rollback capabilities on failure"
@@ -452,7 +469,7 @@ prompt_user() {
 
     while true; do
         echo -n "❓ $question "
-        read -r response
+    read -r response
         response=${response:-$default}
 
         case $response in
@@ -570,16 +587,16 @@ install_homebrew() {
     fi
 
     print_info "Installing Homebrew (this may require your password)..."
-    NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+        NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
-    if [[ -f "/opt/homebrew/bin/brew" ]]; then
-        eval "$(/opt/homebrew/bin/brew shellenv)"
-        echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ~/.zprofile
+        if [[ -f "/opt/homebrew/bin/brew" ]]; then
+            eval "$(/opt/homebrew/bin/brew shellenv)"
+            echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ~/.zprofile
         print_success "Homebrew installed and added to PATH"
-    else
+        else
         print_error "Homebrew installation failed"
-        exit 1
-    fi
+            exit 1
+        fi
 }
 
 # Install Oh My Zsh
@@ -596,7 +613,7 @@ install_ohmyzsh() {
     if [[ -d "$HOME/.oh-my-zsh" ]]; then
         print_success "Oh My Zsh already installed"
     else
-        if [[ "$DRY_RUN" == "true" ]]; then
+    if [[ "$DRY_RUN" == "true" ]]; then
             print_info "Would install Oh My Zsh"
         else
             print_info "Installing Oh My Zsh..."
@@ -647,27 +664,27 @@ install_development_tools() {
 
     print_step "Installing ${tool_level} development tools..."
 
-    if [[ "$DRY_RUN" == "true" ]]; then
+if [[ "$DRY_RUN" == "true" ]]; then
         case "$tool_level" in
             "remote")
-                print_info "Would install remote tools: git, vim, tmux, htop, curl, wget"
+                print_info "Would install remote tools: git, vim, tmux, htop, curl, jq"
                 ;;
             "light")
-                print_info "Would install light tools: git, nvim, fzf, ripgrep, tmux"
+                print_info "Would install light tools: git, nvim, fzf, ripgrep, tmux, starship, eza, bat"
                 ;;
             "full")
-                print_info "Would install full tools: git, nvim, fzf, ripgrep, fd, eza, bat, starship, tmux"
+                print_info "Would install full tools: git, nvim, fzf, ripgrep, fd, eza, bat, starship, tmux, nvm, jq, curl, htop, gnupg, gh, pnpm"
                 ;;
         esac
         return
     fi
 
-    brew update
+        brew update
 
     case "$tool_level" in
         "remote")
-            # Minimal tools for remote servers
-            brew install git vim tmux htop curl wget tree jq
+            # Minimal tools for remote servers - opinionated selection
+            brew install git vim tmux htop curl jq
             print_success "Remote-optimized tools installed"
             ;;
         "light")
@@ -677,15 +694,15 @@ install_development_tools() {
             print_success "Light development tools installed"
             ;;
         "full")
-            # Full development environment
-            brew install git git-delta nvm neovim fzf the_silver_searcher jq wget curl tree htop imagemagick gnupg pinentry-mac gh tmux pnpm
-            brew install starship eza bat ripgrep fd
+            # Full development environment - best-of-breed tools only
+            brew install git git-delta nvm neovim fzf jq curl htop gnupg gh tmux pnpm
+        brew install starship eza bat ripgrep fd
 
             # iTerm2 (only for full mode)
             brew install --cask iterm2 2>/dev/null || print_info "iTerm2 already installed or installation skipped"
 
             # Setup NVM (only for full mode)
-            mkdir -p ~/.nvm
+        mkdir -p ~/.nvm
             print_success "Full development tools installed"
             ;;
     esac
@@ -732,10 +749,10 @@ install_optional_components() {
 
 # Setup GPG configuration
 setup_gpg_configuration() {
-    mkdir -p ~/.gnupg
-    chmod 700 ~/.gnupg
+            mkdir -p ~/.gnupg
+            chmod 700 ~/.gnupg
 
-    cat > ~/.gnupg/gpg.conf << 'EOF'
+            cat > ~/.gnupg/gpg.conf << 'EOF'
 # GPG Configuration for enhanced security
 personal-cipher-preferences AES256 AES192 AES
 personal-digest-preferences SHA512 SHA384 SHA256
@@ -758,7 +775,7 @@ no-symkey-cache
 throw-keyids
 EOF
 
-    cat > ~/.gnupg/gpg-agent.conf << 'EOF'
+            cat > ~/.gnupg/gpg-agent.conf << 'EOF'
 default-cache-ttl 28800
 max-cache-ttl 86400
 pinentry-program /opt/homebrew/bin/pinentry-mac
@@ -812,14 +829,14 @@ install_fonts() {
         print_success "Essential fonts installed!"
     else
         # Full font collection for full mode
-        brew install --cask \
-            font-jetbrains-mono-nerd-font \
-            font-jetbrains-mono \
-            font-cascadia-code \
-            font-fira-code \
-            font-hack-nerd-font \
-            font-source-code-pro \
-            font-monaspace
+    brew install --cask \
+        font-jetbrains-mono-nerd-font \
+        font-jetbrains-mono \
+        font-cascadia-code \
+        font-fira-code \
+        font-hack-nerd-font \
+        font-source-code-pro \
+        font-monaspace
         print_success "Programming fonts installed!"
     fi
 
@@ -862,12 +879,12 @@ setup_node_environment() {
         return
     fi
 
-    export NVM_DIR="$HOME/.nvm"
-    [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"
+        export NVM_DIR="$HOME/.nvm"
+        [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"
 
-    nvm install --lts
-    nvm use --lts
-    nvm alias default lts/*
+        nvm install --lts
+        nvm use --lts
+        nvm alias default lts/*
 
     print_success "Node.js LTS installed and set as default"
 }
@@ -908,21 +925,21 @@ verify_installation() {
     if [[ "$OSTYPE" == darwin* ]]; then
         if [[ "$REMOTE_MODE" == "true" ]]; then
             # Minimal tools for remote mode
-            tools_to_check=("git" "vim" "tmux" "curl")
+            tools_to_check=("git" "vim" "tmux" "curl" "jq")
         elif [[ "$LIGHT_MODE" == "true" ]]; then
             # Essential tools for light mode
-            tools_to_check=("git" "nvim" "fzf" "ripgrep" "tmux")
+            tools_to_check=("git" "nvim" "fzf" "ripgrep" "tmux" "starship" "eza" "bat")
         else
             # Full toolset for regular mode
-            tools_to_check=("git" "nvim" "fzf" "ripgrep" "fd" "eza" "bat" "starship")
+            tools_to_check=("git" "nvim" "fzf" "ripgrep" "fd" "eza" "bat" "starship" "tmux" "jq" "curl" "gh")
         fi
 
-        for tool in "${tools_to_check[@]}"; do
+    for tool in "${tools_to_check[@]}"; do
             if ! command -v "$tool" >/dev/null 2>&1; then
-                failed_tools+=("$tool")
-            fi
-        done
-    fi
+            failed_tools+=("$tool")
+        fi
+    done
+fi
 
     # Check dotfiles
     if [[ ! -L "$HOME/.zshrc" ]]; then
@@ -957,15 +974,14 @@ show_completion_summary() {
         echo "   ✅ Productivity aliases and functions"
     else
         echo "   ✅ Full dotfiles suite with backup"
-        echo "   ✅ Complete development environment (git, nvim, fzf, etc.)"
-        echo "   ✅ Enhanced terminal experience (starship, eza, bat, fd)"
+        echo "   ✅ Complete development environment (git, nvim, fzf, ripgrep, fd, eza, bat, starship, tmux, nvm, jq, curl, htop, gnupg, gh, pnpm)"
         echo "   ✅ Oh My Zsh with syntax highlighting"
         echo "   ✅ Productivity aliases and functions"
         echo "   ✅ Starship prompt with beautiful themes"
     fi
 
     if [[ "$DRY_RUN" == "false" ]]; then
-        echo ""
+echo ""
         echo "🚀 NEXT STEPS:"
 
         if [[ "$REMOTE_MODE" == "true" ]]; then
@@ -988,15 +1004,55 @@ show_completion_summary() {
             echo "   5. Configure Git: git config --global user.email 'your.email@example.com'"
             echo "   6. Try FZF: Ctrl+R (history), Ctrl+T (files)"
         fi
-    fi
+fi
 
-    echo ""
+echo ""
     if [[ "$DRY_RUN" == "false" && "$SKIP_BACKUP" == "false" ]]; then
         echo "📁 Backup location: ${BKP_DIR}"
     fi
     echo "📝 Log file: ${LOG_FILE}"
-    echo ""
+echo ""
     echo "💡 Happy coding! 🧑‍💻"
+}
+
+# Offer to setup additional power tools
+offer_power_tools_setup() {
+    if [[ "$DRY_RUN" == "true" || "$NONINTERACTIVE" == "true" || "$REMOTE_MODE" == "true" ]]; then
+        return 0
+    fi
+
+    echo ""
+    echo "═══════════════════════════════════════════════════════════════════════════════"
+    echo ""
+    print_info "📦 WANT TO INSTALL PRODUCTIVITY APPS?"
+    echo ""
+    echo "Install essential productivity apps that enhance your macOS experience:"
+    echo "   • Amphetamine (keep-awake utility)"
+    echo "   • Paste (advanced clipboard manager)"
+    echo ""
+    echo "These apps complement macOS built-in features and enhance productivity."
+    echo ""
+
+    if [[ "$AUTO_YES" == "true" ]]; then
+        print_info "Auto-installing productivity apps..."
+        ./setup-app.sh --yes
+        return 0
+    fi
+
+    echo -n "Would you like to install these productivity apps now? (y/n): "
+    read -r answer
+
+    case $answer in
+        [Yy]*)
+            echo ""
+            ./setup-app.sh
+            ;;
+        *)
+            echo ""
+            print_info "No problem! Apps will be installed when you use their aliases."
+            echo "   Example: Run 'tldr docker' and it will offer to install tldr for you."
+            ;;
+    esac
 }
 
 # =============================================================================

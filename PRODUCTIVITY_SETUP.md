@@ -99,7 +99,7 @@ cheat tar       # Community cheatsheets
 howdoi "extract tar file"  # Stack Overflow search
 fzf             # Fuzzy finder
 fd pattern      # Modern find
-exa -la         # Modern ls
+eza -la         # Modern ls
 bat file.txt    # Syntax-highlighted cat
 ```
 
@@ -216,7 +216,7 @@ install-productivity-tools
 #### Core Tools
 ```bash
 brew install \
-    tldr fzf fd exa bat ripgrep jq yq httpie \
+    tldr fzf fd eza bat ripgrep jq yq httpie \
     lazygit git-flow gh fortune cowsay lolcat \
     ngrok/ngrok/ngrok thefuck
 ```
@@ -297,7 +297,7 @@ psg chrome && memhog
 - [lazygit](https://github.com/jesseduffield/lazygit) - Terminal UI for git
 - [GitHub CLI](https://cli.github.com/) - GitHub from the command line
 - [fzf](https://github.com/junegunn/fzf) - Fuzzy finder
-- [exa](https://the.exa.website/) - Modern replacement for ls
+- [eza](https://github.com/eza-community/eza) - Modern replacement for ls
 - [bat](https://github.com/sharkdp/bat) - Cat with syntax highlighting
 
 ## 🎉 Next Steps
@@ -306,6 +306,6 @@ psg chrome && memhog
 2. Run `install-productivity-tools` to install everything
 3. Run `setup-zsh-plugins` for ZSH enhancements
 4. Restart your terminal to load new configurations
-5. Try commands like `tldr tar`, `fd pattern`, `exa -la`
+5. Try commands like `tldr tar`, `fd pattern`, `eza -la`
 
 Your terminal is now a productivity powerhouse! 🚀
