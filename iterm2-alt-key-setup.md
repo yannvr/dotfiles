@@ -1,11 +1,44 @@
-# iTerm2 Alt/Option Key Configuration Guide
+# iTerm2 Alt/Option Key Configuration Guide (Updated for iTerm2 3.5.14)
 
 ## Problem
 Alt/Option key combinations (like `Alt+h`, `Alt+j`, etc.) don't work properly in iTerm2 with vim, tmux, or other terminal applications.
 
-## Solutions
+## Quick Diagnosis
+Run this to check your current iTerm2 version and settings:
+```bash
+# Check iTerm2 version
+/usr/libexec/PlistBuddy -c "Print CFBundleShortVersionString" /Applications/iTerm.app/Contents/Info.plist
 
-### Method 1: Configure iTerm2 Option Key Behavior (Recommended)
+# Check current Alt key settings
+defaults read com.googlecode.iterm2 OptionKeyAsMetaLeft
+defaults read com.googlecode.iterm2 OptionKeyAsMetaRight
+
+# Check for conflicting profile settings
+defaults read com.googlecode.iterm2 | grep "Option Key Sends"
+```
+
+Expected output for correct configuration:
+- Version: 3.5.14 (or newer)
+- Left Option: 1 (true)
+- Right Option: 0 (false)
+- Option Key Sends: Should NOT be 2 (this blocks Alt+arrows)
+
+## 🎯 Perfect Solution: Natural Text Editing Preset
+
+**For Alt+Left/Right word navigation, use iTerm2's built-in preset:**
+
+1. Open iTerm2 → Preferences → Profiles → Keys
+2. Click "Presets..." dropdown (bottom right)
+3. Select "Natural Text Editing"
+4. Click "Save"
+
+**That's it!** This preset automatically enables:
+- ✅ **Alt+Left/Right**: Word navigation (skip words)
+- ✅ **Alt+Up/Down**: Line navigation
+- ✅ **Cmd+Left/Right**: Line start/end
+- ✅ **Other macOS-style key bindings**
+
+### Method 1: Manual Configuration (Alternative)
 
 1. **Open iTerm2 Preferences** (`Cmd+,`)
 2. **Go to Profiles → Keys → General**
@@ -55,6 +88,7 @@ For applications that need specific escape sequences:
 # In terminal, type this and press Alt+h
 cat > /dev/null
 # Should show: ^[h (where ^[ represents escape)
+# If you see: √ or other characters, configuration is incorrect
 ```
 
 ### Test 2: Vim Alt Mappings
@@ -62,6 +96,7 @@ cat > /dev/null
 # In vim, try these commands
 :map <M-h> :echo "Alt+h works!"<CR>
 :map <M-j> :echo "Alt+j works!"<CR>
+# Then press Alt+h - should show "Alt+h works!"
 ```
 
 ### Test 3: Check Escape Sequences
@@ -69,6 +104,19 @@ cat > /dev/null
 # Use sed to see what sequences are sent
 sed -n l
 # Type Alt+h, should show: \033h$ or similar
+# If you see: [1;3h or other sequences, configuration is working
+```
+
+### Test 4: Quick Verification Script
+Create and run this test script:
+```bash
+#!/bin/bash
+echo "Testing iTerm2 Alt key configuration..."
+echo "Press Alt+h (should show ^[h):"
+read -n 1
+echo ""
+echo "If you saw ^[h above, Alt keys are working correctly!"
+echo "If you saw other characters, set the Natural Text Editing preset in iTerm2"
 ```
 
 ## Vim-Specific Configuration
