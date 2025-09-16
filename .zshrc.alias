@@ -296,14 +296,26 @@ alias ports='netstat -tulanp | grep LISTEN'
 # =======================
 
 # Twitter/Bluesky CLI (requires installation)
-alias tweet='f() { echo "Install: brew install rainbowstream"; echo "Usage: rainbowstream -i"; }; f'
-alias bluesky='f() { echo "Install: npm install -g @bluesky/cli"; echo "Usage: bsky login"; }; f'
+tweet-install-info() {
+    echo "Install: brew install rainbowstream"
+    echo "Usage: rainbowstream -i"
+}
+bluesky-install-info() {
+    echo "Install: npm install -g @bluesky/cli"
+    echo "Usage: bsky login"
+}
 
 # Mastodon CLI
-alias mastodon='f() { echo "Install: brew install toot"; echo "Usage: toot login"; }; f'
+mastodon-install-info() {
+    echo "Install: brew install toot"
+    echo "Usage: toot login"
+}
 
 # Reddit CLI
-alias reddit='f() { echo "Install: pip3 install reddit-cli"; echo "Usage: reddit"; }; f'
+reddit-install-info() {
+    echo "Install: pip3 install reddit-cli"
+    echo "Usage: reddit"
+}
 
 # GitHub CLI enhancements
 alias gh-pr='gh pr create'
@@ -340,18 +352,39 @@ alias battery='pmset -g batt | grep -Eo "\d+%" | cut -d% -f1'
 # ===========================
 
 # HTTP request testing
-alias http='f() { echo "Install: brew install httpie"; echo "Usage: http GET https://api.github.com/user"; }; f'
+http-install-info() {
+    echo "Install: brew install httpie"
+    echo "Usage: http GET https://api.github.com/user"
+}
 alias curl-time='curl -o /dev/null -s -w "Total: %{time_total}s\nDNS: %{time_namelookup}s\nConnect: %{time_connect}s\nSSL: %{time_appconnect}s\nRedirect: %{time_redirect}s\n"'
 
 # Database management
-alias redis-cli='f() { echo "Install: brew install redis"; echo "Usage: redis-cli"; }; f'
-alias mongo='f() { echo "Install: brew install mongodb-community"; echo "Usage: mongosh"; }; f'
-alias pgcli='f() { echo "Install: pip3 install pgcli"; echo "Usage: pgcli postgresql://user:pass@host/db"; }; f'
+redis-install-info() {
+    echo "Install: brew install redis"
+    echo "Usage: redis-cli"
+}
+mongo-install-info() {
+    echo "Install: brew install mongodb-community"
+    echo "Usage: mongosh"
+}
+pgcli-install-info() {
+    echo "Install: pip3 install pgcli"
+    echo "Usage: pgcli postgresql://user:pass@host/db"
+}
 
 # Cloud CLI tools
-alias aws='f() { echo "Install: brew install awscli"; echo "Usage: aws configure"; }; f'
-alias gcloud='f() { echo "Install: brew install google-cloud-sdk"; echo "Usage: gcloud init"; }; f'
-alias azure='f() { echo "Install: brew install azure-cli"; echo "Usage: az login"; }; f'
+aws-install-info() {
+    echo "Install: brew install awscli"
+    echo "Usage: aws configure"
+}
+gcloud-install-info() {
+    echo "Install: brew install google-cloud-sdk"
+    echo "Usage: gcloud init"
+}
+azure-install-info() {
+    echo "Install: brew install azure-cli"
+    echo "Usage: az login"
+}
 
 # Container management
 alias k='kubectl'
@@ -362,44 +395,107 @@ alias kexec='kubectl exec -it'
 alias kpf='kubectl port-forward'
 
 # Code quality and analysis
-alias cloc='f() { echo "Install: brew install cloc"; echo "Usage: cloc ."; }; f'
-alias complexity='f() { echo "Install: npm install -g complexity-report"; echo "Usage: complexity-report -f json ."; }; f'
-alias license-checker='f() { echo "Install: npm install -g license-checker"; echo "Usage: license-checker"; }; f'
+cloc-install-info() {
+    echo "Install: brew install cloc"
+    echo "Usage: cloc ."
+}
+complexity-install-info() {
+    echo "Install: npm install -g complexity-report"
+    echo "Usage: complexity-report -f json ."
+}
+license-checker-install-info() {
+    echo "Install: npm install -g license-checker"
+    echo "Usage: license-checker"
+}
 
 # Mind-blowing Terminal Tools
 # ===========================
 
 # Terminal productivity
-alias tldr='f() { echo "Install: brew install tldr"; echo "Usage: tldr tar"; }; f'
-alias cheat='f() { echo "Install: pip3 install cheat"; echo "Usage: cheat tar"; }; f'
-alias howdoi='f() { echo "Install: pip3 install howdoi"; echo "Usage: howdoi extract tar file"; }; f'
+tldr-install-info() {
+    echo "Install: brew install tldr"
+    echo "Usage: tldr tar"
+}
+cheat-install-info() {
+    echo "Install: pip3 install cheat"
+    echo "Usage: cheat tar"
+}
+howdoi-install-info() {
+    echo "Install: pip3 install howdoi"
+    echo "Usage: howdoi extract tar file"
+}
 
 # File management power tools
-alias fzf='f() { echo "Install: brew install fzf"; echo "Usage: Ctrl+R for history, Ctrl+T for files"; }; f'
-alias fd='f() { echo "Install: brew install fd"; echo "Usage: fd pattern"; }; f'
-alias exa='f() { echo "Install: brew install exa"; echo "Usage: exa -la"; }; f'
+fzf-install-info() {
+    echo "Install: brew install fzf"
+    echo "Usage: Ctrl+R for history, Ctrl+T for files"
+}
+fd-install-info() {
+    echo "Install: brew install fd"
+    echo "Usage: fd pattern"
+}
+exa-install-info() {
+    echo "Install: brew install exa"
+    echo "Usage: exa -la"
+}
 
 # Weather and time
-alias weather='f() { echo "Install: curl wttr.in"; echo "Usage: curl wttr.in/Paris"; }; f'
-alias moon='f() { echo "Install: brew install lunar"; echo "Usage: lunar"; }; f'
+weather-install-info() {
+    echo "Install: curl wttr.in/Paris"
+    echo "Usage: curl wttr.in/Paris"
+}
+moon-install-info() {
+    echo "Install: brew install lunar"
+    echo "Usage: lunar"
+}
 
 # Fun and productivity
-alias fortune='f() { echo "Install: brew install fortune"; echo "Usage: fortune"; }; f'
-alias cowsay='f() { echo "Install: brew install cowsay"; echo "Usage: fortune | cowsay"; }; f'
-alias lolcat='f() { echo "Install: brew install lolcat"; echo "Usage: ls | lolcat"; }; f'
+fortune-install-info() {
+    echo "Install: brew install fortune"
+    echo "Usage: fortune"
+}
+cowsay-install-info() {
+    echo "Install: brew install cowsay"
+    echo "Usage: fortune | cowsay"
+}
+lolcat-install-info() {
+    echo "Install: brew install lolcat"
+    echo "Usage: ls | lolcat"
+}
 
 # Development workflow
-alias git-ignore='f() { echo "Install: brew install git-ignore"; echo "Usage: git ignore node"; }; f'
-alias gh-dash='f() { echo "Install: gh extension install dlvhdr/gh-dash"; echo "Usage: gh dash"; }; f'
-alias lazygit='f() { echo "Install: brew install lazygit"; echo "Usage: lazygit"; }; f'
+git-ignore-install-info() {
+    echo "Install: brew install git-ignore"
+    echo "Usage: git ignore node"
+}
+gh-dash-install-info() {
+    echo "Install: gh extension install dlvhdr/gh-dash"
+    echo "Usage: gh dash"
+}
+lazygit-install-info() {
+    echo "Install: brew install lazygit"
+    echo "Usage: lazygit"
+}
 
 # AI-powered development
-alias aider='f() { echo "Install: pip3 install aider-chat"; echo "Usage: aider --help"; }; f'
-alias copilot-cli='f() { echo "Install: npm install -g @githubnext/copilot-cli"; echo "Usage: copilot --help"; }; f'
+aider-install-info() {
+    echo "Install: pip3 install aider-chat"
+    echo "Usage: aider --help"
+}
+copilot-cli-install-info() {
+    echo "Install: npm install -g @githubnext/copilot-cli"
+    echo "Usage: copilot --help"
+}
 
 # Advanced networking
-alias ngrok='f() { echo "Install: brew install ngrok/ngrok/ngrok"; echo "Usage: ngrok http 3000"; }; f'
-alias wireshark-cli='f() { echo "Install: brew install wireshark"; echo "Usage: tshark"; }; f'
+ngrok-install-info() {
+    echo "Install: brew install ngrok/ngrok/ngrok"
+    echo "Usage: ngrok http 3000"
+}
+wireshark-cli-install-info() {
+    echo "Install: brew install wireshark"
+    echo "Usage: tshark"
+}
 
 # ZSH Plugin Recommendations
 # ==========================
@@ -487,6 +583,25 @@ install-productivity-tools() {
     echo "3. Restart your terminal"
     echo "4. Try: tldr tar, fd pattern, exa -la, bat file.txt"
 }
+
+# Smart aliases that work when tools are installed
+# ================================================
+
+# These aliases will use the actual tools when available, or show install info
+alias tldr='command tldr "$@" 2>/dev/null || tldr-install-info'
+alias fd='command fd "$@" 2>/dev/null || fd-install-info'
+alias exa='command exa "$@" 2>/dev/null || exa-install-info'
+alias bat='command bat "$@" 2>/dev/null || echo "Install: brew install bat"'
+alias lazygit='command lazygit "$@" 2>/dev/null || lazygit-install-info'
+alias howdoi='command howdoi "$@" 2>/dev/null || howdoi-install-info'
+alias cheat='command cheat "$@" 2>/dev/null || cheat-install-info'
+alias fzf='command fzf "$@" 2>/dev/null || fzf-install-info'
+alias fortune='command fortune "$@" 2>/dev/null || fortune-install-info'
+alias cowsay='command cowsay "$@" 2>/dev/null || cowsay-install-info'
+alias lolcat='command lolcat "$@" 2>/dev/null || lolcat-install-info'
+alias weather='curl wttr.in 2>/dev/null || weather-install-info'
+alias http='command http "$@" 2>/dev/null || http-install-info'
+alias cloc='command cloc "$@" 2>/dev/null || cloc-install-info'
 
 # Quick productivity check
 productivity-check() {
