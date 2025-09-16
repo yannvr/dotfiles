@@ -260,7 +260,269 @@ else
     alias findd='find . -type d -name'
 fi
 
-# Add your custom aliases here
+# 🚀 PRODUCTIVITY ENHANCEMENTS
+
+# Service Management CLI Tools
+# ================================
+
+# Docker service management
+alias d='docker'
+alias dc='docker-compose'
+alias dcu='docker-compose up -d'
+alias dcd='docker-compose down'
+alias dcl='docker-compose logs -f'
+alias dcr='docker-compose restart'
+alias dps='docker ps --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}"'
+
+# System service management (macOS)
+alias services='brew services list'
+alias start-service='brew services start'
+alias stop-service='brew services stop'
+alias restart-service='brew services restart'
+
+# Process management
+alias psg='ps aux | grep -v grep | grep'
+alias killport='f() { lsof -ti:$1 | xargs kill -9 2>/dev/null || echo "No process found on port $1" }; f'
+alias memhog='ps aux | sort -nr -k 4 | head -10'
+alias cpuhog='ps aux | sort -nr -k 3 | head -10'
+
+# Network utilities
+alias myip='curl -s https://api.ipify.org'
+alias localip='ipconfig getifaddr en0 2>/dev/null || ipconfig getifaddr en1 2>/dev/null || hostname -I | awk "{print $1}"'
+alias speedtest='curl -s https://raw.githubusercontent.com/sivel/speedtest-cli/master/speedtest.py | python3 -'
+alias ports='netstat -tulanp | grep LISTEN'
+
+# Social Media CLI Tools
+# =======================
+
+# Twitter/Bluesky CLI (requires installation)
+alias tweet='f() { echo "Install: brew install rainbowstream"; echo "Usage: rainbowstream -i"; }; f'
+alias bluesky='f() { echo "Install: npm install -g @bluesky/cli"; echo "Usage: bsky login"; }; f'
+
+# Mastodon CLI
+alias mastodon='f() { echo "Install: brew install toot"; echo "Usage: toot login"; }; f'
+
+# Reddit CLI
+alias reddit='f() { echo "Install: pip3 install reddit-cli"; echo "Usage: reddit"; }; f'
+
+# GitHub CLI enhancements
+alias gh-pr='gh pr create'
+alias gh-issue='gh issue create'
+alias gh-repo='gh repo create'
+alias gh-clone='gh repo clone'
+alias gh-fork='gh repo fork'
+
+# Mind-blowing Productivity Tools
+# ===============================
+
+# AI/ML Tools
+alias chatgpt='f() { echo "Install: brew install glow"; echo "Then: pip3 install openai"; echo "Usage: python3 -c \"import openai; print('AI ready')\""; }; f'
+alias grok='f() { echo "Install: pip3 install grok"; echo "Usage: grok --help"; }; f'
+
+# TUI Applications (Terminal User Interfaces)
+alias tui-cal='f() { echo "Install: brew install khal"; echo "Usage: khal calendar"; }; f'
+alias tui-music='f() { echo "Install: brew install ncmpcpp"; echo "Usage: ncmpcpp"; }; f'
+alias tui-file='f() { echo "Install: brew install ranger"; echo "Usage: ranger"; }; f'
+alias tui-mail='f() { echo "Install: brew install neomutt"; echo "Usage: neomutt"; }; f'
+
+# Development productivity
+alias serve='python3 -m http.server 8000'
+alias jsonpp='python3 -m json.tool'
+alias urlencode='python3 -c "import sys, urllib.parse; print(urllib.parse.quote(sys.stdin.read()))"'
+alias urldecode='python3 -c "import sys, urllib.parse; print(urllib.parse.unquote(sys.stdin.read()))"'
+
+# System monitoring
+alias sysinfo='echo "=== SYSTEM INFO ===" && uname -a && echo && echo "=== CPU ===" && sysctl -n machdep.cpu.brand_string && echo && echo "=== MEMORY ===" && vm_stat | awk "/Pages free/ {free=$3} /Pages active/ {active=$3} /Pages inactive/ {inactive=$3} /Pages wired/ {wired=$4} END {total=free+active+inactive+wired; print \"Total: \" total*4096/1024/1024 \"MB\"; print \"Free: \" free*4096/1024/1024 \"MB\"; print \"Active: \" active*4096/1024/1024 \"MB\"}"'
+alias diskusage='df -h | grep -v tmpfs | grep -v devfs'
+alias battery='pmset -g batt | grep -Eo "\d+%" | cut -d% -f1'
+
+# Advanced Productivity Tools
+# ===========================
+
+# HTTP request testing
+alias http='f() { echo "Install: brew install httpie"; echo "Usage: http GET https://api.github.com/user"; }; f'
+alias curl-time='curl -o /dev/null -s -w "Total: %{time_total}s\nDNS: %{time_namelookup}s\nConnect: %{time_connect}s\nSSL: %{time_appconnect}s\nRedirect: %{time_redirect}s\n"'
+
+# Database management
+alias redis-cli='f() { echo "Install: brew install redis"; echo "Usage: redis-cli"; }; f'
+alias mongo='f() { echo "Install: brew install mongodb-community"; echo "Usage: mongosh"; }; f'
+alias pgcli='f() { echo "Install: pip3 install pgcli"; echo "Usage: pgcli postgresql://user:pass@host/db"; }; f'
+
+# Cloud CLI tools
+alias aws='f() { echo "Install: brew install awscli"; echo "Usage: aws configure"; }; f'
+alias gcloud='f() { echo "Install: brew install google-cloud-sdk"; echo "Usage: gcloud init"; }; f'
+alias azure='f() { echo "Install: brew install azure-cli"; echo "Usage: az login"; }; f'
+
+# Container management
+alias k='kubectl'
+alias kctx='kubectl config current-context'
+alias kns='kubectl config set-context --current --namespace'
+alias klogs='kubectl logs -f'
+alias kexec='kubectl exec -it'
+alias kpf='kubectl port-forward'
+
+# Code quality and analysis
+alias cloc='f() { echo "Install: brew install cloc"; echo "Usage: cloc ."; }; f'
+alias complexity='f() { echo "Install: npm install -g complexity-report"; echo "Usage: complexity-report -f json ."; }; f'
+alias license-checker='f() { echo "Install: npm install -g license-checker"; echo "Usage: license-checker"; }; f'
+
+# Mind-blowing Terminal Tools
+# ===========================
+
+# Terminal productivity
+alias tldr='f() { echo "Install: brew install tldr"; echo "Usage: tldr tar"; }; f'
+alias cheat='f() { echo "Install: pip3 install cheat"; echo "Usage: cheat tar"; }; f'
+alias howdoi='f() { echo "Install: pip3 install howdoi"; echo "Usage: howdoi extract tar file"; }; f'
+
+# File management power tools
+alias fzf='f() { echo "Install: brew install fzf"; echo "Usage: Ctrl+R for history, Ctrl+T for files"; }; f'
+alias fd='f() { echo "Install: brew install fd"; echo "Usage: fd pattern"; }; f'
+alias exa='f() { echo "Install: brew install exa"; echo "Usage: exa -la"; }; f'
+
+# Weather and time
+alias weather='f() { echo "Install: curl wttr.in"; echo "Usage: curl wttr.in/Paris"; }; f'
+alias moon='f() { echo "Install: brew install lunar"; echo "Usage: lunar"; }; f'
+
+# Fun and productivity
+alias fortune='f() { echo "Install: brew install fortune"; echo "Usage: fortune"; }; f'
+alias cowsay='f() { echo "Install: brew install cowsay"; echo "Usage: fortune | cowsay"; }; f'
+alias lolcat='f() { echo "Install: brew install lolcat"; echo "Usage: ls | lolcat"; }; f'
+
+# Development workflow
+alias git-ignore='f() { echo "Install: brew install git-ignore"; echo "Usage: git ignore node"; }; f'
+alias gh-dash='f() { echo "Install: gh extension install dlvhdr/gh-dash"; echo "Usage: gh dash"; }; f'
+alias lazygit='f() { echo "Install: brew install lazygit"; echo "Usage: lazygit"; }; f'
+
+# AI-powered development
+alias aider='f() { echo "Install: pip3 install aider-chat"; echo "Usage: aider --help"; }; f'
+alias copilot-cli='f() { echo "Install: npm install -g @githubnext/copilot-cli"; echo "Usage: copilot --help"; }; f'
+
+# Advanced networking
+alias ngrok='f() { echo "Install: brew install ngrok/ngrok/ngrok"; echo "Usage: ngrok http 3000"; }; f'
+alias wireshark-cli='f() { echo "Install: brew install wireshark"; echo "Usage: tshark"; }; f'
+
+# ZSH Plugin Recommendations
+# ==========================
+
+# Essential ZSH plugins to install:
+# 1. zsh-syntax-highlighting: brew install zsh-syntax-highlighting
+# 2. zsh-autosuggestions: brew install zsh-autosuggestions
+# 3. zsh-completions: brew install zsh-completions
+# 4. fast-syntax-highlighting: brew install fast-syntax-highlighting
+# 5. zsh-history-substring-search: brew install zsh-history-substring-search
+
+# Plugin setup functions
+setup-zsh-plugins() {
+    echo "🚀 Setting up essential ZSH plugins..."
+    echo "Run these commands:"
+    echo "brew install zsh-syntax-highlighting zsh-autosuggestions zsh-completions fast-syntax-highlighting zsh-history-substring-search"
+    echo ""
+    echo "Then add to your ~/.zshrc:"
+    echo "source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+    echo "source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
+    echo "source /opt/homebrew/share/zsh-history-substring-search/zsh-history-substring-search.zsh"
+    echo "source /opt/homebrew/share/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh"
+    echo "FPATH=/opt/homebrew/share/zsh-completions:$FPATH"
+    echo "autoload -Uz compinit && compinit"
+}
+
+# Ultimate Productivity Setup
+# ============================
+
+install-productivity-tools() {
+    echo "🚀 Installing Ultimate Productivity Tools..."
+    echo ""
+
+    # Core productivity tools
+    echo "📦 Installing core tools..."
+    brew install \
+        tldr \
+        fzf \
+        fd \
+        exa \
+        bat \
+        ripgrep \
+        jq \
+        yq \
+        httpie \
+        lazygit \
+        git-flow \
+        gh \
+        fortune \
+        cowsay \
+        lolcat \
+        ngrok/ngrok/ngrok \
+        thefuck
+
+    # ZSH plugins
+    echo "🔌 Installing ZSH plugins..."
+    brew install \
+        zsh-syntax-highlighting \
+        zsh-autosuggestions \
+        zsh-completions \
+        fast-syntax-highlighting \
+        zsh-history-substring-search
+
+    # Python productivity tools
+    echo "🐍 Installing Python tools..."
+    pip3 install \
+        howdoi \
+        cheat \
+        pgcli \
+        mycli \
+        litecli
+
+    # Node.js productivity tools
+    echo "📦 Installing Node.js tools..."
+    npm install -g \
+        @githubnext/copilot-cli \
+        license-checker \
+        complexity-report
+
+    echo "✅ Installation complete!"
+    echo ""
+    echo "🎯 Next steps:"
+    echo "1. Run: setup-zsh-plugins"
+    echo "2. Add ZSH plugin sources to ~/.zshrc"
+    echo "3. Restart your terminal"
+    echo "4. Try: tldr tar, fd pattern, exa -la, bat file.txt"
+}
+
+# Quick productivity check
+productivity-check() {
+    echo "🔍 Productivity Setup Check"
+    echo "============================"
+
+    local tools=("tldr" "fzf" "fd" "exa" "bat" "ripgrep" "jq" "httpie" "lazygit" "gh" "thefuck")
+    local missing=()
+
+    for tool in "${tools[@]}"; do
+        if command -v "$tool" >/dev/null 2>&1; then
+            echo "✅ $tool - installed"
+        else
+            echo "❌ $tool - missing"
+            missing+=("$tool")
+        fi
+    done
+
+    if [ ${#missing[@]} -gt 0 ]; then
+        echo ""
+        echo "💡 Install missing tools:"
+        echo "brew install ${missing[*]}"
+    fi
+
+    echo ""
+    echo "🔧 ZSH Plugins:"
+    local zsh_plugins=("zsh-syntax-highlighting" "zsh-autosuggestions" "zsh-completions")
+    for plugin in "${zsh_plugins[@]}"; do
+        if brew list "$plugin" >/dev/null 2>&1; then
+            echo "✅ $plugin - installed"
+        else
+            echo "❌ $plugin - missing"
+        fi
+    done
+}
+
 # Smart ag function with automatic minified file filtering
 smart-ag() {
     local pattern="$1"

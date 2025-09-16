@@ -665,6 +665,7 @@ if [[ "$install_tools" = "y" ]] && [[ "$OSTYPE" == darwin* ]]; then
     echo "   ✅ Essential development tools (git, nvim, fzf, ripgrep, gpg, etc.)"
     echo "   ✅ Modern terminal tools (starship, eza, bat, fd)"
     echo "   ✅ Starship prompt configuration with enhanced git status indicators"
+    echo "   ✅ Productivity aliases and functions for services, social media, and development"
     echo "   ✅ iTerm2 terminal application"
     echo "   ✅ FZF shell integration (Ctrl+R for history, Ctrl+T for files)"
     if [[ "$setup_gpg" = "y" ]]; then
