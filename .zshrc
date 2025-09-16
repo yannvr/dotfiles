@@ -133,7 +133,8 @@ for plugin in git gitfast history fzf zsh-navigation-tools; do
     [[ -d "$plugin_dir" ]] && existing_fpath+=("$plugin_dir")
 done
 
-FPATH=($existing_fpath $FPATH)
+# Properly set FPATH as array
+FPATH=("${existing_fpath[@]}" "${FPATH[@]}")
 
 # Async Plugin Loading - Heavy plugins load in background
 # =======================================================
@@ -209,49 +210,6 @@ lazy_load_tools() {
 
 # Initialize lazy loading
 lazy_load_tools
-
-# 🚀 ADVANCED OPTIMIZATIONS
-# ========================
-
-# ZSH Instant Prompt (shows prompt immediately while loading in background)
-# -----------------------------------------------------------------------
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-    source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
-
-# Disable some slow features during startup
-# -----------------------------------------
-# Disable correction for faster startup
-if [[ -o correct ]]; then
-    set +o correct
-fi
-
-# Reduce completion verbosity
-zstyle ':completion:*' verbose no
-
-# Cache completion results
-zstyle ':completion:*' use-cache on
-zstyle ':completion:*' cache-path "$HOME/.zsh/cache"
-
-# Optimize history settings
-# ------------------------
-# Larger history but don't load all at startup
-export HISTSIZE=10000
-export SAVEHIST=10000
-export HISTFILE="$HOME/.zsh_history"
-
-# Don't save duplicate commands
-setopt HIST_IGNORE_DUPS
-setopt HIST_IGNORE_ALL_DUPS
-setopt HIST_SAVE_NO_DUPS
-
-# Background history loading (if supported)
-if [[ -o share_history ]]; then
-    # Load history asynchronously
-    {
-        fc -R "$HISTFILE" 2>/dev/null || true
-    } &
-fi
 
 # Fix insecure directories warning
 autoload -Uz compinit
