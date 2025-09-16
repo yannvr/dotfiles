@@ -186,6 +186,7 @@ dotfiles_to_backup=(
     .vimrc.plugin.extended
     .tmux.conf
     .agignore
+    .config/starship.toml
 )
 for file in "${dotfiles_to_backup[@]}"; do
     backup_if_exists "$file"
@@ -255,6 +256,10 @@ create_symlink ".zshrc.alias" ".zshrc.alias"
 
 # Development tool configurations
 create_symlink ".agignore" ".agignore"
+
+# Starship prompt configuration
+mkdir -p ~/.config
+create_symlink ".config/starship.toml" ".config/starship.toml"
 
 # Link bin directory for custom scripts
 if [ -d "$DOTFILES_DIR/bin" ]; then
@@ -659,7 +664,7 @@ fi
 if [[ "$install_tools" = "y" ]] && [[ "$OSTYPE" == darwin* ]]; then
     echo "   ✅ Essential development tools (git, nvim, fzf, ripgrep, gpg, etc.)"
     echo "   ✅ Modern terminal tools (starship, eza, bat, fd)"
-    echo "   ✅ Starship prompt configuration with beautiful icons"
+    echo "   ✅ Starship prompt configuration with enhanced git status indicators"
     echo "   ✅ iTerm2 terminal application"
     echo "   ✅ FZF shell integration (Ctrl+R for history, Ctrl+T for files)"
     if [[ "$setup_gpg" = "y" ]]; then
