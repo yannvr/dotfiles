@@ -111,30 +111,36 @@ if [ -f "/opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh" ]; the
     source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 fi
 
-# Optimized FPATH - Only add existing directories
-# -----------------------------------------------
-local -a existing_fpath=()
+# Optimized FPATH - Work with existing FPATH as colon-separated string
+# -------------------------------------------------------------------
+local -a existing_dirs=()
 
-# Core ZSH directories
+# Add core ZSH directories (only if they exist)
 for dir in \
     "/opt/homebrew/share/zsh-completions" \
     "/opt/homebrew/share/zsh/site-functions" \
     "/usr/local/share/zsh/site-functions" \
     "/usr/share/zsh/site-functions" \
-    "/usr/share/zsh/5.9/functions" \
-    "$HOME/.oh-my-zsh/functions" \
-    "$HOME/.oh-my-zsh/completions"; do
-    [[ -d "$dir" ]] && existing_fpath+=("$dir")
+    "/usr/share/zsh/5.9/functions"; do
+    [[ -d "$dir" ]] && existing_dirs+=("$dir")
 done
 
-# Oh My Zsh plugins (only add existing ones)
+# Add Oh My Zsh directories (only if they exist)
+[[ -d "$HOME/.oh-my-zsh/functions" ]] && existing_dirs+=("$HOME/.oh-my-zsh/functions")
+[[ -d "$HOME/.oh-my-zsh/completions" ]] && existing_dirs+=("$HOME/.oh-my-zsh/completions")
+
+# Add Oh My Zsh plugins (only if they exist)
 for plugin in git gitfast history fzf zsh-navigation-tools; do
     local plugin_dir="$HOME/.oh-my-zsh/plugins/$plugin"
-    [[ -d "$plugin_dir" ]] && existing_fpath+=("$plugin_dir")
+    [[ -d "$plugin_dir" ]] && existing_dirs+=("$plugin_dir")
 done
 
-# Properly set FPATH as array
-FPATH=("${existing_fpath[@]}" "${FPATH[@]}")
+# Add existing directories to FPATH (preserve existing entries)
+for dir in "${existing_dirs[@]}"; do
+    if [[ ":$FPATH:" != *":$dir:"* ]]; then
+        FPATH="$dir:$FPATH"
+    fi
+done
 
 # Async Plugin Loading - Heavy plugins load in background
 # =======================================================
