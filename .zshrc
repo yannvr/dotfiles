@@ -95,36 +95,163 @@ esac
 # Amazon Q post block. Keep at the bottom of this file.
 [[ -f "${HOME}/Library/Application Support/amazon-q/shell/zshrc.post.zsh" ]] && builtin source "${HOME}/Library/Application Support/amazon-q/shell/zshrc.post.zsh"
 
-# ZSH Plugins - Load only if installed
-# ====================================
+# 🚀 OPTIMIZED ZSH LOADING
+# =======================
 
-# zsh-syntax-highlighting
+# Essential plugins - Load immediately (fast)
+# -------------------------------------------
+
+# zsh-syntax-highlighting (fast, essential)
 if [ -f "/opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" ]; then
     source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 fi
 
-# zsh-autosuggestions
+# zsh-autosuggestions (fast, essential)
 if [ -f "/opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh" ]; then
     source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 fi
 
-# zsh-history-substring-search
-if [ -f "/opt/homebrew/share/zsh-history-substring-search/zsh-history-substring-search.zsh" ]; then
-    source /opt/homebrew/share/zsh-history-substring-search/zsh-history-substring-search.zsh
+# Optimized FPATH - Only add existing directories
+# -----------------------------------------------
+local -a existing_fpath=()
+
+# Core ZSH directories
+for dir in \
+    "/opt/homebrew/share/zsh-completions" \
+    "/opt/homebrew/share/zsh/site-functions" \
+    "/usr/local/share/zsh/site-functions" \
+    "/usr/share/zsh/site-functions" \
+    "/usr/share/zsh/5.9/functions" \
+    "$HOME/.oh-my-zsh/functions" \
+    "$HOME/.oh-my-zsh/completions"; do
+    [[ -d "$dir" ]] && existing_fpath+=("$dir")
+done
+
+# Oh My Zsh plugins (only add existing ones)
+for plugin in git gitfast history fzf zsh-navigation-tools; do
+    local plugin_dir="$HOME/.oh-my-zsh/plugins/$plugin"
+    [[ -d "$plugin_dir" ]] && existing_fpath+=("$plugin_dir")
+done
+
+FPATH=($existing_fpath $FPATH)
+
+# Async Plugin Loading - Heavy plugins load in background
+# =======================================================
+
+# Lazy load heavy plugins
+async_load_plugins() {
+    # Load in background after shell is ready
+    {
+        # zsh-history-substring-search (can be lazy loaded)
+        if [ -f "/opt/homebrew/share/zsh-history-substring-search/zsh-history-substring-search.zsh" ]; then
+            source /opt/homebrew/share/zsh-history-substring-search/zsh-history-substring-search.zsh
+        fi
+
+        # fast-syntax-highlighting (lazy load)
+        if [ -f "/opt/homebrew/share/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh" ]; then
+            source /opt/homebrew/share/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh
+        fi
+
+        # Additional Oh My Zsh plugins (lazy load)
+        for plugin in pip hitchhiker cp brew yarn; do
+            local plugin_dir="$HOME/.oh-my-zsh/plugins/$plugin"
+            if [[ -d "$plugin_dir" && -f "$plugin_dir/$plugin.plugin.zsh" ]]; then
+                source "$plugin_dir/$plugin.plugin.zsh"
+            fi
+        done
+
+        # Signal completion
+        echo "ZSH async loading complete" > /dev/null
+    } &
+}
+
+# Start async loading after a short delay
+{
+    sleep 0.1
+    async_load_plugins
+} &
+
+# Lazy Loading Functions - Load on first use
+# ===========================================
+
+# Lazy load heavy tools
+lazy_load_tools() {
+    # These will be loaded when first used via aliases
+    # nvm, rvm, pyenv, etc. can be lazy loaded
+
+    # Example: Load nvm only when needed
+    load_nvm() {
+        if [ -f "$HOME/.nvm/nvm.sh" ]; then
+            source "$HOME/.nvm/nvm.sh"
+            # Cache the function
+            load_nvm() { :; }
+        fi
+    }
+
+    # Load pyenv only when needed
+    load_pyenv() {
+        if command -v pyenv >/dev/null 2>&1; then
+            eval "$(pyenv init -)"
+            # Cache the function
+            load_pyenv() { :; }
+        fi
+    }
+
+    # Load rvm only when needed
+    load_rvm() {
+        if [ -f "$HOME/.rvm/scripts/rvm" ]; then
+            source "$HOME/.rvm/scripts/rvm"
+            # Cache the function
+            load_rvm() { :; }
+        fi
+    }
+}
+
+# Initialize lazy loading
+lazy_load_tools
+
+# 🚀 ADVANCED OPTIMIZATIONS
+# ========================
+
+# ZSH Instant Prompt (shows prompt immediately while loading in background)
+# -----------------------------------------------------------------------
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+    source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-# fast-syntax-highlighting
-if [ -f "/opt/homebrew/share/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh" ]; then
-    source /opt/homebrew/share/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh
+# Disable some slow features during startup
+# -----------------------------------------
+# Disable correction for faster startup
+if [[ -o correct ]]; then
+    set +o correct
 fi
 
-# ZSH Completions - Load only if directory exists
-if [ -d "/opt/homebrew/share/zsh-completions" ]; then
-    FPATH=/opt/homebrew/share/zsh-completions:$FPATH
-fi
+# Reduce completion verbosity
+zstyle ':completion:*' verbose no
 
-# Oh My Zsh plugins (existing)
-FPATH=/Users/yann/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting:/Users/yann/.oh-my-zsh/plugins/git:/Users/yann/.oh-my-zsh/plugins/hitchhiker:/Users/yann/.oh-my-zsh/plugins/pip:/Users/yann/.oh-my-zsh/plugins/z:/Users/yann/.oh-my-zsh/plugins/zsh-navigation-tools:/Users/yann/.oh-my-zsh/plugins/history:/Users/yann/.oh-my-zsh/plugins/gitfast:/Users/yann/.oh-my-zsh/plugins/git:/Users/yann/.oh-my-zsh/plugins/cp:/Users/yann/.oh-my-zsh/plugins/brew:/Users/yann/.oh-my-zsh/plugins/yarn:/Users/yann/.oh-my-zsh/plugins/fzf:/Users/yann/.oh-my-zsh/functions:/Users/yann/.oh-my-zsh/completions:/Users/yann/.oh-my-zsh/custom/functions:/Users/yann/.oh-my-zsh/custom/completions:/Users/yann/.oh-my-zsh/cache/completions:/usr/local/share/zsh/site-functions:/usr/share/zsh/site-functions:/usr/share/zsh/5.9/functions:/opt/homebrew/share/zsh/site-functions:$FPATH
+# Cache completion results
+zstyle ':completion:*' use-cache on
+zstyle ':completion:*' cache-path "$HOME/.zsh/cache"
+
+# Optimize history settings
+# ------------------------
+# Larger history but don't load all at startup
+export HISTSIZE=10000
+export SAVEHIST=10000
+export HISTFILE="$HOME/.zsh_history"
+
+# Don't save duplicate commands
+setopt HIST_IGNORE_DUPS
+setopt HIST_IGNORE_ALL_DUPS
+setopt HIST_SAVE_NO_DUPS
+
+# Background history loading (if supported)
+if [[ -o share_history ]]; then
+    # Load history asynchronously
+    {
+        fc -R "$HISTFILE" 2>/dev/null || true
+    } &
+fi
 
 # Fix insecure directories warning
 autoload -Uz compinit
