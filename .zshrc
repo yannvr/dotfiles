@@ -94,3 +94,38 @@ esac
 
 # Amazon Q post block. Keep at the bottom of this file.
 [[ -f "${HOME}/Library/Application Support/amazon-q/shell/zshrc.post.zsh" ]] && builtin source "${HOME}/Library/Application Support/amazon-q/shell/zshrc.post.zsh"
+
+# ZSH Plugins - Load only if installed
+# ====================================
+
+# zsh-syntax-highlighting
+if [ -f "/opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" ]; then
+    source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+fi
+
+# zsh-autosuggestions
+if [ -f "/opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh" ]; then
+    source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+fi
+
+# zsh-history-substring-search
+if [ -f "/opt/homebrew/share/zsh-history-substring-search/zsh-history-substring-search.zsh" ]; then
+    source /opt/homebrew/share/zsh-history-substring-search/zsh-history-substring-search.zsh
+fi
+
+# fast-syntax-highlighting
+if [ -f "/opt/homebrew/share/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh" ]; then
+    source /opt/homebrew/share/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh
+fi
+
+# ZSH Completions - Load only if directory exists
+if [ -d "/opt/homebrew/share/zsh-completions" ]; then
+    FPATH=/opt/homebrew/share/zsh-completions:$FPATH
+fi
+
+# Oh My Zsh plugins (existing)
+FPATH=/Users/yann/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting:/Users/yann/.oh-my-zsh/plugins/git:/Users/yann/.oh-my-zsh/plugins/hitchhiker:/Users/yann/.oh-my-zsh/plugins/pip:/Users/yann/.oh-my-zsh/plugins/z:/Users/yann/.oh-my-zsh/plugins/zsh-navigation-tools:/Users/yann/.oh-my-zsh/plugins/history:/Users/yann/.oh-my-zsh/plugins/gitfast:/Users/yann/.oh-my-zsh/plugins/git:/Users/yann/.oh-my-zsh/plugins/cp:/Users/yann/.oh-my-zsh/plugins/brew:/Users/yann/.oh-my-zsh/plugins/yarn:/Users/yann/.oh-my-zsh/plugins/fzf:/Users/yann/.oh-my-zsh/functions:/Users/yann/.oh-my-zsh/completions:/Users/yann/.oh-my-zsh/custom/functions:/Users/yann/.oh-my-zsh/custom/completions:/Users/yann/.oh-my-zsh/cache/completions:/usr/local/share/zsh/site-functions:/usr/share/zsh/site-functions:/usr/share/zsh/5.9/functions:/opt/homebrew/share/zsh/site-functions:$FPATH
+
+# Fix insecure directories warning
+autoload -Uz compinit
+compinit -i

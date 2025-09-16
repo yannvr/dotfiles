@@ -509,17 +509,50 @@ wireshark-cli-install-info() {
 
 # Plugin setup functions
 setup-zsh-plugins() {
-    echo "🚀 Setting up essential ZSH plugins..."
-    echo "Run these commands:"
-    echo "brew install zsh-syntax-highlighting zsh-autosuggestions zsh-completions fast-syntax-highlighting zsh-history-substring-search"
+    echo "🚀 Installing and setting up essential ZSH plugins..."
     echo ""
-    echo "Then add to your ~/.zshrc:"
-    echo "source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
-    echo "source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
-    echo "source /opt/homebrew/share/zsh-history-substring-search/zsh-history-substring-search.zsh"
-    echo "source /opt/homebrew/share/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh"
-    echo "FPATH=/opt/homebrew/share/zsh-completions:$FPATH"
-    echo "autoload -Uz compinit && compinit"
+
+    # Install the plugins
+    brew install zsh-syntax-highlighting zsh-autosuggestions zsh-completions fast-syntax-highlighting zsh-history-substring-search
+
+    echo ""
+    echo "✅ ZSH plugins installed!"
+    echo ""
+    echo "🔄 Restart your terminal or run: source ~/.zshrc"
+    echo ""
+    echo "The plugins will now load automatically when zsh starts."
+}
+
+# Fix insecure completion directories
+fix-zsh-completions() {
+    echo "🔧 Fixing insecure ZSH completion directories..."
+
+    # Run compaudit to find insecure directories
+    insecure_dirs=$(compaudit 2>/dev/null)
+
+    if [ -n "$insecure_dirs" ]; then
+        echo "Found insecure directories:"
+        echo "$insecure_dirs"
+        echo ""
+        echo "Fixing permissions..."
+
+        # Fix permissions for insecure directories
+        for dir in $insecure_dirs; do
+            if [ -d "$dir" ]; then
+                # Change ownership to current user and group
+                sudo chown -R $(whoami):$(id -gn) "$dir" 2>/dev/null || true
+                # Set proper permissions
+                chmod -R 755 "$dir" 2>/dev/null || true
+                echo "✅ Fixed: $dir"
+            fi
+        done
+
+        echo ""
+        echo "🔄 Run: compinit"
+        echo "Or restart your terminal"
+    else
+        echo "✅ No insecure directories found!"
+    fi
 }
 
 # Ultimate Productivity Setup
