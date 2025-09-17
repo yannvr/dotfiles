@@ -690,7 +690,7 @@ exa() {
 }
 
 # bat - syntax-highlighted cat
-alias bat='command bat 2>/dev/null || (echo "bat not installed. Install with: brew install bat"; echo "Usage: bat file.txt")'
+alias bat='/opt/homebrew/bin/bat'
 
 # lazygit - terminal git UI
 alias lazygit='command lazygit 2>/dev/null || lazygit-install-info'

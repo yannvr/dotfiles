@@ -36,8 +36,8 @@ format = '[[ $symbol $branch ](fg:#769ff0 bg:#394260)]($style)'
 [git_status]
 style = "bg:#394260"
 format = '[[ $all_status$ahead$behind ](fg:#769ff0 bg:#394260)]($style)'
-ahead = "[↑$count](bold bright-cyan)"
-behind = "[↓$count](bold bright-magenta)"
+ahead = "[↑$ahead_count](bold bright-cyan)"
+behind = "[↓$behind_count](bold bright-magenta)"
 staged = "[●$count](bold green)"
 modified = "[✚$count](bold yellow)"
 renamed = "[»$count](bold blue)"
