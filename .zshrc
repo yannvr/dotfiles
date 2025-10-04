@@ -20,7 +20,7 @@ ZSH_THEME="wezm"
 ENABLE_CORRECTION="false"
 DISABLE_UNTRACKED_FILES_DIRTY="true"
 # plugins=(fzf colored-man-pages yarn brew cp git gitfast history node npm nvm themes web-search zsh-navigation-tools z zsh_reload pip themes)
-plugins=(fzf yarn brew cp git gitfast history zsh-navigation-tools z pip hitchhiker git zsh-syntax-highlighting)
+plugins=(yarn brew cp git gitfast history zsh-navigation-tools z pip hitchhiker git zsh-syntax-highlighting)
 
 # Load Oh My Zsh if it exists
 if [ -f "$ZSH/oh-my-zsh.sh" ]; then
@@ -33,7 +33,7 @@ export LANG=en_US.UTF-8
 
 #eval $(docker-machine env default)
 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+# [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh  # DISABLED (causing hangs)
 [ -f ~/.zshrc.alias ] && source ~/.zshrc.alias
 [ -f ~/.zshenv ] && source ~/.zshenv
 # excluded from dotfiles.
@@ -65,7 +65,7 @@ autoload znt-cd-widget
 zle -N znt-cd-widget
 autoload znt-history-widget
 zle -N znt-history-widget
-bindkey "^R" fzf-history-widget
+# bindkey "^R" fzf-history-widget  # DISABLED (fzf causing hangs)
 bindkey "^T" znt-cd-widget
 
 # bindkey '^T' fzf-completion
@@ -74,7 +74,7 @@ bindkey "^T" znt-cd-widget
 # eval $(thefuck --alias)
 
 autoload -U add-zsh-hook
-set rtp+=/usr/local/opt/fzf
+# set rtp+=/usr/local/opt/fzf  # DISABLED (fzf causing hangs)
 
 # bun completions
 [ -s "$HOME/.oh-my-zsh/completions/_bun" ] && source "$HOME/.oh-my-zsh/completions/_bun"
@@ -130,7 +130,7 @@ done
 [[ -d "$HOME/.oh-my-zsh/completions" ]] && existing_dirs+=("$HOME/.oh-my-zsh/completions")
 
 # Add Oh My Zsh plugins (only if they exist)
-for plugin in git gitfast history fzf zsh-navigation-tools; do
+for plugin in git gitfast history zsh-navigation-tools; do
     local plugin_dir="$HOME/.oh-my-zsh/plugins/$plugin"
     [[ -d "$plugin_dir" ]] && existing_dirs+=("$plugin_dir")
 done
@@ -142,41 +142,40 @@ for dir in "${existing_dirs[@]}"; do
     fi
 done
 
-# Async Plugin Loading - Heavy plugins load in background
+# Async Plugin Loading - DISABLED (causing hangs)
 # =======================================================
-
-# Lazy load heavy plugins
-async_load_plugins() {
-    # Load in background after shell is ready
-    {
-        # zsh-history-substring-search (can be lazy loaded)
-        if [ -f "/opt/homebrew/share/zsh-history-substring-search/zsh-history-substring-search.zsh" ]; then
-            source /opt/homebrew/share/zsh-history-substring-search/zsh-history-substring-search.zsh
-        fi
-
-        # fast-syntax-highlighting (lazy load)
-        if [ -f "/opt/homebrew/share/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh" ]; then
-            source /opt/homebrew/share/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh
-        fi
-
-        # Additional Oh My Zsh plugins (lazy load)
-        for plugin in pip hitchhiker cp brew yarn; do
-            local plugin_dir="$HOME/.oh-my-zsh/plugins/$plugin"
-            if [[ -d "$plugin_dir" && -f "$plugin_dir/$plugin.plugin.zsh" ]]; then
-                source "$plugin_dir/$plugin.plugin.zsh"
-            fi
-        done
-
-        # Signal completion
-        echo "ZSH async loading complete" > /dev/null
-    } &
-}
-
-# Start async loading after a short delay
-{
-    sleep 0.1
-    async_load_plugins
-} &
+# Disabled async loading due to startup hangs
+# async_load_plugins() {
+#     # Load in background after shell is ready
+#     {
+#         # zsh-history-substring-search (can be lazy loaded)
+#         if [ -f "/opt/homebrew/share/zsh-history-substring-search/zsh-history-substring-search.zsh" ]; then
+#             source /opt/homebrew/share/zsh-history-substring-search/zsh-history-substring-search.zsh
+#         fi
+#
+#         # fast-syntax-highlighting (lazy load)
+#         if [ -f "/opt/homebrew/share/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh" ]; then
+#             source /opt/homebrew/share/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh
+#         fi
+#
+#         # Additional Oh My Zsh plugins (lazy load)
+#         for plugin in pip hitchhiker cp brew yarn; do
+#             local plugin_dir="$HOME/.oh-my-zsh/plugins/$plugin"
+#             if [[ -d "$plugin_dir" && -f "$plugin_dir/$plugin.plugin.zsh" ]]; then
+#                 source "$plugin_dir/$plugin.plugin.zsh"
+#             fi
+#         done
+#
+#         # Signal completion
+#         echo "ZSH async loading complete" > /dev/null
+#     } &
+# }
+#
+# # Start async loading after a short delay
+# {
+#     sleep 0.1
+#     async_load_plugins
+# } &
 
 # Lazy Loading Functions - Load on first use
 # ===========================================
@@ -217,6 +216,6 @@ lazy_load_tools() {
 # Initialize lazy loading
 lazy_load_tools
 
-# Fix insecure directories warning
-autoload -Uz compinit
-compinit -i
+# Fix insecure directories warning - DISABLED (can cause hangs)
+# autoload -Uz compinit
+# compinit -i
