@@ -65,7 +65,7 @@ autoload znt-cd-widget
 zle -N znt-cd-widget
 autoload znt-history-widget
 zle -N znt-history-widget
-# bindkey "^R" fzf-history-widget  # DISABLED (fzf causing hangs)
+# FZF removed - using SKIM instead
 bindkey "^T" znt-cd-widget
 
 # bindkey '^T' fzf-completion
@@ -78,6 +78,47 @@ autoload -U add-zsh-hook
 
 # bun completions
 [ -s "$HOME/.oh-my-zsh/completions/_bun" ] && source "$HOME/.oh-my-zsh/completions/_bun"
+
+# FZF ALTERNATIVES - Better than fzf
+# ===================================
+
+# SKIM (sk) - Primary fzf replacement
+if command -v sk >/dev/null 2>&1; then
+    source <(sk --zsh) 2>/dev/null || true
+
+    # Create custom functions for skim (fzf-compatible)
+    skim-file-widget() {
+        local result=$(find . -type f | sk --preview "bat --color=always {} 2>/dev/null || cat {}")
+        if [[ -n "$result" ]]; then
+            LBUFFER+="$result"
+        fi
+        zle reset-prompt
+    }
+    zle -N skim-file-widget
+
+    skim-history-widget() {
+        local result=$(history | sk --tac --no-sort | sed 's/^[ ]*[0-9]*[ ]*//')
+        if [[ -n "$result" ]]; then
+            LBUFFER="$result"
+        fi
+        zle reset-prompt
+    }
+    zle -N skim-history-widget
+
+    # Key bindings (same as fzf)
+    bindkey '^T' skim-file-widget
+    bindkey '^R' skim-history-widget
+fi
+
+# MCFLY - Smart history search
+if command -v mcfly >/dev/null 2>&1; then
+    eval "$(mcfly init zsh)" 2>/dev/null || true
+fi
+
+# ZOXIDE - Smart directory jumping
+if command -v zoxide >/dev/null 2>&1; then
+    eval "$(zoxide init zsh)" 2>/dev/null || true
+fi
 
 # Environment variables moved to .zshenv for all shells
 # See .zshenv for: BUN_INSTALL, PNPM_HOME, Windsurf path, PostgreSQL path
