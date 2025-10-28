@@ -14,6 +14,7 @@ NC='\033[0m' # No Color
 
 # Script configuration
 AUTO_YES=false
+CHECK_ONLY=false
 
 # Essential productivity apps
 APPS=(

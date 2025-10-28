@@ -127,11 +127,27 @@ kill_port() {
             # Get and display process details
             process_details=$(get_process_details "$pid")
             echo "Details: $process_details"
-            # Attempt to kill the process
-            if kill -9 "$pid" 2>/dev/null; then
-                echo "Successfully killed process $pid on port $port"
+            # Try graceful SIGTERM first, then fallback to SIGKILL
+            if kill "$pid" 2>/dev/null; then
+                # Wait briefly and ensure process is gone
+                sleep 0.3
+                if kill -0 "$pid" 2>/dev/null; then
+                    echo "Process $pid still running; sending SIGKILL"
+                    if kill -9 "$pid" 2>/dev/null; then
+                        echo "Successfully killed process $pid on port $port"
+                    else
+                        echo "Failed to SIGKILL process $pid on port $port"
+                    fi
+                else
+                    echo "Successfully terminated process $pid on port $port"
+                fi
             else
-                echo "Failed to kill process $pid on port $port"
+                echo "SIGTERM failed; attempting SIGKILL for $pid"
+                if kill -9 "$pid" 2>/dev/null; then
+                    echo "Successfully killed process $pid on port $port"
+                else
+                    echo "Failed to kill process $pid on port $port"
+                fi
             fi
         done
         return 0

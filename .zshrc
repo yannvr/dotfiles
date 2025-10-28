@@ -1,28 +1,20 @@
-# Amazon Q pre block. Keep at the top of this file.
-[[ -f "${HOME}/Library/Application Support/amazon-q/shell/zshrc.pre.zsh" ]] && builtin source "${HOME}/Library/Application Support/amazon-q/shell/zshrc.pre.zsh"
-# zmodllad zsh/zprof
 export ZSH="$HOME/.oh-my-zsh"
 ZSH_THEME="agnoster"
-# Amazon Q pre block. Keep at the top of this file.
-[[ -f "${HOME}/Library/Application Support/amazon-q/shell/zshrc.pre.zsh" ]] && builtin source "${HOME}/Library/Application Support/amazon-q/shell/zshrc.pre.zsh"
-# zmodllad zsh/zprof
-export ZSH="$HOME/.oh-my-zsh"
-ZSH_THEME="agnoster"
-ZSH_THEME="steeef"
-ZSH_THEME="Soliah"
-ZSH_THEME="candy"
-ZSH_THEME="juanghurtado"
-ZSH_THEME="kphoen"
-ZSH_THEME="mortalscumbag"
-ZSH_THEME="murilasso"
-ZSH_THEME="nicoulaj"
-ZSH_THEME="sorin"
-ZSH_THEME="tjkirch"
-ZSH_THEME="nicoulaj"
-ZSH_THEME="candy"
-ZSH_THEME="wezm"
-ZSH_THEME="candy"
-ZSH_THEME="wezm"
+# ZSH_THEME="steeef"
+# ZSH_THEME="Soliah"
+# ZSH_THEME="candy"
+# ZSH_THEME="juanghurtado"
+# ZSH_THEME="kphoen"
+# ZSH_THEME="mortalscumbag"
+# ZSH_THEME="murilasso"
+# ZSH_THEME="nicoulaj"
+# ZSH_THEME="sorin"
+# ZSH_THEME="tjkirch"
+# ZSH_THEME="nicoulaj"
+# ZSH_THEME="candy"
+# ZSH_THEME="wezm"
+# ZSH_THEME="candy"
+# ZSH_THEME="wezm"
 # ZSH_THEME="peepcode"
 ENABLE_CORRECTION="false"
 DISABLE_UNTRACKED_FILES_DIRTY="true"
@@ -36,8 +28,10 @@ fi
 
 # User configuration
 export PATH=$HOME/bin:/usr/local/bin:$PATH
-export LANG=en_US.UTF-8
-export PATH=$HOME/bin:/usr/local/bin:$PATH
+# De-duplicate PATH and history
+typeset -U path PATH
+setopt HIST_IGNORE_ALL_DUPS
+setopt HIST_SAVE_NO_DUPS
 export LANG=en_US.UTF-8
 
 #eval $(docker-machine env default)
@@ -46,11 +40,8 @@ export LANG=en_US.UTF-8
 [ -f ~/.zshrc.alias ] && source ~/.zshrc.alias
 [ -f ~/.zshenv ] && source ~/.zshenv
 # excluded from dotfiles.
-[ -f ~/.zshenv ] && source ~/.zshenv
-# excluded from dotfiles.
 [ -f ~/.zshrc.local ] && source ~/.zshrc.local
 [ -f ~/.zshrc.private ] && source ~/.zshrc.private
-[ -f ~/.zprofile ] && source ~/.zprofile
 [ -f ~/.zprofile ] && source ~/.zprofile
 
 # eval "`npm completion`"
@@ -272,3 +263,5 @@ lazy_load_tools
 # Fix insecure directories warning - DISABLED (can cause hangs)
 # autoload -Uz compinit
 # compinit -i
+export GIT_PAGER=cat
+export PAGER=cat

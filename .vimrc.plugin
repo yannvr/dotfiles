@@ -70,3 +70,9 @@ Plug 'mxw/vim-jsx', { 'for': 'javascript' }
 call plug#end()
 
 filetype plugin indent on
+
+" Disable BufExplorer default keymaps to avoid <Leader>bt conflicts
+let g:bufExplorerDisableDefaultKeyMapping = 1
+" Provide explicit, non-conflicting mappings
+nnoremap <silent> <Leader>bb :BufExplorer<CR>
+nnoremap <silent> <Leader>bx :ToggleBufExplorer<CR>
