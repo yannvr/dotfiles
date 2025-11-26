@@ -67,14 +67,18 @@ nnoremap <Leader>e :Lexplore<CR>c
 
 " Sessions - different plugins for vim vs neovim
 if has('nvim')
-    " Neovim: Use Persisted plugin
-    nnoremap ¬ :SessionLoad<CR>
-    nnoremap <leader>sl :SessionLoad<CR>
-    nnoremap <leader>sd :SessionDelete<CR>
-    nnoremap <leader>ss :SessionSave<CR>
-    nnoremap <leader>sx :SessionSave<CR>:SessionStop<CR>:q<CR>
-    nnoremap <leader>sc :SessionStop<CR>:q<CR>
-    nnoremap <Leader>st :SessionToggle<CR>
+    " Neovim: Use custom sessions picker
+    nnoremap ¬ :lua require('sessions.picker').open_picker()<CR>
+    nnoremap <leader>sl :lua require('sessions.picker').open_picker()<CR>
+    nnoremap <leader>Sl :lua require('sessions.picker').open_picker()<CR>
+    nnoremap <leader>ss :lua require('sessions.picker').prompt_save()<CR>
+    nnoremap <leader>Ss :lua require('sessions.picker').prompt_save()<CR>
+    nnoremap <leader>sd :PossessionDelete<CR>
+    nnoremap <leader>Sd :PossessionDelete<CR>
+    nnoremap <leader>sc :PossessionClose<CR>:q<CR>
+    nnoremap <leader>Sc :PossessionClose<CR>:q<CR>
+    nnoremap <leader>sx :PossessionSave<CR>:PossessionClose<CR>:q<CR>
+    nnoremap <leader>Sx :PossessionSave<CR>:PossessionClose<CR>:q<CR>
 else
     " Vim: Use vim-session plugin
     nnoremap ¬ :OpenSession<CR>

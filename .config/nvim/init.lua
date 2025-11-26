@@ -73,13 +73,6 @@ vim.opt.scrolloff = 8
 vim.opt.sidescrolloff = 8
 vim.opt.showtabline = 2         -- Always show tab line
 
-require("persisted").setup({
-  autosave = true,
-  autoload = true,
-  use_git_branch = false,
-  allowed_dirs = nil, -- set to a list of directories to restrict sessions
-})
-
 -- Load vim configuration files for compatibility (selectively to avoid conflicts)
 -- Only load mappings and base config, skip plugin-heavy .vimrc.conf to avoid conflicts
 vim.cmd('source ~/.vimrc.maps')
@@ -108,3 +101,16 @@ vim.opt.wildmenu = true
 vim.opt.wildmode = "full"
 vim.opt.clipboard = "unnamed,unnamedplus"
 vim.opt.lazyredraw = true
+
+-- Load session list on startup when no files are provided
+-- This triggers the session picker from SessionManager to select from available sessions
+vim.api.nvim_create_autocmd("VimEnter", {
+  group = vim.api.nvim_create_augroup("InitSessionOnStart", { clear = true }),
+  callback = function()
+    if vim.fn.argc() == 0 then
+      vim.schedule(function()
+        pcall(function() require("sessions.picker").open_picker() end)
+      end)
+    end
+  end,
+})

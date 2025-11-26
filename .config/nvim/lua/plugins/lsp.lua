@@ -16,7 +16,6 @@ return {
       })
 
       -- Configure LSP servers
-      local lspconfig = require("lspconfig")
       local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
       -- Setup keymaps when an LSP connects to a buffer
@@ -37,18 +36,28 @@ return {
         end,
       })
 
-      -- Configure language servers that should always be present
-      -- You can add more language servers as needed
-      lspconfig.lua_ls.setup({
-        capabilities = capabilities,
-        settings = {
-          Lua = {
-            diagnostics = {
-              globals = { "vim" },
+      -- Configure Lua language server using Neovim 0.11+ API to avoid deprecated lspconfig framework
+      -- See :help lspconfig-nvim-0.11
+      local ok, lua_server = pcall(require, "lspconfig.server_configurations.lua_ls")
+      if ok and lua_server and lua_server.default_config then
+        local default_config = lua_server.default_config
+        local merged = vim.tbl_deep_extend("force", default_config, {
+          capabilities = capabilities,
+          settings = {
+            Lua = {
+              diagnostics = { globals = { "vim" } },
             },
           },
-        },
-      })
+        })
+        -- Start for Lua buffers
+        vim.api.nvim_create_autocmd("FileType", {
+          pattern = "lua",
+          group = vim.api.nvim_create_augroup("LuaLspStart", { clear = true }),
+          callback = function()
+            vim.lsp.start(vim.lsp.config(merged))
+          end,
+        })
+      end
     end,
   },
 }

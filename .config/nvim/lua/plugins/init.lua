@@ -110,13 +110,27 @@ return {
   -- GitHub Copilot
   { "github/copilot.vim", event = "InsertEnter" },
 
-  -- Session Management
+  -- Finder
   {
-    "olimorris/persisted.nvim",
-    event = "BufReadPre", -- Ensure the plugin loads only when a buffer has been loaded
-    opts = {
-      -- Your config goes here ...
-    },
+    "nvim-telescope/telescope.nvim",
+    dependencies = { "nvim-lua/plenary.nvim" },
+    cmd = { "Telescope" },
+  },
+
+  -- Session Management (named sessions with Telescope picker)
+  {
+    "jedrzejboczar/possession.nvim",
+    dependencies = { "nvim-lua/plenary.nvim", "nvim-telescope/telescope.nvim" },
+    config = function()
+      require("possession").setup({
+        autosave = {
+          current = true,          -- autosave current session on exit
+          tmp = false,
+          tmp_name = "tmp",
+        },
+        -- keep default paths; possession uses stdpath('data')/possession
+      })
+    end,
   },
 
   -- Powerline Fonts
