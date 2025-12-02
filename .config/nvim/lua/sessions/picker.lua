@@ -223,7 +223,8 @@ local function refresh_picker(prompt_bufnr)
   local finders = require("telescope.finders")
   local conf = require("telescope.config").values
   local picker = require("telescope.actions.state").get_current_picker(prompt_bufnr)
-  local sessions = list_sessions()
+  -- Reload sessions and metadata to ensure fresh data
+  local sessions, _ = list_sessions()
   picker:refresh(finders.new_table({
     results = sessions,
     entry_maker = function(item)
@@ -313,8 +314,30 @@ function M.open_picker()
       local function act_delete()
         local e = get_entry()
         if not e then return end
-        -- Rely on plugin's own confirmation to avoid double prompts
+        
+        -- Confirm deletion
+        local confirm = vim.fn.input("Delete session '" .. e.display_name .. "'? [y/N]: ")
+        if confirm:lower() ~= "y" then
+          return
+        end
+        
+        -- Delete the session file
+        local session_path = e.path
+        if vim.fn.filereadable(session_path) == 1 then
+          vim.fn.delete(session_path)
+        end
+        
+        -- Reload and update metadata
+        local current_meta = load_meta()
+        if current_meta[e.name] then
+          current_meta[e.name] = nil
+          save_meta(current_meta)
+        end
+        
+        -- Try plugin command as fallback (in case it does additional cleanup)
         pcall(vim.cmd, "silent! PossessionDelete " .. vim.fn.fnameescape(e.name))
+        
+        -- Refresh the picker to show updated list
         refresh_picker(prompt_bufnr)
       end
 
