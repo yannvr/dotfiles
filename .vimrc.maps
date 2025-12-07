@@ -124,14 +124,14 @@ map π :bprev<CR>
 
 "Buffer nav
 nnoremap ı :Bdelete!<CR>
-nnoremap æ :bprev<CR>
-nnoremap « :bnext<CR>
+" nnoremap æ :bprev<CR>
+" nnoremap « :bnext<CR>
 nnoremap ∫ :enew<CR>
 
 "Tab nav
 nnoremap † :tabnew<CR><C-W>w<CR>
-nnoremap " :tabprevious<CR>
-nnoremap ' :tabnext<CR>
+nnoremap … :tabprevious<CR>
+nnoremap æ :tabnext<CR>
 nnoremap Ê :tabclose<CR>
 
 " Convert buffers to tabs
