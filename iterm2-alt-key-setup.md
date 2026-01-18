@@ -119,6 +119,62 @@ echo "If you saw ^[h above, Alt keys are working correctly!"
 echo "If you saw other characters, set the Natural Text Editing preset in iTerm2"
 ```
 
+## Vim Tab Navigation with OPT+[ and OPT+] (Updated 2026-01-14)
+
+### Quick Setup for Tab Switching
+
+The optimal configuration for vim/nvim tab navigation using **OPT+[** and **OPT+]**:
+
+1. **Configure iTerm2:**
+   - Open iTerm2 → Preferences → Profiles → Keys → General
+   - Set **Left Option Key** to `Esc+`
+   - Set **Right Option Key** to `Normal` (optional, for accents)
+
+2. **Verify it works:**
+   ```bash
+   # In terminal, type this and press OPT+[
+   cat > /dev/null
+   # Should show: ^[[  (escape followed by bracket)
+   ```
+
+3. **Your vim configuration already includes:**
+   ```vim
+   " Primary tab navigation (OPT+[ and OPT+])
+   nnoremap <silent> <Esc>[ :tabprevious<CR>
+   nnoremap <silent> <Esc>] :tabnext<CR>
+   
+   " Alternative convenience mappings
+   nnoremap <silent> æ :tabnext<CR>      " OPT+a
+   nnoremap <silent> … :tabprevious<CR>  " OPT+w
+   
+   " Quick jump to tab by number
+   nnoremap <silent> <leader>1 1gt  " Jump to tab 1
+   nnoremap <silent> <leader>2 2gt  " Jump to tab 2
+   " ... through <leader>9
+   ```
+
+### Testing Tab Navigation
+
+```bash
+# Open vim with multiple tabs
+vim -p file1.txt file2.txt file3.txt
+
+# Inside vim:
+# - Press OPT+] to go to next tab
+# - Press OPT+[ to go to previous tab
+# - Press \1 (backslash-1) to jump to tab 1
+# - Press \2 (backslash-2) to jump to tab 2
+```
+
+### Neovim Terminal Mode Support
+
+For neovim, tab switching also works in terminal mode:
+```vim
+" Terminal mode tab navigation (already configured)
+tnoremap <silent> <Esc>[ <C-\><C-n>:tabprevious<CR>
+tnoremap <silent> <Esc>] <C-\><C-n>:tabnext<CR>
+```
+
 ## Vim-Specific Configuration
 
 Add these to your `.vimrc` to make use of Alt keys:

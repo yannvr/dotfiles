@@ -91,6 +91,23 @@ return {
     config = function()
       vim.g.airline_powerline_fonts = 1
       vim.g.airline_theme = "badwolf"
+      vim.g["airline#extensions#tabline#enabled"] = 0
+    end,
+  },
+  {
+    "akinsho/bufferline.nvim",
+    event = "VeryLazy",
+    dependencies = { "nvim-tree/nvim-web-devicons" },
+    config = function()
+      require("bufferline").setup({
+        options = {
+          mode = "tabs",
+          always_show_bufferline = true,
+          show_buffer_close_icons = false,
+          show_close_icon = false,
+          separator_style = "slant",
+        },
+      })
     end,
   },
 

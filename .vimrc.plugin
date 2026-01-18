@@ -48,6 +48,12 @@ Plug 'simnalamburt/vim-mundo'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 
+" Neovim-only UI enhancements
+if has('nvim')
+  Plug 'nvim-tree/nvim-web-devicons'
+  Plug 'akinsho/bufferline.nvim', { 'tag': 'v4.*' }
+endif
+
 " Git integration
 Plug 'airblade/vim-gitgutter'
 

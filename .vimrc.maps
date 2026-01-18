@@ -61,7 +61,9 @@ nnoremap <Space> i_<Esc>r
 
 " Vim config reload
 nnoremap <leader>R :source ~/.vimrc<CR>
-nnoremap <Leader>e :Lexplore<CR>c
+
+" File explorer
+nnoremap <Leader>e :Lexplore<CR>
 
 " map :convertLineEnding<<CR>%s/\r/\r/g<CR>
 
@@ -85,9 +87,8 @@ else
     nnoremap <leader>sl :OpenSession<CR>
     nnoremap <leader>sd :DeleteSession<CR>
     nnoremap <leader>ss :SaveSession<CR>
-    nnoremap <leader>sx :SaveSession<CR>:CloseSession:q<CR>
     nnoremap <leader>sc :CloseSession<CR>:q<CR>
-    nnoremap <Leader>sx :SaveSession<CR>:CloseSession<CR>:q<CR>
+    nnoremap <leader>sx :SaveSession<CR>:CloseSession<CR>:q<CR>
 endif
 
 " Undo tree
@@ -128,24 +129,38 @@ nnoremap ı :Bdelete!<CR>
 " nnoremap « :bnext<CR>
 nnoremap ∫ :enew<CR>
 
-"Tab nav
-nnoremap † :tabnew<CR><C-W>w<CR>
-nnoremap … :tabprevious<CR>
-nnoremap æ :tabnext<CR>
-nnoremap Ê :tabclose<CR>
+" =============================================================================
+" Tab Navigation - Modern Mac-Compatible Setup (No Conflicts)
+" =============================================================================
+" Primary: OPT+[ and OPT+] (requires iTerm2: Left Option Key = "Esc+")
+nnoremap <silent> <Esc>[ :tabprevious<CR>
+nnoremap <silent> <Esc>] :tabnext<CR>
+
+" Alternative convenience mappings (non-conflicting Mac Option characters)
+nnoremap <silent> æ :tabnext<CR>      " OPT+a
+nnoremap <silent> … :tabprevious<CR>  " OPT+w
+
+" Tab management commands
+nnoremap <silent> † :tabnew<CR>       " OPT+t: New tab
+nnoremap <silent> Ê :tabclose<CR>     " OPT+Shift+t: Close tab
+nnoremap <silent> <leader>tn :tabnew<CR>
+nnoremap <silent> <leader>tc :tabclose<CR>
+nnoremap <silent> <leader>to :tabonly<CR>
+
+" Quick jump to tab by number
+nnoremap <silent> <leader>1 1gt
+nnoremap <silent> <leader>2 2gt
+nnoremap <silent> <leader>3 3gt
+nnoremap <silent> <leader>4 4gt
+nnoremap <silent> <leader>5 5gt
+nnoremap <silent> <leader>6 6gt
+nnoremap <silent> <leader>7 7gt
+nnoremap <silent> <leader>8 8gt
+nnoremap <silent> <leader>9 9gt
+nnoremap <silent> <leader>0 :tablast<CR>
 
 " Convert buffers to tabs
-nnoremap <leader>bt :tab sball<CR>
-
-" Modern tab navigation with OPT+[ and OPT+] (Alt+[ and Alt+])
-" On Mac, OPT+[ produces " (left double quote) and OPT+] produces ' (right single quote)
-nnoremap " :tabprevious<CR>
-nnoremap ' :tabnext<CR>
-
-" Alternative mappings using escape sequences for better compatibility
-" These work when the above characters don't map correctly
-nnoremap <A-[> :tabprevious<CR>
-nnoremap <A-]> :tabnext<CR>
+nnoremap <silent> <leader>bt :tab sball<CR>
 
 nnoremap ∂ :t.<CR>
 nnoremap <leader>B  :call ToggleBG()<CR>

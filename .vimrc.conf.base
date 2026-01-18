@@ -29,11 +29,16 @@ if has('persistent_undo')
     set undofile                " Enable persistent undo
     set undolevels=10000        " Maximum number of undos
     set undoreload=100000       " Maximum lines to save for undo on buffer reload
-    " Create undo directory if it doesn't exist
-    if !isdirectory($HOME . '/.vim/undo')
-        call mkdir($HOME . '/.vim/undo', 'p', 0700)
+    " Separate undo dirs for vim and nvim to avoid incompatible undo files
+    if has('nvim')
+        let s:undo_dir = stdpath('state') . '/undo'
+    else
+        let s:undo_dir = $HOME . '/.vim/undo'
     endif
-    set undodir=~/.vim/undo//
+    if !isdirectory(s:undo_dir)
+        call mkdir(s:undo_dir, 'p', 0700)
+    endif
+    let &undodir = s:undo_dir . '//'
 endif
 
 " Backup and swap files
@@ -145,7 +150,7 @@ set winminheight=0              " Allow zero-height windows
 set equalalways                 " Resize splits when adding/removing windows
 
 " Buffer navigation improvements
-set switchbuf=useopen,usetab    " Use existing window/tab for buffers
+set switchbuf=useopen,usetab,newtab " Use existing window/tab; open new tab if needed
 
 " =============================================================================
 " Key Mappings
@@ -179,6 +184,10 @@ vnoremap > >gv                  " Maintain selection when indenting
 " Command mode helpers
 cnoremap %% <C-R>=fnameescape(expand('%:h')).'/'<CR>
 
+" Open files in new tabs by default when using :e/:edit
+cnoreabbrev <expr> e (getcmdtype() ==# ':' && getcmdline() ==# 'e') ? 'tabedit' : 'e'
+cnoreabbrev <expr> edit (getcmdtype() ==# ':' && getcmdline() ==# 'edit') ? 'tabedit' : 'edit'
+
 " Emergency sudo write
 if !has('nvim')
     cnoremap w!! execute 'silent! write !sudo tee % >/dev/null' <bar> edit!
@@ -206,6 +215,13 @@ augroup ModernVimrc
     " Auto-resize splits when vim is resized
     autocmd VimResized * wincmd =
 
+    " When opening multiple files at startup, put each in its own tab
+    autocmd VimEnter * if argc() > 1 | tab all | tabfirst | endif
+
+    " Open newly edited files in a new tab (after startup)
+    autocmd VimEnter * let g:vimrc_startup = 0
+    autocmd BufReadPost,BufNewFile * call s:OpenInNewTab()
+
     " Set appropriate file types
     autocmd BufNewFile,BufRead *.tsx,*.jsx set filetype=typescriptreact
     autocmd BufNewFile,BufRead *.json set filetype=json
@@ -226,6 +242,47 @@ function! ToggleBG() abort
     endif
 endfunction
 nnoremap <silent> <Leader>bg :call ToggleBG()<CR>
+
+" Open files in a new tab by default (opt-out with g:vimrc_open_in_new_tab=0)
+let g:vimrc_startup = 1
+let g:vimrc_open_in_new_tab = get(g:, 'vimrc_open_in_new_tab', 1)
+let g:vimrc_moving_to_tab = 0
+function! s:OpenInNewTab() abort
+    if !get(g:, 'vimrc_open_in_new_tab', 1)
+        return
+    endif
+    if get(g:, 'vimrc_startup', 0)
+        return
+    endif
+    if get(g:, 'vimrc_moving_to_tab', 0)
+        return
+    endif
+    if &buftype !=# '' || !buflisted(bufnr('%')) || empty(bufname('%'))
+        return
+    endif
+
+    " Skip if already in a single-window tab showing only this buffer
+    if winnr('$') == 1 && tabpagebuflist(tabpagenr()) ==# [bufnr('%')]
+        return
+    endif
+
+    let g:vimrc_moving_to_tab = 1
+    let l:curtab = tabpagenr()
+    let l:newbuf = bufnr('%')
+    let l:altbuf = bufnr('#')
+
+    tabnew
+    execute 'buffer' l:newbuf
+    let l:newtab = tabpagenr()
+
+    if l:altbuf > 0 && buflisted(l:altbuf)
+        execute 'tabnext' l:curtab
+        execute 'buffer' l:altbuf
+    endif
+    execute 'tabnext' l:newtab
+
+    let g:vimrc_moving_to_tab = 0
+endfunction
 
 " Strip trailing whitespace
 function! StripTrailingWhitespace() abort

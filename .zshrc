@@ -28,10 +28,6 @@ fi
 
 # User configuration
 export PATH=$HOME/bin:/usr/local/bin:$PATH
-# De-duplicate PATH and history
-typeset -U path PATH
-setopt HIST_IGNORE_ALL_DUPS
-setopt HIST_SAVE_NO_DUPS
 export LANG=en_US.UTF-8
 
 #eval $(docker-machine env default)
@@ -135,9 +131,6 @@ case ":$PATH:" in
   *) export PATH="$PNPM_HOME:$PATH" ;;
 esac
 # pnpm end
-
-# Amazon Q post block. Keep at the bottom of this file.
-[[ -f "${HOME}/Library/Application Support/amazon-q/shell/zshrc.post.zsh" ]] && builtin source "${HOME}/Library/Application Support/amazon-q/shell/zshrc.post.zsh"
 
 # 🚀 OPTIMIZED ZSH LOADING
 # =======================
@@ -265,3 +258,7 @@ lazy_load_tools
 # compinit -i
 export GIT_PAGER=cat
 export PAGER=cat
+
+# Added by Antigravity
+export PATH="/Users/yann/.antigravity/antigravity/bin:$PATH"
+
