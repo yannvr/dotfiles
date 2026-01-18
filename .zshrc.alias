@@ -10,7 +10,6 @@ alias ka='killall'
 alias k9='f() { killall -9 ${1}};f'
 alias large-files="du -ah . | sort -nr | head"
 alias tf='tail -f '
-alias ag='ag -a'
 alias rg='rg --smart-case --follow --hidden'
 
 # Clean search using ripgrep with proper exclusions
@@ -166,7 +165,6 @@ alias gb='git branch'
 # Common navigation
 # Use eza if available, otherwise fall back to ls
 if command -v eza &> /dev/null; then
-    alias ls='eza --color=always --group-directories-first'
     alias ll='eza -alF --color=always --group-directories-first --icons'
     alias la='eza -a --color=always --group-directories-first --icons'
     alias l='eza -CF --color=always --group-directories-first --icons'
@@ -180,7 +178,6 @@ fi
 
 # Use bat if available, otherwise fall back to cat
 if command -v bat &> /dev/null; then
-    alias cat='bat --paging=never'
     alias bcat='bat'  # bat with paging
     alias batl='bat --paging=always'  # bat with paging (explicit)
 else
@@ -252,7 +249,6 @@ fi
 
 # Conditional fd aliases (like we did for eza and bat)
 if command -v fd &> /dev/null; then
-    alias find='fd'
     alias findf='fd --type f'  # find files only
     alias findd='fd --type d'  # find directories only
 else
@@ -991,5 +987,3 @@ smart-ag() {
 
 # Keep original ag available as 'ag-raw'
 alias ag-raw='/opt/homebrew/bin/ag --ignore-dir=dist --ignore-dir=build --ignore-dir=node_modules --ignore="*.min.js" --ignore="*.bundle.js" --ignore="*.chunk.js"'
-# Override default ag with smart filtering
-alias ag='smart-ag'
