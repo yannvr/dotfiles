@@ -37,7 +37,6 @@ if lazy_status then
           "gzip",
           "matchit",
           "matchparen",
-          "netrwPlugin",
           "tarPlugin",
           "tohtml",
           "tutor",
