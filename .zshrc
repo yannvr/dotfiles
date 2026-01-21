@@ -35,10 +35,10 @@ export LANG=en_US.UTF-8
 # [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh  # DISABLED (causing hangs)
 [ -f ~/.zshrc.alias ] && source ~/.zshrc.alias
 [ -f ~/.zshenv ] && source ~/.zshenv
+[ -f ~/.zprofile ] && source ~/.zprofile
 # excluded from dotfiles.
 [ -f ~/.zshrc.local ] && source ~/.zshrc.local
 [ -f ~/.zshrc.private ] && source ~/.zshrc.private
-[ -f ~/.zprofile ] && source ~/.zprofile
 
 # eval "`npm completion`"
 
@@ -256,8 +256,10 @@ lazy_load_tools
 # Fix insecure directories warning - DISABLED (can cause hangs)
 # autoload -Uz compinit
 # compinit -i
-export GIT_PAGER=cat
-export PAGER=cat
+# Use a real pager so git aliases don't auto-scroll to end
+export LESS='-R'
+export PAGER='less -R'
+export GIT_PAGER='less -R'
 
 # Added by Antigravity
 export PATH="/Users/yann/.antigravity/antigravity/bin:$PATH"
