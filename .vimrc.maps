@@ -77,10 +77,11 @@ if has('nvim')
     nnoremap <leader>Ss :lua require('sessions.picker').prompt_save()<CR>
     nnoremap <leader>sd :PossessionDelete<CR>
     nnoremap <leader>Sd :PossessionDelete<CR>
-    nnoremap <leader>sc :PossessionClose<CR>:q<CR>
-    nnoremap <leader>Sc :PossessionClose<CR>:q<CR>
-    nnoremap <leader>sx :PossessionSave<CR>:PossessionClose<CR>:q<CR>
-    nnoremap <leader>Sx :PossessionSave<CR>:PossessionClose<CR>:q<CR>
+    " PossessionClose! forces close (unsaved buffers); :qa! quits entire editor (all tabs) even when no session
+    nnoremap <leader>sc :PossessionClose!<CR>:qa!<CR>
+    nnoremap <leader>Sc :PossessionClose!<CR>:qa!<CR>
+    nnoremap <leader>sx :PossessionSave<CR>:PossessionClose!<CR>:qa!<CR>
+    nnoremap <leader>Sx :PossessionSave<CR>:PossessionClose!<CR>:qa!<CR>
 else
     " Vim: Use vim-session plugin
     nnoremap ¬ :OpenSession<CR>

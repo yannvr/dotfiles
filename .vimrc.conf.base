@@ -216,7 +216,8 @@ augroup ModernVimrc
     autocmd VimResized * wincmd =
 
     " When opening multiple files at startup, put each in its own tab
-    autocmd VimEnter * if argc() > 1 | tab all | tabfirst | endif
+    " Skip in diff mode (nvim -d / vimdiff): keep the split layout for side-by-side diff
+    autocmd VimEnter * if argc() > 1 && !&diff | tab all | tabfirst | endif
 
     " Open newly edited files in a new tab (after startup)
     autocmd VimEnter * let g:vimrc_startup = 0
@@ -226,6 +227,7 @@ augroup ModernVimrc
     autocmd BufNewFile,BufRead *.tsx,*.jsx set filetype=typescriptreact
     autocmd BufNewFile,BufRead *.json set filetype=json
     autocmd BufNewFile,BufRead *.md set filetype=markdown
+    autocmd BufNewFile,BufRead .env* set filetype=dotenv
 
 augroup END
 
