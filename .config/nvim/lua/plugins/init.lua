@@ -63,7 +63,10 @@ return {
 
   -- Editing
   { "tpope/vim-surround", event = "VeryLazy" },
-  { "tpope/vim-commentary", event = "VeryLazy" },
+  {
+    "tpope/vim-commentary",
+    cmd = { "Commentary" },
+  },
   { "tpope/vim-repeat", event = "VeryLazy" },
   { "junegunn/vim-easy-align", event = "VeryLazy" },
   {

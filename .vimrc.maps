@@ -21,8 +21,10 @@ nnoremap <Leader>m :messages<CR>
 nnoremap <leader>C "_C
 vnoremap <leader>C "_C
 
-nnoremap <leader>c "_c
-vnoremap <leader>c "_c
+nnoremap gc :Commentary<CR>
+xnoremap gc :Commentary<CR>
+nnoremap <leader>c :Commentary<CR>
+xnoremap <leader>c :Commentary<CR>
 
 nnoremap <leader>D "_D
 vnoremap <leader>D "_D
@@ -90,6 +92,13 @@ else
     nnoremap <leader>ss :SaveSession<CR>
     nnoremap <leader>sc :CloseSession<CR>:q<CR>
     nnoremap <leader>sx :SaveSession<CR>:CloseSession<CR>:q<CR>
+endif
+
+" Shell shortcut (vim: :shell, neovim: :terminal)
+if has('nvim')
+    nnoremap <leader>s :botright split<CR>:terminal<CR>
+else
+    nnoremap <leader>s :shell<CR>
 endif
 
 " Undo tree
