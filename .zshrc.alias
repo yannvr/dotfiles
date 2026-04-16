@@ -116,26 +116,32 @@ alias fix-gitignore='git rm -r --cached . && git add . && git commit -m "fixed u
 alias h="htop"
 
 # Editor aliases
-HAS_NVIM=$(which nvim 2>/dev/null)
+HAS_NVIM=$(command -v nvim 2>/dev/null)
 
 if [ -n "$HAS_NVIM" ]; then
     alias v="nvim"
-    alias nv="nvim"                    # Persisted plugin auto-loads sessions
-    alias vv="nvim"                    # Persisted plugin auto-loads sessions
+    alias nv="nvim"
+    alias vv="nvim"
+    alias vo="nvim -c SessionOpen"
+    alias vs="nvim -c SessionSave"
     alias nvp="nvim --noplugin"
     alias vp="nvim --noplugin"
-    alias nvo="nvim -c SessionLoad"    # Explicitly load session picker
-    alias nvs="nvim -c SessionSave"    # Quick session save
-    alias nvt="nvim -p"                # Open files in tabs
-    alias vt="nvim -p"                 # Open files in tabs
+    alias nvo="nvim -c SessionOpen"
+    alias nvs="nvim -c SessionSave"
+    alias nvt="nvim -p"
+    alias vt="nvim -p"
 else
     alias v="vim"
-    alias nv="vim -c OpenSession"
-    alias vv="vim -c OpenSession"
+    alias nv="vim"
+    alias vv="vim"
+    alias vo="vim -c SessionOpen"
+    alias vs="vim -c SessionSave"
     alias nvp="vim --noplugin"
     alias vp="vim --noplugin"
-    alias nvo="vim -c OpenSession"
-    alias vt="vim -p"                  # Open files in tabs
+    alias nvo="vim -c SessionOpen"
+    alias nvs="vim -c SessionSave"
+    alias nvt="vim -p"
+    alias vt="vim -p"
 fi
 
 # Yarn/Node

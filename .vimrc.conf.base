@@ -29,16 +29,11 @@ if has('persistent_undo')
     set undofile                " Enable persistent undo
     set undolevels=10000        " Maximum number of undos
     set undoreload=100000       " Maximum lines to save for undo on buffer reload
-    " Separate undo dirs for vim and nvim to avoid incompatible undo files
-    if has('nvim')
-        let s:undo_dir = stdpath('state') . '/undo'
-    else
-        let s:undo_dir = $HOME . '/.vim/undo'
+    " Create undo directory if it doesn't exist
+    if !isdirectory($HOME . '/.vim/undo')
+        call mkdir($HOME . '/.vim/undo', 'p', 0700)
     endif
-    if !isdirectory(s:undo_dir)
-        call mkdir(s:undo_dir, 'p', 0700)
-    endif
-    let &undodir = s:undo_dir . '//'
+    set undodir=~/.vim/undo//
 endif
 
 " Backup and swap files
@@ -150,7 +145,7 @@ set winminheight=0              " Allow zero-height windows
 set equalalways                 " Resize splits when adding/removing windows
 
 " Buffer navigation improvements
-set switchbuf=useopen,usetab,newtab " Use existing window/tab; open new tab if needed
+set switchbuf=useopen,usetab    " Use existing window/tab for buffers
 
 " =============================================================================
 " Key Mappings
@@ -184,10 +179,6 @@ vnoremap > >gv                  " Maintain selection when indenting
 " Command mode helpers
 cnoremap %% <C-R>=fnameescape(expand('%:h')).'/'<CR>
 
-" Open files in new tabs by default when using :e/:edit
-cnoreabbrev <expr> e (getcmdtype() ==# ':' && getcmdline() ==# 'e') ? 'tabedit' : 'e'
-cnoreabbrev <expr> edit (getcmdtype() ==# ':' && getcmdline() ==# 'edit') ? 'tabedit' : 'edit'
-
 " Emergency sudo write
 if !has('nvim')
     cnoremap w!! execute 'silent! write !sudo tee % >/dev/null' <bar> edit!
@@ -201,33 +192,20 @@ augroup ModernVimrc
     autocmd!
 
     " Restore cursor position
-    autocmd BufReadPost *
-        \ if line("'\"") >= 1 && line("'\"") <= line("$") && &ft !~# 'commit'
-        \ |   execute "normal! g`\""
-        \ | endif
+    autocmd BufReadPost * if line("'\"") >= 1 && line("'\"") <= line("$") && &ft !~# 'commit' | execute "normal! g`\"" | endif
 
     " Auto-create directories when saving files
-    autocmd BufWritePre *
-        \ if !isdirectory(expand('<afile>:p:h'))
-        \ |   call mkdir(expand('<afile>:p:h'), 'p')
-        \ | endif
+    autocmd BufWritePre * if !isdirectory(expand('<afile>:p:h')) | call mkdir(expand('<afile>:p:h'), 'p') | endif
 
     " Auto-resize splits when vim is resized
     autocmd VimResized * wincmd =
-
-    " When opening multiple files at startup, put each in its own tab
-    " Skip in diff mode (nvim -d / vimdiff): keep the split layout for side-by-side diff
-    autocmd VimEnter * if argc() > 1 && !&diff | tab all | tabfirst | endif
-
-    " Open newly edited files in a new tab (after startup)
-    autocmd VimEnter * let g:vimrc_startup = 0
-    autocmd BufReadPost,BufNewFile * call s:OpenInNewTab()
 
     " Set appropriate file types
     autocmd BufNewFile,BufRead *.tsx,*.jsx set filetype=typescriptreact
     autocmd BufNewFile,BufRead *.json set filetype=json
     autocmd BufNewFile,BufRead *.md set filetype=markdown
     autocmd BufNewFile,BufRead .env* set filetype=dotenv
+    autocmd VimEnter * if !has('nvim') && argc() == 0 && s:CanPromptForSession() | call s:SessionOpen() | endif
 
 augroup END
 
@@ -245,47 +223,6 @@ function! ToggleBG() abort
 endfunction
 nnoremap <silent> <Leader>bg :call ToggleBG()<CR>
 
-" Open files in a new tab by default (opt-out with g:vimrc_open_in_new_tab=0)
-let g:vimrc_startup = 1
-let g:vimrc_open_in_new_tab = get(g:, 'vimrc_open_in_new_tab', 1)
-let g:vimrc_moving_to_tab = 0
-function! s:OpenInNewTab() abort
-    if !get(g:, 'vimrc_open_in_new_tab', 1)
-        return
-    endif
-    if get(g:, 'vimrc_startup', 0)
-        return
-    endif
-    if get(g:, 'vimrc_moving_to_tab', 0)
-        return
-    endif
-    if &buftype !=# '' || !buflisted(bufnr('%')) || empty(bufname('%'))
-        return
-    endif
-
-    " Skip if already in a single-window tab showing only this buffer
-    if winnr('$') == 1 && tabpagebuflist(tabpagenr()) ==# [bufnr('%')]
-        return
-    endif
-
-    let g:vimrc_moving_to_tab = 1
-    let l:curtab = tabpagenr()
-    let l:newbuf = bufnr('%')
-    let l:altbuf = bufnr('#')
-
-    tabnew
-    execute 'buffer' l:newbuf
-    let l:newtab = tabpagenr()
-
-    if l:altbuf > 0 && buflisted(l:altbuf)
-        execute 'tabnext' l:curtab
-        execute 'buffer' l:altbuf
-    endif
-    execute 'tabnext' l:newtab
-
-    let g:vimrc_moving_to_tab = 0
-endfunction
-
 " Strip trailing whitespace
 function! StripTrailingWhitespace() abort
     let l:save = winsaveview()
@@ -293,6 +230,224 @@ function! StripTrailingWhitespace() abort
     call winrestview(l:save)
 endfunction
 command! StripWhitespace call StripTrailingWhitespace()
+
+" Minimal built-in session support for Vim only.
+if !has('nvim')
+    let g:session_directory = expand('~/.vim/sessions')
+
+    function! s:SessionDir() abort
+        if !isdirectory(g:session_directory)
+            call mkdir(g:session_directory, 'p', 0700)
+        endif
+        return g:session_directory
+    endfunction
+
+    function! s:DefaultSessionName() abort
+        let l:name = fnamemodify(getcwd(), ':t')
+        return empty(l:name) ? 'default' : l:name
+    endfunction
+
+    function! s:SessionPath(...) abort
+        if a:0 > 0 && !empty(a:1)
+            let l:name = substitute(fnamemodify(a:1, ':t'), '\.vim$', '', '')
+            return s:SessionDir() . '/' . l:name . '.vim'
+        endif
+
+        if exists('v:this_session') && !empty(v:this_session)
+            return v:this_session
+        endif
+
+        return s:SessionDir() . '/' . s:DefaultSessionName() . '.vim'
+    endfunction
+
+    function! s:SessionNames() abort
+        let l:raw = globpath(s:SessionDir(), '*.vim')
+        if empty(l:raw)
+            return []
+        endif
+        let l:files = split(l:raw, "\n")
+        return map(l:files, 'fnamemodify(v:val, ":t:r")')
+    endfunction
+
+    function! s:LoadSession(path) abort
+        if !filereadable(a:path)
+            return 0
+        endif
+        execute 'silent source ' . fnameescape(a:path)
+        let v:this_session = a:path
+        return 1
+    endfunction
+
+    function! s:CanPromptForSession() abort
+        return exists('$TERM') && !empty($TERM) && $TERM !=# 'dumb'
+    endfunction
+
+    function! s:SessionOpen(...) abort
+        if a:0 > 0 && !empty(a:1)
+            if !s:LoadSession(s:SessionPath(a:1))
+                echohl WarningMsg | echom 'Session not found: ' . a:1 | echohl None
+            endif
+            return
+        endif
+
+        let l:sessions = s:SessionNames()
+        if empty(l:sessions)
+            echohl WarningMsg | echom 'No saved sessions found in ' . s:SessionDir() | echohl None
+            return
+        endif
+
+        let l:menu = ['Select session:']
+        for l:index in range(len(l:sessions))
+            call add(l:menu, printf('%d. %s', l:index + 1, l:sessions[l:index]))
+        endfor
+
+        let l:choice = inputlist(l:menu)
+        if l:choice < 1 || l:choice > len(l:sessions)
+            return
+        endif
+
+        call s:LoadSession(s:SessionPath(l:sessions[l:choice - 1]))
+    endfunction
+
+    function! s:SessionSave(...) abort
+        let l:path = call(function('s:SessionPath'), a:000)
+        execute 'silent mksession! ' . fnameescape(l:path)
+        let v:this_session = l:path
+        echom 'Session saved: ' . fnamemodify(l:path, ':t')
+    endfunction
+
+    function! s:SessionDelete(...) abort
+        let l:path = call(function('s:SessionPath'), a:000)
+        if filereadable(l:path)
+            call delete(l:path)
+            if exists('v:this_session') && fnamemodify(v:this_session, ':p') ==# fnamemodify(l:path, ':p')
+                let v:this_session = ''
+            endif
+            echom 'Session deleted: ' . fnamemodify(l:path, ':t')
+            return
+        endif
+        echohl WarningMsg | echom 'Session not found: ' . fnamemodify(l:path, ':t') | echohl None
+    endfunction
+
+    function! s:SessionClose() abort
+        let v:this_session = ''
+    endfunction
+
+    command! -nargs=? SessionOpen call s:SessionOpen(<f-args>)
+    command! -nargs=? SessionLoad call s:SessionOpen(<f-args>)
+    command! -nargs=? OpenSession call s:SessionOpen(<f-args>)
+    command! -nargs=? SessionSave call s:SessionSave(<f-args>)
+    command! -nargs=? SaveSession call s:SessionSave(<f-args>)
+    command! -nargs=? SessionDelete call s:SessionDelete(<f-args>)
+    command! -nargs=? DeleteSession call s:SessionDelete(<f-args>)
+    command! SessionClose call s:SessionClose()
+    command! CloseSession call s:SessionClose()
+endif
+
+function! s:OpenScratchBuffer(name, lines) abort
+    botright new
+    execute 'file ' . a:name
+    setlocal buftype=nofile bufhidden=wipe noswapfile nobuflisted
+    setlocal modifiable nowrap
+    call setline(1, a:lines)
+    setlocal nomodifiable
+    normal! gg
+endfunction
+
+function! s:ShortcutLines() abort
+    let l:lines = [
+        \ 'Editor shortcuts',
+        \ '',
+        \ 'Core',
+        \ '  \?   show this help',
+        \ '  \w   save current file',
+        \ '  \m   open :messages',
+        \ '',
+        \ 'Find and buffers',
+        \ '  \f   fuzzy find files',
+        \ '  \g   grep with Ag',
+        \ '  \b   open buffer browser',
+        \ '  \n   next buffer',
+        \ '  \p   previous buffer',
+        \ '  \bd  delete current buffer',
+        \ '',
+        \ 'Tabs',
+        \ '  \tn  new tab',
+        \ '  \th  previous tab',
+        \ '  \tl  next tab',
+        \ '  \tc  close tab',
+        \ '  \tb  move all buffers to tabs',
+        \ '',
+        \ 'Config',
+        \ '  \ev  edit ~/.vimrc',
+        \ '  \ez  edit ~/.zshrc',
+        \ '  \er  reload ~/.vimrc',
+        \ ]
+
+    if has('nvim')
+        call extend(l:lines, [
+            \ '',
+            \ 'Git (Neogit)',
+            \ '  \gg  open Neogit status',
+            \ '  \gd  open repo diff view',
+            \ '  \gc  open commit popup',
+            \ '  \gG  open Fugitive fallback',
+            \ '  \gb  blame current file',
+            \ '  \gw  stage current file',
+            \ '  \gp  push',
+            \ '  \gl  log --oneline',
+            \ '',
+            \ 'Sessions (Neovim / persisted.nvim)',
+            \ '  \so  open session picker',
+            \ '  \ss  save current session',
+            \ '  \sd  delete current session',
+            \ '  \sc  stop session tracking',
+            \ '  \sq  save session and quit all',
+            \ '  bare nvim autoloads the current project session',
+            \ ])
+    else
+        call extend(l:lines, [
+            \ '',
+            \ 'Git (Fugitive)',
+            \ '  \gg  Git status / repo view',
+            \ '  \gb  blame current file',
+            \ '  \gd  diff current repo',
+            \ '  \gw  stage current file',
+            \ '  \gc  commit',
+            \ '  \gp  push',
+            \ '  \gl  log --oneline',
+            \ '',
+            \ 'Sessions (Vim)',
+            \ '  \so  open session picker',
+            \ '  \ss  save current session',
+            \ '  \sd  delete current session',
+            \ '  \sc  close current session marker',
+            \ '  \sq  save session and quit all',
+            \ ])
+    endif
+
+    call extend(l:lines, [
+        \ '',
+        \ 'Shell aliases',
+        \ '  v / nv / vv   open the editor',
+        \ '  vo / nvo      open the session picker',
+        \ '  vs / nvs      save the current session',
+        \ '  vp / nvp      open without plugins',
+        \ '  vt / nvt      open files in tabs',
+        \ '',
+        \ 'Legacy symbol mappings still work, but these leader aliases are the default path now.',
+        \ ])
+
+    return l:lines
+endfunction
+
+function! s:ShowShortcuts() abort
+    call s:OpenScratchBuffer('[editor-shortcuts]', s:ShortcutLines())
+endfunction
+
+command! Keys call s:ShowShortcuts()
+command! Mappings call s:ShowShortcuts()
+command! Aliases call s:ShowShortcuts()
 
 " Quick grep function
 if executable('rg')
@@ -356,11 +511,14 @@ endif
 
 " Git integration (if fugitive is available)
 if exists(':Git')
+    nnoremap <silent> <Leader>gg :Git<CR>
     nnoremap <silent> <Leader>gs :Git<CR>
+    nnoremap <silent> <Leader>gb :Git blame<CR>
     nnoremap <silent> <Leader>gd :Git diff<CR>
     nnoremap <silent> <Leader>gc :Git commit<CR>
     nnoremap <silent> <Leader>gp :Git push<CR>
     nnoremap <silent> <Leader>gl :Git log --oneline<CR>
+    nnoremap <silent> <Leader>gw :Gwrite<CR>
 endif
 
 " FZF integration (if available)

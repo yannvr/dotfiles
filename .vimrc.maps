@@ -63,36 +63,41 @@ nnoremap <Space> i_<Esc>r
 
 " Vim config reload
 nnoremap <leader>R :source ~/.vimrc<CR>
+nnoremap <Leader>e :Lexplore<CR>c
+nnoremap <leader>? :Keys<CR>
 
-" File explorer
-nnoremap <Leader>e :Lexplore<CR>
+" Intuitive aliases for common actions
+nnoremap <leader>f :FZF<CR>
+nnoremap <leader>ff :FZF<CR>
+nnoremap <leader>g :Ag<CR>
+nnoremap <leader>fg :Ag<CR>
+nnoremap <leader>b :BufExplorerVerticalSplit<CR>
+nnoremap <leader>fb :BufExplorerVerticalSplit<CR>
+nnoremap <leader>n :bnext<CR>
+nnoremap <leader>bn :bnext<CR>
+nnoremap <leader>p :bprevious<CR>
+nnoremap <leader>bp :bprevious<CR>
+nnoremap <leader>bd :Bdelete!<CR>
+nnoremap <leader>tn :tabnew<CR><C-W>w<CR>
+nnoremap <leader>th :tabprevious<CR>
+nnoremap <leader>tl :tabnext<CR>
+nnoremap <leader>tc :tabclose<CR>
+nnoremap <leader>tb :tab sball<CR>
+nnoremap <leader>ev :e ~/.vimrc<CR>
+nnoremap <leader>ez :e ~/.zshrc<CR>
+nnoremap <leader>er :source ~/.vimrc<CR>
 
 " map :convertLineEnding<<CR>%s/\r/\r/g<CR>
 
-" Sessions - different plugins for vim vs neovim
-if has('nvim')
-    " Neovim: Use custom sessions picker
-    nnoremap ¬ :lua require('sessions.picker').open_picker()<CR>
-    nnoremap <leader>sl :lua require('sessions.picker').open_picker()<CR>
-    nnoremap <leader>Sl :lua require('sessions.picker').open_picker()<CR>
-    nnoremap <leader>ss :lua require('sessions.picker').prompt_save()<CR>
-    nnoremap <leader>Ss :lua require('sessions.picker').prompt_save()<CR>
-    nnoremap <leader>sd :PossessionDelete<CR>
-    nnoremap <leader>Sd :PossessionDelete<CR>
-    " PossessionClose! forces close (unsaved buffers); :qa! quits entire editor (all tabs) even when no session
-    nnoremap <leader>sc :PossessionClose!<CR>:qa!<CR>
-    nnoremap <leader>Sc :PossessionClose!<CR>:qa!<CR>
-    nnoremap <leader>sx :PossessionSave<CR>:PossessionClose!<CR>:qa!<CR>
-    nnoremap <leader>Sx :PossessionSave<CR>:PossessionClose!<CR>:qa!<CR>
-else
-    " Vim: Use vim-session plugin
-    nnoremap ¬ :OpenSession<CR>
-    nnoremap <leader>sl :OpenSession<CR>
-    nnoremap <leader>sd :DeleteSession<CR>
-    nnoremap <leader>ss :SaveSession<CR>
-    nnoremap <leader>sc :CloseSession<CR>:q<CR>
-    nnoremap <leader>sx :SaveSession<CR>:CloseSession<CR>:q<CR>
-endif
+" Sessions
+nnoremap ¬ :SessionOpen<CR>
+nnoremap <leader>so :SessionOpen<CR>
+nnoremap <leader>sl :SessionOpen<CR>
+nnoremap <leader>sd :SessionDelete<CR>
+nnoremap <leader>ss :SessionSave<CR>
+nnoremap <leader>sq :SessionSave<CR>:qa<CR>
+nnoremap <leader>sx :SessionSave<CR>:qa<CR>
+nnoremap <leader>sc :SessionClose<CR>
 
 " Shell shortcut (vim: :shell, neovim: :terminal)
 if has('nvim')
@@ -135,8 +140,8 @@ map π :bprev<CR>
 
 "Buffer nav
 nnoremap ı :Bdelete!<CR>
-" nnoremap æ :bprev<CR>
-" nnoremap « :bnext<CR>
+nnoremap ≤ :bprev<CR>
+nnoremap > :bnext<CR>
 nnoremap ∫ :enew<CR>
 
 " =============================================================================

@@ -124,6 +124,18 @@ fi
 
 eval "$(fnm env --use-on-cd)"
 
+# bun
+export BUN_INSTALL="$HOME/.bun"
+case ":$PATH:" in
+  *":$BUN_INSTALL/bin:"*) ;;
+  *) export PATH="$BUN_INSTALL/bin:$PATH" ;;
+esac
+# local user bin
+export LOCAL_BIN_HOME="$HOME/.local/bin"
+case ":$PATH:" in
+  *":$LOCAL_BIN_HOME:"*) ;;
+  *) export PATH="$LOCAL_BIN_HOME:$PATH" ;;
+esac
 # pnpm
 export PNPM_HOME="/Users/yann/Library/pnpm"
 case ":$PATH:" in
@@ -264,3 +276,17 @@ export GIT_PAGER='less -R'
 # Added by Antigravity
 export PATH="/Users/yann/.antigravity/antigravity/bin:$PATH"
 
+# Add custom configurations here
+export PATH="/Applications/Docker.app/Contents/Resources/bin:$PATH"
+
+# PostgreSQL 17 (matches HD prod) — single source of truth for version
+export PATH="/usr/local/opt/postgresql@17/bin:$PATH"
+alias pgstart='brew services start postgresql@17'
+alias pgstop='brew services stop postgresql@17'
+alias pgrestart='brew services restart postgresql@17'
+alias pgstatus='brew services list | grep postgresql'
+
+# Redis
+alias redisstart='brew services start redis'
+alias redisstop='brew services stop redis'
+alias redistatus='redis-cli ping'
