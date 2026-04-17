@@ -342,7 +342,7 @@ main() {
     install_optional_components
     install_fonts
     setup_node_environment
-    install_vim_plugins
+    install_vim_nvim
 
     # Post-installation verification
     verify_installation
@@ -946,29 +946,45 @@ setup_node_environment() {
     print_success "Node.js LTS installed and set as default"
 }
 
-# Install Vim plugins
-install_vim_plugins() {
-    if ! command -v vim >/dev/null 2>&1; then
-        print_info "Vim not available, skipping plugin installation"
+# Install vim/neovim via nvim-config submodule
+install_vim_nvim() {
+    local nvim_installer="$SCRIPT_DIR/nvim-config/install.sh"
+
+    if [[ ! -f "$nvim_installer" ]]; then
+        print_warning "nvim-config submodule not found — run: git submodule update --init"
+        print_info "Or install directly: bash <(curl -fsSL https://raw.githubusercontent.com/yannvr/nvim-config/main/install.sh)"
         return
     fi
 
-    local install_plugins=$(prompt_user "Install vim plugins now? (y/n)" "n")
-
-    if [[ "$install_plugins" != "y" ]]; then
-        print_info "Skipping vim plugins installation"
-        return
+    local install_choice
+    if [[ "$REMOTE_MODE" == "true" ]]; then
+        install_choice="nvim"
+    elif [[ "$AUTO_YES" == "true" ]]; then
+        install_choice="both"
+    else
+        echo ""
+        echo "Which editor(s) do you want to configure?"
+        echo "  1) neovim only (recommended)"
+        echo "  2) vim only"
+        echo "  3) both vim and neovim"
+        echo "  4) skip"
+        read -rp "Choice [1]: " choice
+        choice="${choice:-1}"
+        case "$choice" in
+            1) install_choice="nvim" ;;
+            2) install_choice="vim" ;;
+            3) install_choice="both" ;;
+            *) print_info "Skipping vim/neovim setup"; return ;;
+        esac
     fi
 
-    print_step "Installing vim plugins..."
+    local flags="--${install_choice}"
+    [[ "$REMOTE_MODE" == "true" ]] && flags="$flags --remote"
+    [[ "$AUTO_YES"    == "true" ]] && flags="$flags --yes"
+    [[ "$DRY_RUN"     == "true" ]] && flags="$flags --dry-run"
 
-    if [[ "$DRY_RUN" == "true" ]]; then
-        print_info "Would install vim plugins"
-        return
-    fi
-
-    vim +PlugInstall +qall
-    print_success "Vim plugins installed"
+    print_step "Running nvim-config installer ($install_choice mode)..."
+    bash "$nvim_installer" $flags
 }
 
 # Verify installation (mode-aware)
