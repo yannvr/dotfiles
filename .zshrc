@@ -290,3 +290,6 @@ alias pgstatus='brew services list | grep postgresql'
 alias redisstart='brew services start redis'
 alias redisstop='brew services stop redis'
 alias redistatus='redis-cli ping'
+
+# Added by Antigravity
+export PATH="/Users/yannvr/.antigravity/antigravity/bin:$PATH"

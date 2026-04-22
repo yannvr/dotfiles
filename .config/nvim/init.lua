@@ -18,6 +18,17 @@ vim.opt.rtp:prepend(lazypath)
 vim.g.mapleader = "\\"
 vim.g.maplocalleader = "\\"
 
+-- Disable unused providers (suppress checkhealth noise)
+vim.g.loaded_perl_provider = 0
+vim.g.loaded_ruby_provider = 0
+vim.g.loaded_python3_provider = 0
+
+-- vim-airline globals must be set before the plugin loads
+vim.g.airline_powerline_fonts = 1
+vim.g.airline_theme = "badwolf"
+vim.g["airline#extensions#tabline#enabled"] = 1
+vim.g["airline#extensions#tabline#formatter"] = "unique_tail"
+
 -- Configure lazy.nvim
 local lazy_status, lazy = pcall(require, "lazy")
 if lazy_status then
@@ -28,6 +39,9 @@ if lazy_status then
     install = {
       colorscheme = { "desert" },
     },
+    rocks = {
+      enabled = false,
+    },
     ui = {
       border = "rounded",
     },
@@ -37,6 +51,7 @@ if lazy_status then
           "gzip",
           "matchit",
           "matchparen",
+          "netrwPlugin",
           "tarPlugin",
           "tohtml",
           "tutor",
@@ -46,9 +61,6 @@ if lazy_status then
     },
   })
 end
-
--- Python provider setup
-vim.g.python3_host_prog = '/usr/bin/python3'
 
 -- Basic Neovim settings
 vim.opt.number = true
@@ -101,14 +113,24 @@ vim.opt.wildmode = "full"
 vim.opt.clipboard = "unnamed,unnamedplus"
 vim.opt.lazyredraw = true
 
--- Load session list on startup when no files are provided
--- This triggers the session picker from SessionManager to select from available sessions
+-- Session commands for Neovim — backed by sessions.picker + persisted.nvim file format.
+-- These mirror the Vim-side commands in .vimrc.conf.base so .vimrc.maps bindings
+-- (\so, \ss, \sd, \sc, \sq, \sx) work identically in both editors.
+vim.api.nvim_create_user_command("SessionOpen",   function() require("sessions.picker").open_picker() end,  { desc = "Open session picker" })
+vim.api.nvim_create_user_command("SessionSave",   function() require("sessions.picker").save_current() end, { desc = "Save current session" })
+vim.api.nvim_create_user_command("SessionDelete", function()
+  pcall(require("persisted").delete)
+  vim.notify("Session deleted", vim.log.levels.INFO)
+end, { desc = "Delete current session" })
+vim.api.nvim_create_user_command("SessionClose",  function() pcall(require("persisted").stop) end, { desc = "Stop session tracking" })
+
+-- Open session picker on bare nvim launch (no file args)
 vim.api.nvim_create_autocmd("VimEnter", {
   group = vim.api.nvim_create_augroup("InitSessionOnStart", { clear = true }),
   callback = function()
     if vim.fn.argc() == 0 then
       vim.schedule(function()
-        pcall(function() require("sessions.picker").open_picker() end)
+        require("sessions.picker").open_picker()
       end)
     end
   end,
