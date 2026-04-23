@@ -175,12 +175,12 @@ if command -v eza &> /dev/null; then
     alias ll='eza -alF --color=always --group-directories-first --icons'
     alias la='eza -a --color=always --group-directories-first --icons'
     alias l='eza -CF --color=always --group-directories-first --icons'
-    alias lt='eza --tree --color=always --group-directories-first --icons'
+    alias ltree='eza --tree --color=always --group-directories-first --icons'
 else
     alias ll='ls -alF'
     alias la='ls -A'
     alias l='ls -CF'
-    alias lt='tree'  # fallback to tree command if available
+    alias ltree='tree'  # fallback to tree command if available
 fi
 
 # Use bat if available, otherwise fall back to cat

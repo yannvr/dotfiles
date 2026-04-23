@@ -28,6 +28,7 @@ fi
 
 # User configuration
 export PATH=$HOME/bin:/usr/local/bin:$PATH
+export PATH=/usr/local/sbin:$PATH
 export LANG=en_US.UTF-8
 
 #eval $(docker-machine env default)
@@ -291,5 +292,6 @@ alias redisstart='brew services start redis'
 alias redisstop='brew services stop redis'
 alias redistatus='redis-cli ping'
 
-# Added by Antigravity
-export PATH="/Users/yannvr/.antigravity/antigravity/bin:$PATH"
+
+# Hyperdrift scripts
+export PATH="$HOME/dev/hyperdrift/scripts:$PATH"
