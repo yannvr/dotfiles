@@ -84,10 +84,26 @@ return {
   -- Editing
   { "tpope/vim-surround", event = "VeryLazy" },
   { "tpope/vim-commentary", event = "VeryLazy" },
-  { "tpope/vim-fugitive", lazy = false },
+  {
+    "sindrets/diffview.nvim",
+    lazy = true,
+    cmd = {
+      "DiffviewOpen",
+      "DiffviewClose",
+      "DiffviewToggleFiles",
+      "DiffviewFocusFiles",
+      "DiffviewRefresh",
+      "DiffviewFileHistory",
+    },
+  },
   {
     "NeogitOrg/neogit",
-    cmd = { "Neogit" },
+    cmd = {
+      "Neogit",
+      "NeogitLogCurrent",
+      "NeogitCommit",
+      "NeogitResetState",
+    },
     dependencies = {
       "nvim-lua/plenary.nvim",
       "nvim-telescope/telescope.nvim",

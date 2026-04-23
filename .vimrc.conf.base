@@ -387,15 +387,14 @@ function! s:ShortcutLines() abort
     if has('nvim')
         call extend(l:lines, [
             \ '',
-            \ 'Git (Neogit)',
-            \ '  \gg  open Neogit status',
-            \ '  \gd  open repo diff view',
-            \ '  \gc  open commit popup',
-            \ '  \gG  open Fugitive fallback',
-            \ '  \gb  blame current file',
-            \ '  \gw  stage current file',
-            \ '  \gp  push',
-            \ '  \gl  log --oneline',
+            \ 'Git (Neogit + Diffview)',
+            \ '  \gg  Neogit status',
+            \ '  \gd  Diffview repo diff',
+            \ '  \gc  Neogit commit popup',
+            \ '  \gb  Neogit log for current file',
+            \ '  \gw  git add current file',
+            \ '  \gp  Neogit push popup',
+            \ '  \gl  Neogit log popup',
             \ '',
             \ 'Sessions (Neovim / persisted.nvim)',
             \ '  \so  open session picker',
@@ -509,8 +508,17 @@ endif
 " Plugin Compatibility
 " =============================================================================
 
-" Git integration (if fugitive is available)
-if exists(':Git')
+" Git: Neovim uses Neogit + Diffview (lazy.nvim); Vim uses Fugitive when :Git exists.
+if has('nvim')
+    nnoremap <silent> <Leader>gg <Cmd>Neogit<CR>
+    nnoremap <silent> <Leader>gs <Cmd>Neogit<CR>
+    nnoremap <silent> <Leader>gb <Cmd>NeogitLogCurrent<CR>
+    nnoremap <silent> <Leader>gd <Cmd>DiffviewOpen<CR>
+    nnoremap <silent> <Leader>gc <Cmd>Neogit commit<CR>
+    nnoremap <silent> <Leader>gp <Cmd>Neogit push<CR>
+    nnoremap <silent> <Leader>gl <Cmd>Neogit log<CR>
+    nnoremap <silent> <Leader>gw :silent !git add -- %:p<CR>:edit!<CR>
+elseif exists(':Git')
     nnoremap <silent> <Leader>gg :Git<CR>
     nnoremap <silent> <Leader>gs :Git<CR>
     nnoremap <silent> <Leader>gb :Git blame<CR>
